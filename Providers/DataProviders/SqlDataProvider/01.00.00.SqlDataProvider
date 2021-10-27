@@ -1,0 +1,1860 @@
+﻿/************************************************************/
+/*****              SqlDataProvider                     *****/
+/*****                                                  *****/
+/*****                                                  *****/
+/***** Note: To manually execute this script you must   *****/
+/*****       perform a search and replace operation     *****/
+/*****       for {databaseOwner} and {objectQualifier}  *****/
+/*****                                                  *****/
+/************************************************************/
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment](
+	    [TabModuleID] [int] NOT NULL,
+	    [PendingPaymentID] [int] IDENTITY(1,1) NOT NULL,
+	    [PortalID] [int] NOT NULL,
+	    [ReservationID] [int] NULL,
+	    [PendingApprovalID] [int] NULL,
+	    [CategoryID] [int] NULL,
+	    [StartDateTime] [datetime] NOT NULL,
+	    [Duration] [int] NOT NULL,
+	    [FirstName] [nvarchar](100) NOT NULL,
+	    [LastName] [nvarchar](100) NOT NULL,
+	    [Email] [nvarchar](100) NOT NULL,
+	    [Phone] [nvarchar](100) NULL,
+	    [Description] [ntext] NULL,
+	    [Amount] [money] NOT NULL,
+	    [RefundableAmount] [money] NULL,
+	    [Currency] [nvarchar](100) NOT NULL,
+	    [Status] [int] NOT NULL,
+	    [CreatedByUserID] [int] NULL,
+	    [CreatedOnDate] [datetime] NOT NULL,
+	    [LastModifiedByUserID] [int] NULL,
+	    [LastModifiedOnDate] [datetime] NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_EventPendingPayment] PRIMARY KEY CLUSTERED 
+    (
+	    [PendingPaymentID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_PendingPayment_TabModules] FOREIGN KEY([TabModuleID])
+    REFERENCES {databaseOwner}[{objectQualifier}TabModules] ([TabModuleID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_PendingPayment_TabModules]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval](
+	    [TabModuleID] [int] NOT NULL,
+	    [PendingApprovalID] [int] IDENTITY(1,1) NOT NULL,
+	    [PortalID] [int] NOT NULL,
+	    [ReservationID] [int] NULL,
+	    [CategoryID] [int] NULL,
+	    [StartDateTime] [datetime] NOT NULL,
+	    [Duration] [int] NOT NULL,
+	    [FirstName] [nvarchar](100) NOT NULL,
+	    [LastName] [nvarchar](100) NOT NULL,
+	    [Email] [nvarchar](100) NOT NULL,
+	    [Phone] [nvarchar](100) NULL,
+	    [Description] [ntext] NULL,
+	    [Status] [int] NOT NULL,
+	    [CreatedByUserID] [int] NULL,
+	    [CreatedOnDate] [datetime] NOT NULL,
+	    [LastModifiedByUserID] [int] NULL,
+	    [LastModifiedOnDate] [datetime] NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_PendingApproval] PRIMARY KEY CLUSTERED 
+    (
+	    [PendingApprovalID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_PendingApproval_TabModules] FOREIGN KEY([TabModuleID])
+    REFERENCES {databaseOwner}[{objectQualifier}TabModules] ([TabModuleID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_PendingApproval_TabModules]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition](
+	    [TabModuleID] [int] NOT NULL,
+	    [CustomFieldDefinitionID] [int] IDENTITY(1,1) NOT NULL,
+	    [Name] [nvarchar](255) NOT NULL,
+	    [Label] [nvarchar](255) NULL,
+	    [Type] [nvarchar](255) NOT NULL,
+	    [OptionType] [nvarchar](255) NOT NULL,
+	    [Title] [nvarchar](255) NULL,
+	    [AddToPreviousRow] [bit] NOT NULL,
+	    [IsRequired] [bit] NOT NULL,
+	    [IsActive] [bit] NOT NULL,
+	    [DefaultValue] [nvarchar](255) NULL,
+	    [MaxLength] [int] NULL,
+	    [SortOrder] [int] NOT NULL,
+	    [CreatedByUserID] [int] NOT NULL,
+	    [CreatedOnDate] [datetime] NOT NULL,
+	    [LastModifiedByUserID] [int] NULL,
+	    [LastModifiedOnDate] [datetime] NULL,
+	    [HideLabel] [bit] NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldDefinition] PRIMARY KEY CLUSTERED 
+    (
+	    [CustomFieldDefinitionID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldDefinition_TabModules] FOREIGN KEY([TabModuleID])
+    REFERENCES {databaseOwner}[{objectQualifier}TabModules] ([TabModuleID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldDefinition_TabModules]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_Category]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_Category](
+	    [TabModuleID] [int] NOT NULL,
+	    [CategoryID] [int] IDENTITY(1,1) NOT NULL,
+	    [Name] [nvarchar](100) NOT NULL,
+	    [CreatedByUserID] [int] NOT NULL,
+	    [CreatedOnDate] [datetime] NOT NULL,
+	    [LastModifiedByUserID] [int] NULL,
+	    [LastModifiedOnDate] [datetime] NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_Category] PRIMARY KEY CLUSTERED 
+    (
+	    [CategoryID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_Category]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_Category_TabModules] FOREIGN KEY([TabModuleID])
+    REFERENCES {databaseOwner}[{objectQualifier}TabModules] ([TabModuleID])
+    ON DELETE CASCADE
+    
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_Category] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_Category_TabModules]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation](
+	    [TabModuleID] [int] NOT NULL,
+	    [ReservationID] [int] IDENTITY(1,1) NOT NULL,
+	    [CategoryID] [int] NULL,
+	    [StartDateTime] [datetime] NOT NULL,
+	    [Duration] [int] NOT NULL,
+	    [FirstName] [nvarchar](100) NOT NULL,
+	    [LastName] [nvarchar](100) NOT NULL,
+	    [Email] [nvarchar](100) NOT NULL,
+	    [Phone] [nvarchar](100) NULL,
+	    [Description] [ntext] NULL,
+	    [SendReminder] [bit] NOT NULL,
+	    [SendReminderWhen] [int] NULL,
+	    [ReminderSent] [bit] NOT NULL,
+	    [RequireConfirmation] [bit] NOT NULL,
+	    [RequireConfirmationWhen] [int] NULL,
+	    [Confirmed] [bit] NOT NULL,
+	    [SendReminderVia] [int] NULL,
+	    [CreatedByUserID] [int] NOT NULL,
+	    [CreatedOnDate] [datetime] NOT NULL,
+	    [LastModifiedByUserID] [int] NULL,
+	    [LastModifiedOnDate] [datetime] NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_Reservation] PRIMARY KEY CLUSTERED 
+    (
+	    [ReservationID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_Reservation_TabModules] FOREIGN KEY([TabModuleID])
+    REFERENCES {databaseOwner}[{objectQualifier}TabModules] ([TabModuleID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_Reservation_TabModules]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue](
+	    [CustomFieldDefinitionID] [int] NOT NULL,
+	    [CustomFieldValueID] [int] IDENTITY(1,1) NOT NULL,
+	    [ReservationID] [int] NULL,
+	    [PendingPaymentID] [int] NULL,
+	    [PendingApprovalID] [int] NULL,
+	    [Value] [nvarchar](255) NOT NULL,
+	    [CreatedByUserID] [int] NOT NULL,
+	    [CreatedOnDate] [datetime] NOT NULL,
+	    [LastModifiedByUserID] [int] NULL,
+	    [LastModifiedOnDate] [datetime] NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldValue] PRIMARY KEY CLUSTERED 
+    (
+	    [CustomFieldValueID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldValue_Reservations_CustomFieldDefinition] FOREIGN KEY([CustomFieldDefinitionID])
+    REFERENCES {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition] ([CustomFieldDefinitionID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldValue_Reservations_CustomFieldDefinition]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem](
+	    [CustomFieldDefinitionID] [int] NOT NULL,
+	    [CustomFieldDefinitionListItemID] [int] IDENTITY(1,1) NOT NULL,
+	    [Text] [nvarchar](255) NOT NULL,
+	    [Value] [nvarchar](255) NOT NULL,
+	    [SortOrder] [int] NOT NULL,
+	    [CreatedByUserID] [int] NOT NULL,
+	    [CreatedOnDate] [datetime] NOT NULL,
+	    [LastModifiedByUserID] [int] NULL,
+	    [LastModifiedOnDate] [datetime] NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldDefinitionListItem] PRIMARY KEY CLUSTERED 
+    (
+	    [CustomFieldDefinitionListItemID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldDefinitionListItem_Reservations_CustomFieldDefinition] FOREIGN KEY([CustomFieldDefinitionID])
+    REFERENCES {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition] ([CustomFieldDefinitionID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CustomFieldDefinitionListItem_Reservations_CustomFieldDefinition]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting](
+	    [CategoryID] [int] NOT NULL,
+	    [SettingName] [nvarchar](50) NOT NULL,
+	    [SettingValue] [nvarchar](2000) NOT NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CategorySetting] PRIMARY KEY CLUSTERED 
+    (
+	    [CategoryID] ASC,
+	    [SettingName] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CategorySetting_Reservations_Category] FOREIGN KEY([CategoryID])
+    REFERENCES {databaseOwner}[{objectQualifier}Gafware_Reservations_Category] ([CategoryID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_CategorySetting_Reservations_Category]
+END
+GO
+
+IF  NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar]') AND type in (N'U'))
+BEGIN
+    SET ANSI_NULLS ON
+    SET QUOTED_IDENTIFIER ON
+    CREATE TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar](
+	    [ReservationID] [int] NOT NULL,
+	    [UID] [nvarchar](255) NOT NULL,
+	    [Sequence] [int] NOT NULL,
+	    [Organizer] [nvarchar](255) NOT NULL,
+     CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_ICalendar] PRIMARY KEY CLUSTERED 
+    (
+	    [ReservationID] ASC
+    )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON)
+    )
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar]  WITH CHECK ADD  CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_ICalendar_Reservations_Reservation] FOREIGN KEY([ReservationID])
+    REFERENCES {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation] ([ReservationID])
+    ON DELETE CASCADE
+
+    ALTER TABLE {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar] CHECK CONSTRAINT [{objectQualifier}FK_Gafware_Reservations_ICalendar_Reservations_Reservation]
+END
+GO
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCategory]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddCategorySetting]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCategorySetting]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldDefinition]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldDefinition]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldDefinitionListItem]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldDefinitionListItem]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldValue]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldValue]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddICalendar]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddICalendar]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddPendingApproval]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddPendingApproval]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddPendingPayment]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddPendingPayment]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_AddReservation]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddReservation]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCategory]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCategorySetting]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCategorySetting]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldDefinition]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldDefinition]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldDefinitionListItem]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldDefinitionListItem]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldValue]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldValue]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteICalendar]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteICalendar]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeletePendingApproval]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeletePendingApproval]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeletePendingPayment]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeletePendingPayment]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteReservation]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteReservation]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DisableRequireConfirmation]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DisableRequireConfirmation]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_DisableSendReminder]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DisableSendReminder]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetActiveCustomFieldDefinitionList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetActiveCustomFieldDefinitionList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategory]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategoryList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategoryList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategorySetting]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategorySetting]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategorySettingList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategorySettingList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinition]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinition]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionListItem]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionListItem]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionListItemList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionListItemList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValue]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValue]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByPendingApprovalID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByPendingApprovalID]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByPendingPaymentID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByPendingPaymentID]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByReservationID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByReservationID]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetICalendar]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetICalendar]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetICalendarList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetICalendarList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingApproval]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingApproval]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingApprovalList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingApprovalList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingPayment]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingPayment]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingPaymentList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingPaymentList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservation]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservation]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationList]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationList]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListByDateRange]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListByDateRange]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListByDateRangeAndCategoryID]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListByDateRangeAndCategoryID]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListToSendReminders]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListToSendReminders]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCategory]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCategory]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCategorySetting]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCategorySetting]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldDefinition]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldDefinition]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldDefinitionListItem]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldDefinitionListItem]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldValue]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldValue]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateICalendar]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateICalendar]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdatePendingApproval]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdatePendingApproval]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdatePendingPayment]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdatePendingPayment]
+END
+
+IF EXISTS (SELECT * FROM dbo.sysobjects WHERE id = object_id(N'{databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateReservation]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+BEGIN
+	DROP PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateReservation]
+END
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCategory]
+    @CategoryID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_Category]
+        WHERE   [CategoryID] = @CategoryID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteReservation]
+    @ReservationID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        WHERE   [ReservationID] = @ReservationID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddPendingPayment]
+    @TabModuleID INT,
+    @PortalID INT,
+    @ReservationID INT,
+    @PendingApprovalID INT,
+    @CategoryID INT,
+    @StartDateTime DATETIME,
+    @Duration INT,
+    @FirstName NVARCHAR(100),
+    @LastName NVARCHAR(100),
+    @Email NVARCHAR(100),
+    @Phone NVARCHAR(100),
+    @Description NTEXT,
+    @Amount MONEY,
+    @RefundableAmount MONEY,
+    @Currency NVARCHAR(100),
+    @Status INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment]
+                (
+                  [TabModuleID],
+                  [PortalID],
+                  [ReservationID],
+                  [PendingApprovalID],
+                  [CategoryID],
+                  [StartDateTime],
+                  [Duration],
+                  [FirstName],
+                  [LastName],
+                  [Email],
+                  [Phone],
+                  [Description],
+                  [Amount],
+                  [RefundableAmount],
+                  [Currency],
+                  [Status],
+                  [CreatedByUserID],
+                  [CreatedOnDate],
+                  [LastModifiedByUserID],
+                  [LastModifiedOnDate]
+                )
+        VALUES  (
+                  @TabModuleID,
+                  @PortalID,
+                  @ReservationID,
+                  @PendingApprovalID,
+                  @CategoryID,
+                  @StartDateTime,
+                  @Duration,
+                  @FirstName,
+                  @LastName,
+                  @Email,
+                  @Phone,
+                  @Description,
+                  @Amount,
+                  @RefundableAmount,
+                  @Currency,
+                  @Status,
+                  @CreatedByUserID,
+                  @CreatedOnDate,
+                  @LastModifiedByUserID,
+                  @LastModifiedOnDate
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddPendingApproval]
+    @TabModuleID INT,
+    @PortalID INT,
+    @ReservationID INT,
+    @CategoryID INT,
+    @StartDateTime DATETIME,
+    @Duration INT,
+    @FirstName NVARCHAR(100),
+    @LastName NVARCHAR(100),
+    @Email NVARCHAR(100),
+    @Phone NVARCHAR(100),
+    @Description NTEXT,
+    @Status INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval]
+                (
+                  [TabModuleID],
+                  [PortalID],
+                  [ReservationID],
+                  [CategoryID],
+                  [StartDateTime],
+                  [Duration],
+                  [FirstName],
+                  [LastName],
+                  [Email],
+                  [Phone],
+                  [Description],
+                  [Status],
+                  [CreatedByUserID],
+                  [CreatedOnDate],
+                  [LastModifiedByUserID],
+                  [LastModifiedOnDate]
+                )
+        VALUES  (
+                  @TabModuleID,
+                  @PortalID,
+                  @ReservationID,
+                  @CategoryID,
+                  @StartDateTime,
+                  @Duration,
+                  @FirstName,
+                  @LastName,
+                  @Email,
+                  @Phone,
+                  @Description,
+                  @Status,
+                  @CreatedByUserID,
+                  @CreatedOnDate,
+                  @LastModifiedByUserID,
+                  @LastModifiedOnDate
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategoryList]
+    @TabModuleID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_Category]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategory]
+    @CategoryID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_Category]
+        WHERE   [CategoryID] = @CategoryID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListToSendReminders]
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        WHERE   ReminderSent = 0
+        AND		SendReminder = 1
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListByDateRangeAndCategoryID]
+    @TabModuleID INT,
+    @From DATETIME,
+    @To DATETIME,
+    @CategoryID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+        AND		DATEADD(mi, [Duration], [StartDateTime]) >= @From
+        AND		[StartDateTime] < @To
+        AND		( @CategoryID IS NULL OR [CategoryID] = @CategoryID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationListByDateRange]
+    @TabModuleID INT,
+    @From DATETIME,
+    @To DATETIME
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+        AND		DATEADD(mi, [Duration], [StartDateTime]) >= @From
+        AND		[StartDateTime] < @To
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservationList]
+    @TabModuleID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetReservation]
+    @ReservationID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        WHERE   [ReservationID] = @ReservationID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetActiveCustomFieldDefinitionList]
+    @TabModuleID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+        AND		IsActive = 1
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DisableSendReminder]
+    @TabModuleID INT
+AS 
+    BEGIN
+        UPDATE	{databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        SET		[SendReminder] = 0
+        WHERE   [TabModuleID] = @TabModuleID
+        AND		[SendReminder] = 1
+        AND		[ReminderSent] = 0
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DisableRequireConfirmation]
+    @TabModuleID INT
+AS 
+    BEGIN
+        UPDATE	{databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        SET		[RequireConfirmation] = 0
+        WHERE   [TabModuleID] = @TabModuleID
+        AND		[RequireConfirmation] = 1
+        AND		[Confirmed] = 0
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeletePendingPayment]
+    @PendingPaymentID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment]
+        WHERE   [PendingPaymentID] = @PendingPaymentID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeletePendingApproval]
+    @PendingApprovalID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval]
+        WHERE   [PendingApprovalID] = @PendingApprovalID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingPaymentList]
+    @TabModuleID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingPayment]
+    @PendingPaymentID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment]
+        WHERE   [PendingPaymentID] = @PendingPaymentID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingApprovalList]
+    @TabModuleID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetPendingApproval]
+    @PendingApprovalID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval]
+        WHERE   [PendingApprovalID] = @PendingApprovalID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCategory]
+    @TabModuleID INT,
+    @Name NVARCHAR(100),
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_Category]
+                (
+                  [TabModuleID],
+                  [Name],
+                  [CreatedByUserID],
+                  [CreatedOnDate],
+                  [LastModifiedByUserID],
+                  [LastModifiedOnDate]
+                )
+        VALUES  (
+                  @TabModuleID,
+                  @Name,
+                  @CreatedByUserID,
+                  @CreatedOnDate,
+                  @LastModifiedByUserID,
+                  @LastModifiedOnDate
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddReservation]
+    @TabModuleID INT,
+    @CategoryID INT,
+    @StartDateTime DATETIME,
+    @Duration INT,
+    @FirstName NVARCHAR(100),
+    @LastName NVARCHAR(100),
+    @Email NVARCHAR(100),
+    @Phone NVARCHAR(100),
+    @Description NTEXT,
+    @SendReminder BIT,
+    @SendReminderWhen INT,
+    @ReminderSent BIT,
+    @RequireConfirmation BIT,
+    @RequireConfirmationWhen INT,
+    @Confirmed BIT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME,
+    @SendReminderVia INT
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+                (
+                  [TabModuleID],
+                  [CategoryID],
+                  [StartDateTime],
+                  [Duration],
+                  [FirstName],
+                  [LastName],
+                  [Email],
+                  [Phone],
+                  [Description],
+                  [SendReminder],
+                  [SendReminderWhen],
+                  [ReminderSent],
+                  [RequireConfirmation],
+                  [RequireConfirmationWhen],
+                  [Confirmed],
+                  [CreatedByUserID],
+                  [CreatedOnDate],
+                  [LastModifiedByUserID],
+                  [LastModifiedOnDate],
+                  [SendReminderVia]
+                )
+        VALUES  (
+                  @TabModuleID,
+                  @CategoryID,
+                  @StartDateTime,
+                  @Duration,
+                  @FirstName,
+                  @LastName,
+                  @Email,
+                  @Phone,
+                  @Description,
+                  @SendReminder,
+                  @SendReminderWhen,
+                  @ReminderSent,
+                  @RequireConfirmation,
+                  @RequireConfirmationWhen,
+                  @Confirmed,
+                  @CreatedByUserID,
+                  @CreatedOnDate,
+                  @LastModifiedByUserID,
+                  @LastModifiedOnDate,
+                  @SendReminderVia
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldDefinition]
+    @TabModuleID INT,
+    @Name NVARCHAR(255),
+    @Label NVARCHAR(255),
+    @Type NVARCHAR(255),
+    @OptionType NVARCHAR(255),
+    @Title NVARCHAR(255),
+    @AddToPreviousRow BIT,
+    @IsRequired BIT,
+    @IsActive BIT,
+    @DefaultValue NVARCHAR(255),
+    @MaxLength INT,
+    @SortOrder INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME,
+    @HideLabel BIT
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]
+                (
+                  [TabModuleID],
+                  [Name],
+                  [Label],
+                  [Type],
+                  [OptionType],
+                  [Title],
+                  [AddToPreviousRow],
+                  [IsRequired],
+                  [IsActive],
+                  [DefaultValue],
+                  [MaxLength],
+                  [SortOrder],
+                  [CreatedByUserID],
+                  [CreatedOnDate],
+                  [LastModifiedByUserID],
+                  [LastModifiedOnDate],
+                  [HideLabel]
+                )
+        VALUES  (
+                  @TabModuleID,
+                  @Name,
+                  @Label,
+                  @Type,
+                  @OptionType,
+                  @Title,
+                  @AddToPreviousRow,
+                  @IsRequired,
+                  @IsActive,
+                  @DefaultValue,
+                  @MaxLength,
+                  @SortOrder,
+                  @CreatedByUserID,
+                  @CreatedOnDate,
+                  @LastModifiedByUserID,
+                  @LastModifiedOnDate,
+                  @HideLabel
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionList]
+    @TabModuleID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]
+        WHERE   ( @TabModuleID IS NULL OR [TabModuleID] = @TabModuleID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinition]
+    @CustomFieldDefinitionID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]
+        WHERE   [CustomFieldDefinitionID] = @CustomFieldDefinitionID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdatePendingPayment]
+    @TabModuleID INT,
+    @PendingPaymentID INT,
+    @PortalID INT,
+    @ReservationID INT,
+    @PendingApprovalID INT,
+    @CategoryID INT,
+    @StartDateTime DATETIME,
+    @Duration INT,
+    @FirstName NVARCHAR(100),
+    @LastName NVARCHAR(100),
+    @Email NVARCHAR(100),
+    @Phone NVARCHAR(100),
+    @Description NTEXT,
+    @Amount MONEY,
+    @RefundableAmount MONEY,
+    @Currency NVARCHAR(100),
+    @Status INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingPayment]
+        SET     [TabModuleID] = @TabModuleID,
+                [PortalID] = @PortalID,
+                [ReservationID] = @ReservationID,
+                [PendingApprovalID] = @PendingApprovalID,
+                [CategoryID] = @CategoryID,
+                [StartDateTime] = @StartDateTime,
+                [Duration] = @Duration,
+                [FirstName] = @FirstName,
+                [LastName] = @LastName,
+                [Email] = @Email,
+                [Phone] = @Phone,
+                [Description] = @Description,
+                [Amount] = @Amount,
+                [RefundableAmount] = @RefundableAmount,
+                [Currency] = @Currency,
+                [Status] = @Status,
+                [CreatedByUserID] = @CreatedByUserID,
+                [CreatedOnDate] = @CreatedOnDate,
+                [LastModifiedByUserID] = @LastModifiedByUserID,
+                [LastModifiedOnDate] = @LastModifiedOnDate
+        WHERE   [PendingPaymentID] = @PendingPaymentID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdatePendingApproval]
+    @TabModuleID INT,
+    @PendingApprovalID INT,
+    @PortalID INT,
+    @ReservationID INT,
+    @CategoryID INT,
+    @StartDateTime DATETIME,
+    @Duration INT,
+    @FirstName NVARCHAR(100),
+    @LastName NVARCHAR(100),
+    @Email NVARCHAR(100),
+    @Phone NVARCHAR(100),
+    @Description NTEXT,
+    @Status INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_PendingApproval]
+        SET     [TabModuleID] = @TabModuleID,
+                [PortalID] = @PortalID,
+                [ReservationID] = @ReservationID,
+                [CategoryID] = @CategoryID,
+                [StartDateTime] = @StartDateTime,
+                [Duration] = @Duration,
+                [FirstName] = @FirstName,
+                [LastName] = @LastName,
+                [Email] = @Email,
+                [Phone] = @Phone,
+                [Description] = @Description,
+                [Status] = @Status,
+                [CreatedByUserID] = @CreatedByUserID,
+                [CreatedOnDate] = @CreatedOnDate,
+                [LastModifiedByUserID] = @LastModifiedByUserID,
+                [LastModifiedOnDate] = @LastModifiedOnDate
+        WHERE   [PendingApprovalID] = @PendingApprovalID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCategory]
+    @TabModuleID INT,
+    @CategoryID INT,
+    @Name NVARCHAR(100),
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_Category]
+        SET     [TabModuleID] = @TabModuleID,
+                [Name] = @Name,
+                [CreatedByUserID] = @CreatedByUserID,
+                [CreatedOnDate] = @CreatedOnDate,
+                [LastModifiedByUserID] = @LastModifiedByUserID,
+                [LastModifiedOnDate] = @LastModifiedOnDate
+        WHERE   [CategoryID] = @CategoryID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateReservation]
+    @TabModuleID INT,
+    @ReservationID INT,
+    @CategoryID INT,
+    @StartDateTime DATETIME,
+    @Duration INT,
+    @FirstName NVARCHAR(100),
+    @LastName NVARCHAR(100),
+    @Email NVARCHAR(100),
+    @Phone NVARCHAR(100),
+    @Description NTEXT,
+    @SendReminder BIT,
+    @SendReminderWhen INT,
+    @ReminderSent BIT,
+    @RequireConfirmation BIT,
+    @RequireConfirmationWhen INT,
+    @Confirmed BIT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME,
+	@SendReminderVia INT
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_Reservation]
+        SET     [TabModuleID] = @TabModuleID,
+                [CategoryID] = @CategoryID,
+                [StartDateTime] = @StartDateTime,
+                [Duration] = @Duration,
+                [FirstName] = @FirstName,
+                [LastName] = @LastName,
+                [Email] = @Email,
+                [Phone] = @Phone,
+                [Description] = @Description,
+                [SendReminder] = @SendReminder,
+                [SendReminderWhen] = @SendReminderWhen,
+                [ReminderSent] = @ReminderSent,
+                [RequireConfirmation] = @RequireConfirmation,
+                [RequireConfirmationWhen] = @RequireConfirmationWhen,
+                [Confirmed] = @Confirmed,
+                [CreatedByUserID] = @CreatedByUserID,
+                [CreatedOnDate] = @CreatedOnDate,
+                [LastModifiedByUserID] = @LastModifiedByUserID,
+                [LastModifiedOnDate] = @LastModifiedOnDate,
+                [SendReminderVia] = @SendReminderVia
+        WHERE   [ReservationID] = @ReservationID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldDefinition]
+    @CustomFieldDefinitionID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]
+        WHERE   [CustomFieldDefinitionID] = @CustomFieldDefinitionID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldDefinition]
+    @TabModuleID INT,
+    @CustomFieldDefinitionID INT,
+    @Name NVARCHAR(255),
+    @Label NVARCHAR(255),
+    @Type NVARCHAR(255),
+    @OptionType NVARCHAR(255),
+    @Title NVARCHAR(255),
+    @AddToPreviousRow BIT,
+    @IsRequired BIT,
+    @IsActive BIT,
+    @DefaultValue NVARCHAR(255),
+    @MaxLength INT,
+    @SortOrder INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME,
+    @HideLabel BIT
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinition]
+        SET     [TabModuleID] = @TabModuleID,
+                [Name] = @Name,
+                [Label] = @Label,
+                [Type] = @Type,
+                [OptionType] = @OptionType,
+                [Title] = @Title,
+                [AddToPreviousRow] = @AddToPreviousRow,
+                [IsRequired] = @IsRequired,
+                [IsActive] = @IsActive,
+                [DefaultValue] = @DefaultValue,
+                [MaxLength] = @MaxLength,
+                [SortOrder] = @SortOrder,
+                [CreatedByUserID] = @CreatedByUserID,
+                [CreatedOnDate] = @CreatedOnDate,
+                [LastModifiedByUserID] = @LastModifiedByUserID,
+                [LastModifiedOnDate] = @LastModifiedOnDate,
+                [HideLabel] = @HideLabel
+        WHERE   [CustomFieldDefinitionID] = @CustomFieldDefinitionID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCategorySetting]
+    @CategoryID INT,
+    @SettingName NVARCHAR(50),
+    @SettingValue NVARCHAR(2000)
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting]
+        SET     [SettingValue] = @SettingValue
+        WHERE   [CategoryID] = @CategoryID
+                AND [SettingName] = @SettingName
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCategorySetting]
+    @CategoryID INT,
+    @SettingName NVARCHAR(50)
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting]
+        WHERE   [CategoryID] = @CategoryID
+                AND [SettingName] = @SettingName
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateICalendar]
+    @ReservationID INT,
+    @UID NVARCHAR(255),
+    @Sequence INT,
+    @Organizer NVARCHAR(255)
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar]
+        SET     [UID] = @UID,
+                [Sequence] = @Sequence,
+                [Organizer] = @Organizer
+        WHERE   [ReservationID] = @ReservationID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldValue]
+    @CustomFieldDefinitionID INT,
+    @CustomFieldValueID INT,
+    @ReservationID INT,
+    @PendingPaymentID INT,
+    @PendingApprovalID INT,
+    @Value NVARCHAR(255),
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+        SET     [CustomFieldDefinitionID] = @CustomFieldDefinitionID,
+                [ReservationID] = @ReservationID,
+                [PendingPaymentID] = @PendingPaymentID,
+                [PendingApprovalID] = @PendingApprovalID,
+                [Value] = @Value,
+                [CreatedByUserID] = @CreatedByUserID,
+                [CreatedOnDate] = @CreatedOnDate,
+                [LastModifiedByUserID] = @LastModifiedByUserID,
+                [LastModifiedOnDate] = @LastModifiedOnDate
+        WHERE   [CustomFieldValueID] = @CustomFieldValueID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_UpdateCustomFieldDefinitionListItem]
+    @CustomFieldDefinitionID INT,
+    @CustomFieldDefinitionListItemID INT,
+    @Text NVARCHAR(255),
+    @Value NVARCHAR(255),
+    @SortOrder INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        UPDATE  {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem]
+        SET     [CustomFieldDefinitionID] = @CustomFieldDefinitionID,
+                [Text] = @Text,
+                [Value] = @Value,
+                [SortOrder] = @SortOrder,
+                [CreatedByUserID] = @CreatedByUserID,
+                [CreatedOnDate] = @CreatedOnDate,
+                [LastModifiedByUserID] = @LastModifiedByUserID,
+                [LastModifiedOnDate] = @LastModifiedOnDate
+        WHERE   [CustomFieldDefinitionListItemID] = @CustomFieldDefinitionListItemID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategorySettingList]
+    @CategoryID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting]
+        WHERE   ( @CategoryID IS NULL OR [CategoryID] = @CategoryID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCategorySetting]
+    @CategoryID INT,
+    @SettingName NVARCHAR(50)
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting]
+        WHERE   [CategoryID] = @CategoryID
+                AND [SettingName] = @SettingName
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCategorySetting]
+    @CategoryID INT,
+    @SettingName NVARCHAR(50),
+    @SettingValue NVARCHAR(2000)
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_CategorySetting]
+                (
+                  [CategoryID],
+                  [SettingName],
+                  [SettingValue]
+                )
+        VALUES  (
+                  @CategoryID,
+                  @SettingName,
+                  @SettingValue
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetICalendarList]
+    @ReservationID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar]
+        WHERE   ( @ReservationID IS NULL OR [ReservationID] = @ReservationID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetICalendar]
+    @ReservationID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar]
+        WHERE   [ReservationID] = @ReservationID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByPendingPaymentID]
+    @PendingPaymentID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+        WHERE   PendingPaymentID = @PendingPaymentID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByPendingApprovalID]
+    @PendingApprovalID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+        WHERE   PendingApprovalID = @PendingApprovalID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueListByReservationID]
+    @ReservationID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+        WHERE   ReservationID = @ReservationID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValueList]
+    @CustomFieldDefinitionID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+        WHERE   ( @CustomFieldDefinitionID IS NULL OR [CustomFieldDefinitionID] = @CustomFieldDefinitionID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldValue]
+    @CustomFieldValueID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+        WHERE   [CustomFieldValueID] = @CustomFieldValueID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionListItemList]
+    @CustomFieldDefinitionID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem]
+        WHERE   ( @CustomFieldDefinitionID IS NULL OR [CustomFieldDefinitionID] = @CustomFieldDefinitionID )
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_GetCustomFieldDefinitionListItem]
+    @CustomFieldDefinitionListItemID INT
+AS 
+    BEGIN
+        SELECT  *
+        FROM    {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem]
+        WHERE   [CustomFieldDefinitionListItemID] = @CustomFieldDefinitionListItemID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteICalendar]
+    @ReservationID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar]
+        WHERE   [ReservationID] = @ReservationID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldValue]
+    @CustomFieldValueID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+        WHERE   [CustomFieldValueID] = @CustomFieldValueID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_DeleteCustomFieldDefinitionListItem]
+    @CustomFieldDefinitionListItemID INT
+AS 
+    BEGIN
+        DELETE  FROM {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem]
+        WHERE   [CustomFieldDefinitionListItemID] = @CustomFieldDefinitionListItemID
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddICalendar]
+    @ReservationID INT,
+    @UID NVARCHAR(255),
+    @Sequence INT,
+    @Organizer NVARCHAR(255)
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_ICalendar]
+                (
+                  [ReservationID],
+                  [UID],
+                  [Sequence],
+                  [Organizer]
+                )
+        VALUES  (
+                  @ReservationID,
+                  @UID,
+                  @Sequence,
+                  @Organizer
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldValue]
+    @CustomFieldDefinitionID INT,
+    @ReservationID INT,
+    @PendingPaymentID INT,
+    @PendingApprovalID INT,
+    @Value NVARCHAR(255),
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldValue]
+                (
+                  [CustomFieldDefinitionID],
+                  [ReservationID],
+                  [PendingPaymentID],
+                  [PendingApprovalID],
+                  [Value],
+                  [CreatedByUserID],
+                  [CreatedOnDate],
+                  [LastModifiedByUserID],
+                  [LastModifiedOnDate]
+                )
+        VALUES  (
+                  @CustomFieldDefinitionID,
+                  @ReservationID,
+                  @PendingPaymentID,
+                  @PendingApprovalID,
+                  @Value,
+                  @CreatedByUserID,
+                  @CreatedOnDate,
+                  @LastModifiedByUserID,
+                  @LastModifiedOnDate
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE {databaseOwner}[{objectQualifier}Gafware_Reservations_AddCustomFieldDefinitionListItem]
+    @CustomFieldDefinitionID INT,
+    @Text NVARCHAR(255),
+    @Value NVARCHAR(255),
+    @SortOrder INT,
+    @CreatedByUserID INT,
+    @CreatedOnDate DATETIME,
+    @LastModifiedByUserID INT,
+    @LastModifiedOnDate DATETIME
+AS 
+    BEGIN
+        INSERT  INTO {databaseOwner}[{objectQualifier}Gafware_Reservations_CustomFieldDefinitionListItem]
+                (
+                  [CustomFieldDefinitionID],
+                  [Text],
+                  [Value],
+                  [SortOrder],
+                  [CreatedByUserID],
+                  [CreatedOnDate],
+                  [LastModifiedByUserID],
+                  [LastModifiedOnDate]
+                )
+        VALUES  (
+                  @CustomFieldDefinitionID,
+                  @Text,
+                  @Value,
+                  @SortOrder,
+                  @CreatedByUserID,
+                  @CreatedOnDate,
+                  @LastModifiedByUserID,
+                  @LastModifiedOnDate
+                )
+
+        SELECT  SCOPE_IDENTITY()
+    END
+GO
+
+/************************************************************/
+/*****              SqlDataProvider                     *****/
+/************************************************************/

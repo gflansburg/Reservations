@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+    <title>Gafware Template</title>
+    <link rel="stylesheet" type="text/css" href="Documentation.css" />
+</head>
+<body>
+    <div>
+        <h1>Gafware Reservations Module</h1>
+        <hr />
+        <h2>Thank You!</h2>
+        <p>
+            Thank you for creating your DNN Extensions with my templates.
+            I maintain these templates because I get great enjoyment out of helping our with the DNN community (it will always be DotNetNuke to me).
+            If you would like to thank me for my efforts you can shoot me some cash on paypal (paypal@christoc.com) or venmo (@christoc)!
+            You can find me online at <a href="https://twitter.com/christoc">https://twitter.com/christoc</a>
+            <br />
+            <br />
+            -Chris Hammond (@christoc)
+        </p>
+        <h2>* Important *</h2>
+        <p>
+            When creating a project using this template, you should have named your project
+            simply "ModuleName", not "GafwareModuleName". If you didn&#39;t do this, the
+            easiest thing to do is close the solution, delete the folder from your DesktopModules
+            folder, then create a new project.
+        </p>
+        <p>
+            Due to limitations in the templating capabilities of Visual Studio, you will need
+            to make some minor changes, and double check a few things, before you package this module.
+        </p>
+        <ol>
+            <li>
+                <strong>Open up IIS Manager (start>run>INETMGR), go to your dnndev.me website and make sure that DesktopModules is NOT a Virtual Directory/Application, if so, remove that. You can also look at sub directories under that folder that are also virtual directories, right click and remove them as well.</strong>
+            </li>
+            <li>
+                You will need to change the TARGET Framework to 4.7.2 if you're compiling against DNN 9.5+. Right click on the project, choose properties, change the target.                <strong>If you change the TARGET framework for the project, remove the WEB.CONFIG file that Visual Studio will add to your project.</strong>
+            </li>
+            <li>
+                <strong>BEFORE</strong> checking the
+                module into your source control environment check the following.
+            </li>
+            <li>
+                Edit the Project properties by double-clicking on the Properties folder in Solution
+                Explorer
+            </li>
+            <li>
+                On the Web tab:
+                <ol>
+                    <li>Under 'Start Action', make sure to set your Start URL to the correct site (ex: http://dnndev.me/).</li>
+                    <li>
+                        Under 'Servers', make sure to "Use IIS Web Server" with a project url of http://dnndev.me/desktopmodules/Reservations
+                        and an Override application root URL of http://dnndev.me/
+                    </li>
+                </ol>
+            </li>
+        </ol>
+
+        <h2>
+            DotNetNuke Module Development Tutorials
+        </h2>
+
+        <ul>
+            <li>
+                <a href="https://www.christoc.com/tutorials">Check out our free module development tutorials</a>.
+            </li>
+        </ul>
+
+        <h2>Steps after your project is setup.</h2>
+        <ol>
+            <li>
+                To Build and Package your Module you need to change to <b>Release</b> mode and then
+                simply choose Build from the Build menu. The MSBuild scripts will do the packaging
+                process for you. The packaging process creates an INSTALL and a SOURCE package in
+                the INSTALL folder within your desktopmodule/modulename folder.
+            </li>
+            <li>
+                Installing your module in your development DotNetNuke instance is easy.Take the
+                <strong>INSTALL</strong> ZIP file that is created in the INSTALL folder, upload that using the Host/Extensions
+                page, Installation Wizard. Using the INSTALL ZIP file will overwrite the files already in this folder,
+                but that shouldn't cause any problems as long as you install a recent build.
+            </li>
+            <li>
+                After you've completed a release for your module (typically deploying to an environment
+                outside of your development environment) you should change the Version number, you
+                need to do this in two places, the assemblyinfo file, and the .DNN manifest file.
+                Next time you build the module in release mode you will get a new package (using
+                the version number) created.
+            </li>
+            <li>For more information visit our <a href="https://christoc.com/DotNetNuke/Consulting">DotNetNuke Consulting page</a>.</li>
+        </ol>
+        <p>
+            After you are finished reading this Documentation you can delete the Documentation directory
+            from your project.
+        </p>
+        <hr />
+        <br />
+    </div>
+</body>
+</html>

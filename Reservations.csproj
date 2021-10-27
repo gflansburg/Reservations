@@ -1,0 +1,405 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7D61A32C-0F21-453F-A981-BD8E5A3A5305}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Gafware.Modules.Reservations</RootNamespace>
+    <AssemblyName>Gafware.Reservations</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <Use64BitIISExpress />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\..\bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AuthorizeNet">
+      <HintPath>..\..\..\..\..\Users\flan4248.SOONER\OneDrive - University of Oklahoma\Source\Repos\DNNModues\Reservations.Decompiled\DNNSpecialists.Modules.ReservationsReferences\AuthorizeNet.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke">
+      <HintPath>..\..\..\bin\DotNetNuke.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetNuke.Abstractions">
+      <HintPath>..\..\..\bin\DotNetNuke.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationBlocks.Data">
+      <HintPath>..\..\..\bin\Microsoft.ApplicationBlocks.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Logging.1.1.2\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.IdentityModel.Tokens.5.1.2\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.12.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>packages\RestSharp.106.12.0\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>packages\System.IdentityModel.Tokens.Jwt.5.1.2\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Telerik.Web.UI">
+      <HintPath>..\..\..\bin\Telerik.Web.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Twilio.Api">
+      <HintPath>..\..\..\..\..\Users\flan4248.SOONER\OneDrive - University of Oklahoma\Source\Repos\DNNModues\Reservations.Decompiled\DNNSpecialists.Modules.ReservationsReferences\Twilio.Api.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activate.ascx.cs">
+      <DependentUpon>Activate.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Activate.ascx.designer.cs">
+      <DependentUpon>Activate.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Code\AdvancedColumnListComparer.cs" />
+    <Compile Include="App_Code\CategoryInfoComparer.cs" />
+    <Compile Include="App_Code\ColumnListComparer.cs" />
+    <Compile Include="App_Code\DateTimeRange.cs" />
+    <Compile Include="App_Code\DayPosition.cs" />
+    <Compile Include="App_Code\DayType.cs" />
+    <Compile Include="App_Code\Direction.cs" />
+    <Compile Include="App_Code\DisplayColumnInfo.cs" />
+    <Compile Include="App_Code\EventInfoComparer.cs" />
+    <Compile Include="App_Code\FeeScheduleType.cs" />
+    <Compile Include="App_Code\IRecurrencePattern.cs" />
+    <Compile Include="App_Code\LocalizedEnum.cs" />
+    <Compile Include="App_Code\OccurrenceCalculator.cs" />
+    <Compile Include="App_Code\PagerMode.cs" />
+    <Compile Include="App_Code\Pattern.cs" />
+    <Compile Include="App_Code\PaymentMethod.cs" />
+    <Compile Include="App_Code\PaymentNotificationHelper.cs" />
+    <Compile Include="App_Code\PendingApprovalStatus.cs" />
+    <Compile Include="App_Code\PendingPaymentStatus.cs" />
+    <Compile Include="App_Code\RecurrencePattern.cs" />
+    <Compile Include="App_Code\RecurrencePatternSubmitted.cs" />
+    <Compile Include="App_Code\ReminderSchedulerClient.cs" />
+    <Compile Include="App_Code\RijndaelSimple.cs" />
+    <Compile Include="App_Code\SeasonalFeeScheduleInfoComparer.cs" />
+    <Compile Include="App_Code\SendReminderVia.cs" />
+    <Compile Include="App_Code\SortColumnInfo.cs" />
+    <Compile Include="App_Code\UnboundColumn.cs" />
+    <Compile Include="App_Code\EmailComparer.cs" />
+    <Compile Include="App_Code\UserInfoComparer.cs" />
+    <Compile Include="App_Code\ViewCalendar.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="App_Code\WorkingHourInfoComparer.cs" />
+    <Compile Include="App_Code\WorkingHoursExceptionInfoComparer.cs" />
+    <Compile Include="AuthorizeNetSIMRelayResponse.aspx.cs">
+      <DependentUpon>AuthorizeNetSIMRelayResponse.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AuthorizeNetSIMRelayResponse.aspx.designer.cs">
+      <DependentUpon>AuthorizeNetSIMRelayResponse.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Cashier.ascx.cs">
+      <DependentUpon>Cashier.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Cashier.ascx.designer.cs">
+      <DependentUpon>Cashier.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Components\CategorySettingController.cs" />
+    <Compile Include="Components\CategorySettingInfo.cs" />
+    <Compile Include="Components\CategorySettings.cs" />
+    <Compile Include="Components\CustomFieldDefinitionListItemController.cs" />
+    <Compile Include="Components\CustomFieldDefinitionListItemInfo.cs" />
+    <Compile Include="Components\CustomFieldDefinitionListItemListSettings.cs" />
+    <Compile Include="Components\CustomFieldDefinitionListSettings.cs" />
+    <Compile Include="Components\ICalendarController.cs" />
+    <Compile Include="Components\ICalendarInfo.cs" />
+    <Compile Include="Components\PendingApprovalController.cs" />
+    <Compile Include="Components\PendingApprovalInfo.cs" />
+    <Compile Include="Components\PendingPaymentController.cs" />
+    <Compile Include="Components\PendingPaymentInfo.cs" />
+    <Compile Include="Components\TimeOfDayInfo.cs" />
+    <Compile Include="Components\CashierListSettings.cs" />
+    <Compile Include="Components\CategoryController.cs" />
+    <Compile Include="Components\CategoryInfo.cs" />
+    <Compile Include="Components\Controller.cs" />
+    <Compile Include="Components\CustomFieldDefinitionController.cs" />
+    <Compile Include="Components\CustomFieldDefinitionInfo.cs" />
+    <Compile Include="Components\CustomFieldDefinitionType.cs" />
+    <Compile Include="Components\CustomFieldValueController.cs" />
+    <Compile Include="Components\CustomFieldValueInfo.cs" />
+    <Compile Include="Components\DuplicateReservationsListSettings.cs" />
+    <Compile Include="Components\FlatFeeScheduleInfo.cs" />
+    <Compile Include="Components\ListSettings.cs" />
+    <Compile Include="Components\ModerationListSettings.cs" />
+    <Compile Include="Components\ModerationListSettingsEx.cs" />
+    <Compile Include="Components\ReservationController.cs" />
+    <Compile Include="Components\ReservationInfo.cs" />
+    <Compile Include="Components\SeasonalFeeScheduleInfo.cs" />
+    <Compile Include="Components\ViewReservationsListSettings.cs" />
+    <Compile Include="Components\WorkingHoursExceptionInfo.cs" />
+    <Compile Include="Components\WorkingHoursInfo.cs" />
+    <Compile Include="Data\DataProvider.cs" />
+    <Compile Include="App_Code\Helper.cs" />
+    <Compile Include="DuplicateReservations.ascx.cs">
+      <DependentUpon>DuplicateReservations.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DuplicateReservations.ascx.designer.cs">
+      <DependentUpon>DuplicateReservations.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="EditCustomFieldDefinition.ascx.cs">
+      <DependentUpon>EditCustomFieldDefinition.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EditCustomFieldDefinition.ascx.designer.cs">
+      <DependentUpon>EditCustomFieldDefinition.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="FeeScheduleControl.ascx.cs">
+      <DependentUpon>FeeScheduleControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="FeeScheduleControl.ascx.designer.cs">
+      <DependentUpon>FeeScheduleControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="IPN.aspx.cs">
+      <DependentUpon>IPN.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="IPN.aspx.designer.cs">
+      <DependentUpon>IPN.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MakeReservation.ascx.cs">
+      <DependentUpon>MakeReservation.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MakeReservation.ascx.designer.cs">
+      <DependentUpon>MakeReservation.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Moderate.ascx.cs">
+      <DependentUpon>Moderate.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Moderate.ascx.designer.cs">
+      <DependentUpon>Moderate.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ModuleSecurity.cs" />
+    <Compile Include="ModuleSettings.cs" />
+    <Compile Include="RecurrencePatternControl.ascx.cs">
+      <DependentUpon>RecurrencePatternControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="RecurrencePatternControl.ascx.designer.cs">
+      <DependentUpon>RecurrencePatternControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\DataProviders\SqlDataProvider\SqlDataProvider.cs" />
+    <Compile Include="SearchUser.ashx.cs">
+      <DependentUpon>SearchUser.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.ascx.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings.ascx.designer.cs">
+      <DependentUpon>Settings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewCustomFieldDefinitionList.ascx.cs">
+      <DependentUpon>ViewCustomFieldDefinitionList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewCustomFieldDefinitionList.ascx.designer.cs">
+      <DependentUpon>ViewCustomFieldDefinitionList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewList.ascx.cs">
+      <DependentUpon>ViewList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewList.ascx.designer.cs">
+      <DependentUpon>ViewList.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewListSettings.ascx.cs">
+      <DependentUpon>ViewListSettings.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewListSettings.ascx.designer.cs">
+      <DependentUpon>ViewListSettings.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewReservations.ascx.cs">
+      <DependentUpon>ViewReservations.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewReservations.ascx.designer.cs">
+      <DependentUpon>ViewReservations.ascx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Activate.ascx" />
+    <Content Include="AuthorizeNetSIMRelayResponse.aspx" />
+    <Content Include="Cashier.ascx" />
+    <Content Include="Documentation\Documentation.css" />
+    <Content Include="Documentation\Documentation.html" />
+    <Content Include="DuplicateReservations.ascx" />
+    <Content Include="EditCustomFieldDefinition.ascx" />
+    <Content Include="FeeScheduleControl.ascx" />
+    <Content Include="grant.gif" />
+    <Content Include="Images\back.png" />
+    <Content Include="Images\csv.png" />
+    <Content Include="Images\calendar.png" />
+    <Content Include="Images\next.png" />
+    <Content Include="IPN.aspx" />
+    <Content Include="jquery.authorize.net.js" />
+    <Content Include="jquery.auto-complete.css" />
+    <Content Include="jquery.placeholder.js" />
+    <Content Include="jquery.responsive.js" />
+    <Content Include="jquery.sly.js" />
+    <Content Include="License.txt" />
+    <Content Include="MakeReservation.ascx" />
+    <Content Include="Moderate.ascx" />
+    <Content Include="module.css" />
+    <Content Include="RecurrencePatternControl.ascx" />
+    <Content Include="ReleaseNotes.txt" />
+    <Content Include="jquery.auto-complete.js" />
+    <Content Include="Settings.ascx" />
+    <Content Include="sly.min.js" />
+    <Content Include="Themes\Responsive\Responsive - lighter gray.css" />
+    <Content Include="Themes\Responsive\Responsive-hover.png" />
+    <Content Include="Themes\Responsive\Responsive-LTIE8.css" />
+    <Content Include="Themes\Responsive\Responsive-selected.png" />
+    <Content Include="Themes\Responsive\Responsive-unselected.png" />
+    <Content Include="Themes\Responsive\Responsive.css" />
+    <Content Include="ViewCustomFieldDefinitionList.ascx" />
+    <Content Include="ViewList.ascx" />
+    <Content Include="ViewListSettings.ascx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Reservations.dnn" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BuildScripts\ModulePackage.targets" />
+    <Content Include="BuildScripts\MSBuild.Community.Tasks.Targets" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Settings.ascx.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Providers\DataProviders\SqlDataProvider\01.00.00.SqlDataProvider" />
+    <Content Include="Providers\DataProviders\SqlDataProvider\Uninstall.SqlDataProvider" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ViewReservations.ascx" />
+    <Content Include="web.config" />
+    <Content Include="SearchUser.ashx" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\Activate.ascx.resx">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="App_LocalResources\Cashier.ascx.resx" />
+    <Content Include="App_LocalResources\DuplicateReservations.ascx.resx" />
+    <Content Include="App_LocalResources\EditCustomFieldDefinition.ascx.resx" />
+    <Content Include="App_LocalResources\FeeScheduleControl.ascx.resx" />
+    <Content Include="App_LocalResources\MakeReservation.ascx.resx" />
+    <Content Include="App_LocalResources\Moderate.ascx.resx" />
+    <Content Include="App_LocalResources\RecurrencePatternControl.ascx.resx" />
+    <Content Include="App_LocalResources\RecurrencePatternText.ascx.resx" />
+    <Content Include="App_LocalResources\SharedResources.resx" />
+    <Content Include="App_LocalResources\ViewCustomFieldDefinitionList.ascx.resx" />
+    <Content Include="App_LocalResources\ViewList.ascx.resx" />
+    <Content Include="App_LocalResources\ViewListSettings.ascx.resx" />
+    <Content Include="App_LocalResources\ViewReservations.ascx.resx" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>52717</DevelopmentServerPort>
+          <DevelopmentServerVPath>
+          </DevelopmentServerVPath>
+          <IISUrl>http://dnndev.me/desktopmodules/Gafware/Reservations</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://dnndev.me</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <Extension>zip</Extension>
+    <DNNFileName>Reservations</DNNFileName>
+    <PackageName>Reservations</PackageName>
+    <MSBuildCommunityTasksPath>$(SolutionDir)\BuildScripts</MSBuildCommunityTasksPath>
+  </PropertyGroup>
+  <Import Project="BuildScripts\ModulePackage.Targets" />
+  <Target Name="AfterBuild" DependsOnTargets="PackageModule">
+  </Target>
+</Project>
