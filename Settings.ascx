@@ -648,7 +648,7 @@
                         <dnn:label id="cashierListLabel" runat="server" controlname="cashierListUsersDropDownList" />
                     </td>
                     <td valign="top">
-                        <asp:dropdownlist width="100%" runat="server" id="cashierListUsersDropDownList" cssclass="Gafware_Modules_Reservations_Input" />
+                        <%--<asp:dropdownlist width="100%" runat="server" id="cashierListUsersDropDownList" cssclass="Gafware_Modules_Reservations_Input" />--%>
                         <asp:textbox runat="server" width="100%" id="cashierListUsernameTextBox" cssclass="Gafware_Modules_Reservations_Input"
                             visible="false" validationgroup="cashierListUsernameValidationGroup" />
                         <asp:requiredfieldvalidator runat="server" id="cashierListUsernameRequiredFieldValidator"
@@ -1043,7 +1043,7 @@
                         <dnn:label id="bccListLabel" runat="server" controlname="usersDropDownList" />
                     </td>
                     <td valign="top">
-                        <asp:dropdownlist width="100%" runat="server" id="usersDropDownList" cssclass="Gafware_Modules_Reservations_Input" />
+                        <%--<asp:dropdownlist width="100%" runat="server" id="usersDropDownList" cssclass="Gafware_Modules_Reservations_Input" />--%>
                         <asp:textbox runat="server" width="100%" id="usernameTextBox" cssclass="Gafware_Modules_Reservations_Input"
                             visible="false" validationgroup="usernameValidationGroup" />
                         <asp:requiredfieldvalidator runat="server" id="usernameRequiredFieldValidator" controltovalidate="usernameTextBox"
@@ -1133,8 +1133,7 @@
                         <dnn:label id="globalModeratorListLabel" runat="server" controlname="globalModeratorsDropDownList" />
                     </td>
                     <td>
-                        <asp:dropdownlist width="100%" runat="server" style="vertical-align: middle" id="moderatorUsersDropDownList"
-                            cssclass="Gafware_Modules_Reservations_Input" />
+                        <%--<asp:dropdownlist width="100%" runat="server" style="vertical-align: middle" id="moderatorUsersDropDownList" cssclass="Gafware_Modules_Reservations_Input" />--%>
                         <asp:textbox runat="server" width="100%" id="moderatorUsernameTextBox" cssclass="Gafware_Modules_Reservations_Input"
                             visible="false" validationgroup="moderatorUsernameValidationGroup" />
                         <asp:requiredfieldvalidator runat="server" id="moderatorUsernameRequiredFieldValidator"
@@ -1276,8 +1275,7 @@
                         <dnn:label id="duplicateReservationsListLabel" runat="server" controlname="duplicateReservationsDropDownList" />
                     </td>
                     <td valign="top">
-                        <asp:dropdownlist width="100%" runat="server" id="duplicateReservationsUsersDropDownList"
-                            cssclass="Gafware_Modules_Reservations_Input" />
+                        <%--<asp:dropdownlist width="100%" runat="server" id="duplicateReservationsUsersDropDownList" cssclass="Gafware_Modules_Reservations_Input" />--%>
                         <asp:textbox runat="server" width="100%" id="duplicateReservationsUsernameTextBox"
                             cssclass="Gafware_Modules_Reservations_Input" visible="false" validationgroup="duplicateReservationsUsernameValidationGroup" />
                         <asp:requiredfieldvalidator runat="server" id="duplicateReservationsUsernameRequiredFieldValidator"
@@ -1330,8 +1328,7 @@
                         <dnn:label id="viewReservationsListLabel" runat="server" controlname="viewReservationsDropDownList" />
                     </td>
                     <td valign="top">
-                        <asp:dropdownlist width="100%" runat="server" id="viewReservationsUsersDropDownList"
-                            cssclass="Gafware_Modules_Reservations_Input" />
+                        <%--<asp:dropdownlist width="100%" runat="server" id="viewReservationsUsersDropDownList" cssclass="Gafware_Modules_Reservations_Input" />--%>
                         <asp:textbox runat="server" width="100%" id="viewReservationsUsernameTextBox" cssclass="Gafware_Modules_Reservations_Input"
                             visible="false" validationgroup="viewReservationsUsernameValidationGroup" />
                         <asp:requiredfieldvalidator runat="server" id="viewReservationsUsernameRequiredFieldValidator"

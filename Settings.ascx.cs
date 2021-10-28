@@ -464,7 +464,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void AddCashierCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.cashierListUsersDropDownList.Visible && this.cashierListUsersDropDownList.SelectedValue != "-1")
+			/*if (this.cashierListUsersDropDownList.Visible && this.cashierListUsersDropDownList.SelectedValue != "-1")
 			{
 				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.cashierListUsersDropDownList.SelectedValue));
 				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.cashierListUsersDropDownList.SelectedValue);
@@ -477,7 +477,7 @@ namespace Gafware.Modules.Reservations
 					return;
 				}
 			}
-			else if (this.cashierListUsernameTextBox.Visible)
+			else if (this.cashierListUsernameTextBox.Visible)*/
 			{
 				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.cashierListUsernameTextBox.Text);
 				if (userByName == null && Helper.IsValidEmail2(this.cashierListUsernameTextBox.Text))
@@ -535,7 +535,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void AddDuplicateReservationsCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.duplicateReservationsUsersDropDownList.Visible && this.duplicateReservationsUsersDropDownList.SelectedValue != "-1")
+			/*if (this.duplicateReservationsUsersDropDownList.Visible && this.duplicateReservationsUsersDropDownList.SelectedValue != "-1")
 			{
 				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.duplicateReservationsUsersDropDownList.SelectedValue));
 				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.duplicateReservationsUsersDropDownList.SelectedValue);
@@ -548,7 +548,7 @@ namespace Gafware.Modules.Reservations
 					return;
 				}
 			}
-			else if (this.duplicateReservationsUsernameTextBox.Visible)
+			else if (this.duplicateReservationsUsernameTextBox.Visible)*/
 			{
 				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.duplicateReservationsUsernameTextBox.Text);
 				if (userByName == null && Helper.IsValidEmail2(this.duplicateReservationsUsernameTextBox.Text))
@@ -586,7 +586,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void AddGlobalModeratorCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.moderatorUsersDropDownList.Visible && this.moderatorUsersDropDownList.SelectedValue != "-1")
+			/*if (this.moderatorUsersDropDownList.Visible && this.moderatorUsersDropDownList.SelectedValue != "-1")
 			{
 				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.moderatorUsersDropDownList.SelectedValue));
 				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.moderatorUsersDropDownList.SelectedValue);
@@ -599,7 +599,7 @@ namespace Gafware.Modules.Reservations
 					return;
 				}
 			}
-			else if (this.moderatorUsernameTextBox.Visible)
+			else if (this.moderatorUsernameTextBox.Visible)*/
 			{
 				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.moderatorUsernameTextBox.Text);
 				if (userByName == null && Helper.IsValidEmail2(this.moderatorUsernameTextBox.Text))
@@ -718,7 +718,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void AddUserCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.usersDropDownList.Visible && this.usersDropDownList.SelectedValue != "-1")
+			/*if (this.usersDropDownList.Visible && this.usersDropDownList.SelectedValue != "-1")
 			{
 				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.usersDropDownList.SelectedValue));
 				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.usersDropDownList.SelectedValue);
@@ -731,7 +731,7 @@ namespace Gafware.Modules.Reservations
 					return;
 				}
 			}
-			else if (this.usernameTextBox.Visible)
+			else if (this.usernameTextBox.Visible)*/
 			{
 				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.usernameTextBox.Text);
 				if(userByName == null && Helper.IsValidEmail2(this.usernameTextBox.Text))
@@ -769,7 +769,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void AddViewReservationsCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.viewReservationsUsersDropDownList.Visible && this.viewReservationsUsersDropDownList.SelectedValue != "-1")
+			/*if (this.viewReservationsUsersDropDownList.Visible && this.viewReservationsUsersDropDownList.SelectedValue != "-1")
 			{
 				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.viewReservationsUsersDropDownList.SelectedValue));
 				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.viewReservationsUsersDropDownList.SelectedValue);
@@ -782,7 +782,7 @@ namespace Gafware.Modules.Reservations
 					return;
 				}
 			}
-			else if (this.viewReservationsUsernameTextBox.Visible)
+			else if (this.viewReservationsUsernameTextBox.Visible)*/
 			{
 				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.viewReservationsUsernameTextBox.Text);
 				if (userByName == null && Helper.IsValidEmail2(this.viewReservationsUsernameTextBox.Text))
@@ -960,21 +960,21 @@ namespace Gafware.Modules.Reservations
 			}
 			this.ViewState.Remove("BCCList");
 			this.BindBCCListDataGrid();
-			if (this.Users.Count > 100)
+			//if (this.Users.Count > 100)
 			{
 				RequiredFieldValidator requiredFieldValidator = this.usernameRequiredFieldValidator;
 				TextBox textBox = this.usernameTextBox;
 				bool flag = false;
-				this.usersDropDownList.Visible = false;
+				//this.usersDropDownList.Visible = false;
 				bool flag1 = !flag;
 				bool flag2 = flag1;
 				textBox.Visible = flag1;
 				requiredFieldValidator.Visible = flag2;
 			}
-			else
+			/*else
 			{
 				this.BindUsersDropDownList(this.usersDropDownList, this.BCCList);
-			}
+			}*/
 			this.bccListResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("BCCList"));
 		}
 
@@ -1011,21 +1011,21 @@ namespace Gafware.Modules.Reservations
 			}
 			this.ViewState.Remove("CashierList");
 			this.BindCashierListDataGrid();
-			if (this.Users.Count > 100)
+			//if (this.Users.Count > 100)
 			{
 				RequiredFieldValidator requiredFieldValidator = this.cashierListUsernameRequiredFieldValidator;
 				TextBox textBox = this.cashierListUsernameTextBox;
 				bool flag = false;
-				this.cashierListUsersDropDownList.Visible = false;
+				//this.cashierListUsersDropDownList.Visible = false;
 				bool flag1 = !flag;
 				bool flag2 = flag1;
 				textBox.Visible = flag1;
 				requiredFieldValidator.Visible = flag2;
 			}
-			else
+			/*else
 			{
 				this.BindUsersDropDownList(this.cashierListUsersDropDownList, this.CashierList);
-			}
+			}*/
 			this.cashierListResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("CashierList"));
 		}
 
@@ -1174,15 +1174,15 @@ namespace Gafware.Modules.Reservations
 		{
 			this.ViewState.Remove("DuplicateReservationsList");
 			this.BindDuplicateReservationsDataGrid();
-			if (this.Users.Count <= 100)
+			/*if (this.Users.Count <= 100)
 			{
 				this.BindUsersDropDownList(this.duplicateReservationsUsersDropDownList, this.DuplicateReservationsList);
 				return;
-			}
+			}*/
 			RequiredFieldValidator requiredFieldValidator = this.duplicateReservationsUsernameRequiredFieldValidator;
 			TextBox textBox = this.duplicateReservationsUsernameTextBox;
 			bool flag = false;
-			this.duplicateReservationsUsersDropDownList.Visible = false;
+			//this.duplicateReservationsUsersDropDownList.Visible = false;
 			bool flag1 = !flag;
 			bool flag2 = flag1;
 			textBox.Visible = flag1;
@@ -1380,21 +1380,21 @@ namespace Gafware.Modules.Reservations
 			this.ViewState.Remove("ModerationHours");
 			this._ModerationHours = null;
 			this.BindModeratorsDataGrid();
-			if (this.Users.Count > 100)
+			//if (this.Users.Count > 100)
 			{
 				RequiredFieldValidator requiredFieldValidator = this.moderatorUsernameRequiredFieldValidator;
 				TextBox textBox = this.moderatorUsernameTextBox;
 				flag3 = false;
-				this.moderatorUsersDropDownList.Visible = false;
+				//this.moderatorUsersDropDownList.Visible = false;
 				bool flag6 = !flag3;
 				flag5 = flag6;
 				textBox.Visible = flag6;
 				requiredFieldValidator.Visible = flag5;
 			}
-			else
+			/*else
 			{
 				this.BindUsersDropDownList(this.moderatorUsersDropDownList, this.ModeratorList);
-			}
+			}*/
 			this.BindModerationHoursDataGrid();
 			this.moderationResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("Moderate"));
 		}
@@ -1770,15 +1770,15 @@ namespace Gafware.Modules.Reservations
 		{
 			this.ViewState.Remove("ViewReservationsList");
 			this.BindViewReservationsDataGrid();
-			if (this.Users.Count <= 100)
+			/*if (this.Users.Count <= 100)
 			{
 				this.BindUsersDropDownList(this.viewReservationsUsersDropDownList, this.ViewReservationsList);
 				return;
-			}
+			}*/
 			RequiredFieldValidator requiredFieldValidator = this.viewReservationsUsernameRequiredFieldValidator;
 			TextBox textBox = this.viewReservationsUsernameTextBox;
 			bool flag = false;
-			this.viewReservationsUsersDropDownList.Visible = false;
+			//this.viewReservationsUsersDropDownList.Visible = false;
 			bool flag1 = !flag;
 			bool flag2 = flag1;
 			textBox.Visible = flag1;
@@ -1948,10 +1948,10 @@ namespace Gafware.Modules.Reservations
 			//this.CashierList.RemoveAt(this.FindUserInfoIndexByUserId(this.CashierList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
 			this.CashierList.RemoveAt(this.FindUserInfoIndexByEmail(this.CashierList, ((Label)e.Item.FindControl("email")).Text));
 			this.BindCashierListDataGrid();
-			if (this.cashierListUsersDropDownList.Visible)
+			/*if (this.cashierListUsersDropDownList.Visible)
 			{
 				this.BindUsersDropDownList(this.cashierListUsersDropDownList, this.CashierList);
-			}
+			}*/
 		}
 
 		protected void DeleteCategory(object sender, DataGridCommandEventArgs e)
@@ -1968,10 +1968,10 @@ namespace Gafware.Modules.Reservations
 			//this.DuplicateReservationsList.RemoveAt(this.FindUserInfoIndexByUserId(this.DuplicateReservationsList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
 			this.DuplicateReservationsList.RemoveAt(this.FindUserInfoIndexByEmail(this.DuplicateReservationsList, ((Label)e.Item.FindControl("email")).Text));
 			this.BindDuplicateReservationsDataGrid();
-			if (this.duplicateReservationsUsersDropDownList.Visible)
+			/*if (this.duplicateReservationsUsersDropDownList.Visible)
 			{
 				this.BindUsersDropDownList(this.duplicateReservationsUsersDropDownList, this.DuplicateReservationsList);
-			}
+			}*/
 		}
 
 		protected void DeleteGlobalModerator(object sender, DataGridCommandEventArgs e)
@@ -1979,10 +1979,10 @@ namespace Gafware.Modules.Reservations
 			//this.ModeratorList.RemoveAt(this.FindUserInfoIndexByUserId(this.ModeratorList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
 			this.ModeratorList.RemoveAt(this.FindUserInfoIndexByEmail(this.ModeratorList, ((Label)e.Item.FindControl("email")).Text));
 			this.BindModeratorsDataGrid();
-			if (this.moderatorUsersDropDownList.Visible)
+			/*if (this.moderatorUsersDropDownList.Visible)
 			{
 				this.BindUsersDropDownList(this.moderatorUsersDropDownList, this.ModeratorList);
-			}
+			}*/
 		}
 
 		protected void DeleteModerationHours(object sender, DataGridCommandEventArgs e)
@@ -2053,10 +2053,10 @@ namespace Gafware.Modules.Reservations
 			//this.BCCList.RemoveAt(this.FindUserInfoIndexByUserId(this.BCCList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
 			this.BCCList.RemoveAt(this.FindUserInfoIndexByEmail(this.BCCList, ((Label)e.Item.FindControl("email")).Text));
 			this.BindBCCListDataGrid();
-			if (this.usersDropDownList.Visible)
+			/*if (this.usersDropDownList.Visible)
 			{
 				this.BindUsersDropDownList(this.usersDropDownList, this.BCCList);
-			}
+			}*/
 		}
 
 		protected void DeleteViewReservations(object sender, DataGridCommandEventArgs e)
@@ -2064,10 +2064,10 @@ namespace Gafware.Modules.Reservations
 			//this.ViewReservationsList.RemoveAt(this.FindUserInfoIndexByUserId(this.ViewReservationsList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
 			this.ViewReservationsList.RemoveAt(this.FindUserInfoIndexByEmail(this.ViewReservationsList, ((Label)e.Item.FindControl("email")).Text));
 			this.BindViewReservationsDataGrid();
-			if (this.viewReservationsUsersDropDownList.Visible)
+			/*if (this.viewReservationsUsersDropDownList.Visible)
 			{
 				this.BindUsersDropDownList(this.viewReservationsUsersDropDownList, this.ViewReservationsList);
-			}
+			}*/
 		}
 
 		protected void DeleteWorkingHours(object sender, DataGridCommandEventArgs e)

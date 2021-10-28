@@ -1482,15 +1482,6 @@ namespace Gafware.Modules.Reservations
         protected global::DotNetNuke.UI.UserControls.LabelControl cashierListLabel;
 
         /// <summary>
-        /// cashierListUsersDropDownList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList cashierListUsersDropDownList;
-
-        /// <summary>
         /// cashierListUsernameTextBox control.
         /// </summary>
         /// <remarks>
@@ -2067,15 +2058,6 @@ namespace Gafware.Modules.Reservations
         protected global::DotNetNuke.UI.UserControls.LabelControl bccListLabel;
 
         /// <summary>
-        /// usersDropDownList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList usersDropDownList;
-
-        /// <summary>
         /// usernameTextBox control.
         /// </summary>
         /// <remarks>
@@ -2227,15 +2209,6 @@ namespace Gafware.Modules.Reservations
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl globalModeratorListLabel;
-
-        /// <summary>
-        /// moderatorUsersDropDownList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList moderatorUsersDropDownList;
 
         /// <summary>
         /// moderatorUsernameTextBox control.
@@ -2445,15 +2418,6 @@ namespace Gafware.Modules.Reservations
         protected global::DotNetNuke.UI.UserControls.LabelControl duplicateReservationsListLabel;
 
         /// <summary>
-        /// duplicateReservationsUsersDropDownList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList duplicateReservationsUsersDropDownList;
-
-        /// <summary>
         /// duplicateReservationsUsernameTextBox control.
         /// </summary>
         /// <remarks>
@@ -2506,15 +2470,6 @@ namespace Gafware.Modules.Reservations
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::DotNetNuke.UI.UserControls.LabelControl viewReservationsListLabel;
-
-        /// <summary>
-        /// viewReservationsUsersDropDownList control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList viewReservationsUsersDropDownList;
 
         /// <summary>
         /// viewReservationsUsernameTextBox control.
