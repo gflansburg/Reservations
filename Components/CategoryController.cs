@@ -24,7 +24,7 @@ namespace Gafware.Modules.Reservations
 
 		public CategoryInfo GetCategory(int CategoryID)
 		{
-			return (CategoryInfo)CBO.FillObject(DataProvider.Instance().GetCategory(CategoryID), typeof(CategoryInfo));
+			return (CategoryInfo)CBO.FillObject<CategoryInfo>(DataProvider.Instance().GetCategory(CategoryID));
 		}
 
 		public List<CategoryInfo> GetCategoryList(int TabModuleID)

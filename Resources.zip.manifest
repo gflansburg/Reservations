@@ -25,12 +25,16 @@
       <name>Responsive.css</name>
     </file>
     <file>
-      <path>Images/</path>
-      <name>back.png</name>
+      <path>Documentation/</path>
+      <name>Documentation.css</name>
+    </file>
+    <file>
+      <path>Documentation/</path>
+      <name>Documentation.html</name>
     </file>
     <file>
       <path>Images/</path>
-      <name>calendar.png</name>
+      <name>back.png</name>
     </file>
     <file>
       <path>Images/</path>
@@ -41,12 +45,8 @@
       <name>next.png</name>
     </file>
     <file>
-      <path>Documentation/</path>
-      <name>Documentation.css</name>
-    </file>
-    <file>
-      <path>Documentation/</path>
-      <name>Documentation.html</name>
+      <path>Images/</path>
+      <name>ou.gif</name>
     </file>
     <file>
       <path>App_LocalResources/</path>

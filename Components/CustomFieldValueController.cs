@@ -24,7 +24,7 @@ namespace Gafware.Modules.Reservations
 
 		public CustomFieldValueInfo GetCustomFieldValue(int CustomFieldValueID)
 		{
-			return (CustomFieldValueInfo)CBO.FillObject(DataProvider.Instance().GetCustomFieldValue(CustomFieldValueID), typeof(CustomFieldValueInfo));
+			return (CustomFieldValueInfo)CBO.FillObject<CustomFieldValueInfo>(DataProvider.Instance().GetCustomFieldValue(CustomFieldValueID));
 		}
 
 		public List<CustomFieldValueInfo> GetCustomFieldValueList(int CustomFieldDefinitionID)

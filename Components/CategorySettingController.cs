@@ -24,7 +24,7 @@ namespace Gafware.Modules.Reservations
 
 		public CategorySettingInfo GetCategorySetting(int CategoryID, string SettingName)
 		{
-			return (CategorySettingInfo)CBO.FillObject(DataProvider.Instance().GetCategorySetting(CategoryID, SettingName), typeof(CategorySettingInfo));
+			return (CategorySettingInfo)CBO.FillObject<CategorySettingInfo>(DataProvider.Instance().GetCategorySetting(CategoryID, SettingName));
 		}
 
 		public List<CategorySettingInfo> GetCategorySettingList(int CategoryID)

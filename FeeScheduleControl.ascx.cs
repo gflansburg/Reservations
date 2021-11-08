@@ -421,7 +421,7 @@ namespace Gafware.Modules.Reservations
 			{
 				e.IsValid = decimal.Parse(this.schedulingFeeTextBox.Text) >= decimal.Parse(e.Value);
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -433,7 +433,7 @@ namespace Gafware.Modules.Reservations
 			{
 				e.IsValid = decimal.Parse(this.seasonalSchedulingFeeTextBox.Text) >= decimal.Parse(e.Value);
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -458,7 +458,7 @@ namespace Gafware.Modules.Reservations
 					e.IsValid = false;
 				}
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -471,7 +471,7 @@ namespace Gafware.Modules.Reservations
 				DateTime.Parse(e.Value);
 				e.IsValid = true;
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -484,7 +484,7 @@ namespace Gafware.Modules.Reservations
 				int.Parse(e.Value);
 				e.IsValid = true;
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -520,7 +520,7 @@ namespace Gafware.Modules.Reservations
 					serverValidateEventArg.IsValid = flag;
 				}
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}

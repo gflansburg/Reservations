@@ -1,8 +1,10 @@
-﻿using DotNetNuke.Common;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.UserControls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,6 +26,13 @@ namespace Gafware.Modules.Reservations
         private List<DisplayColumnInfo> _DisplayColumnList;
 
         private List<SortColumnInfo> _SortColumnList;
+
+		private readonly INavigationManager _navigationManager;
+		
+		public ViewListSettings()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
 
 		private List<DisplayColumnInfo> DisplayColumnList
 		{
@@ -83,9 +92,9 @@ namespace Gafware.Modules.Reservations
 						Type type = base.GetType().BaseType.Assembly.GetType(string.Concat(base.GetType().BaseType.Namespace, ".", base.Request.QueryString["List"]));
 						this._ListSettings = (Gafware.Modules.Reservations.ListSettings)Activator.CreateInstance(type, new object[] { this });
 					}
-					catch (Exception exception)
+					catch (Exception)
 					{
-						base.Response.Redirect(Globals.NavigateURL());
+						base.Response.Redirect(_navigationManager.NavigateURL());
 					}
 				}
 				return this._ListSettings;
@@ -132,10 +141,6 @@ namespace Gafware.Modules.Reservations
 				this._SortColumnList = value;
 				this.ViewState["SortColumnList"] = this._ListSettings.SerializeSortColumnList(this._SortColumnList);
 			}
-		}
-
-		public ViewListSettings()
-		{
 		}
 
 		protected void AddSortColumnCommandButtonClicked(object source, EventArgs e)
@@ -229,7 +234,7 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				base.Response.Redirect((base.Request.QueryString["ReturnUrl"] != null ? base.Request.QueryString["ReturnUrl"] : Globals.NavigateURL()), true);
+				base.Response.Redirect((base.Request.QueryString["ReturnUrl"] != null ? base.Request.QueryString["ReturnUrl"] : _navigationManager.NavigateURL()), true);
 			}
 			catch (Exception exception)
 			{
@@ -259,8 +264,7 @@ namespace Gafware.Modules.Reservations
 
 		private int IndexOfByColumnName(List<DisplayColumnInfo> displayColumnList, string columnName)
 		{
-			int num;
-			int num1 = 0;
+			int num = 0;
 			List<DisplayColumnInfo>.Enumerator enumerator = displayColumnList.GetEnumerator();
 			try
 			{
@@ -268,27 +272,24 @@ namespace Gafware.Modules.Reservations
 				{
 					if (enumerator.Current.ColumnName != columnName)
 					{
-						num1++;
+						num++;
 					}
 					else
 					{
-						num = num1;
 						return num;
 					}
 				}
-				return -1;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return num;
+			return -1;
 		}
 
 		private int IndexOfByColumnName(List<SortColumnInfo> sortColumnList, string columnName)
 		{
-			int num;
-			int num1 = 0;
+			int num = 0;
 			List<SortColumnInfo>.Enumerator enumerator = sortColumnList.GetEnumerator();
 			try
 			{
@@ -296,21 +297,19 @@ namespace Gafware.Modules.Reservations
 				{
 					if (enumerator.Current.ColumnName != columnName)
 					{
-						num1++;
+						num++;
 					}
 					else
 					{
-						num = num1;
 						return num;
 					}
 				}
-				return -1;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return num;
+			return -1;
 		}
 
 		public void LoadSettings()
@@ -333,7 +332,7 @@ namespace Gafware.Modules.Reservations
 				this.pagerModeDropDownList.SelectedValue = this.ListSettings.PagerMode.ToString();
 				this.BindPagerPositionDropDownList();
 				this.pagerPositionDropDownList.SelectedValue = this.ListSettings.PagerPosition.ToString();
-				this.restoreDefaultTableCell.Visible = (new ModuleController()).GetTabModuleSettings(base.TabModuleId).ContainsKey(this.ListSettings.DISPLAYCOLUMNLIST_KEY);
+				this.restoreDefaultTableCell.Visible = (new ModuleController()).GetTabModule(base.TabModuleId).TabModuleSettings.ContainsKey(this.ListSettings.DISPLAYCOLUMNLIST_KEY);
 			}
 			catch (Exception exception)
 			{
@@ -360,7 +359,7 @@ namespace Gafware.Modules.Reservations
 			{
 				if (!this.HasEditPermissions)
 				{
-					base.Response.Redirect(Globals.NavigateURL());
+					base.Response.Redirect(_navigationManager.NavigateURL());
 				}
 				if (!this.Page.IsPostBack && !string.IsNullOrEmpty(base.Request.QueryString["List"]))
 				{
@@ -391,11 +390,11 @@ namespace Gafware.Modules.Reservations
 				HttpResponse response = base.Response;
 				if (base.Request.QueryString["Control"] != null)
 				{
-					str = Globals.NavigateURL(base.Request.QueryString["Control"], new string[] { string.Concat("mid=", base.ModuleId), string.Concat("List=", base.Request.QueryString["List"]) });
+					str = _navigationManager.NavigateURL(base.Request.QueryString["Control"], new string[] { string.Concat("mid=", base.ModuleId), string.Concat("List=", base.Request.QueryString["List"]) });
 				}
 				else
 				{
-					str = (base.Request.QueryString["ReturnUrl"] != null ? base.Request.QueryString["ReturnUrl"] : Globals.NavigateURL());
+					str = (base.Request.QueryString["ReturnUrl"] != null ? base.Request.QueryString["ReturnUrl"] : _navigationManager.NavigateURL());
 				}
 				response.Redirect(str, true);
 			}
@@ -496,11 +495,11 @@ namespace Gafware.Modules.Reservations
 					HttpResponse response = base.Response;
 					if (base.Request.QueryString["Control"] != null)
 					{
-						str = Globals.NavigateURL(base.Request.QueryString["Control"], new string[] { string.Concat("mid=", base.ModuleId), string.Concat("List=", base.Request.QueryString["List"]) });
+						str = _navigationManager.NavigateURL(base.Request.QueryString["Control"], new string[] { string.Concat("mid=", base.ModuleId), string.Concat("List=", base.Request.QueryString["List"]) });
 					}
 					else
 					{
-						str = (base.Request.QueryString["ReturnUrl"] != null ? base.Request.QueryString["ReturnUrl"] : Globals.NavigateURL());
+						str = (base.Request.QueryString["ReturnUrl"] != null ? base.Request.QueryString["ReturnUrl"] : _navigationManager.NavigateURL());
 					}
 					response.Redirect(str, true);
 				}

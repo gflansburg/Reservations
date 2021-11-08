@@ -1,4 +1,5 @@
-﻿using DotNetNuke.Common;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Lists;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
@@ -7,6 +8,7 @@ using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.UserControls;
+using Microsoft.Extensions.DependencyInjection;
 using Gafware.Modules.Reservations.Components;
 using System;
 using System.Collections;
@@ -74,6 +76,12 @@ namespace Gafware.Modules.Reservations
         private ArrayList _DuplicateReservationsList;
 
         private ArrayList _ViewReservationsList;
+
+		private readonly INavigationManager _navigationManager;
+		public Settings()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
 
 		private ArrayList BCCList
 		{
@@ -305,7 +313,7 @@ namespace Gafware.Modules.Reservations
 			}
 		}
 
-		private Gafware.Modules.Reservations.ModuleSettings ModuleSettings
+		private new Gafware.Modules.Reservations.ModuleSettings ModuleSettings
 		{
 			get
 			{
@@ -456,10 +464,6 @@ namespace Gafware.Modules.Reservations
 				}
 				return this._WorkingHoursExceptions;
 			}
-		}
-
-		public Settings()
-		{
 		}
 
 		protected void AddCashierCommandButtonClicked(object sender, EventArgs e)
@@ -1654,7 +1658,7 @@ namespace Gafware.Modules.Reservations
 		protected void BindRolesCheckboxList()
 		{
 			this.categoryPermissionsCheckboxList.Items.Clear();
-			this.categoryPermissionsCheckboxList.DataSource = (new RoleController()).GetPortalRoles(base.PortalId);
+			this.categoryPermissionsCheckboxList.DataSource = (new RoleController()).GetRoles(base.PortalId); //.GetPortalRoles(base.PortalId);
 			this.categoryPermissionsCheckboxList.DataTextField = "RoleName";
 			this.categoryPermissionsCheckboxList.DataValueField = "RoleID";
 			this.categoryPermissionsCheckboxList.DataBind();
@@ -1904,7 +1908,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void CancelSettingsCommandButtonClicked(object sender, EventArgs e)
 		{
-			base.Response.Redirect(Globals.NavigateURL());
+			base.Response.Redirect(_navigationManager.NavigateURL());
 		}
 
 		protected void CashierListCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
@@ -2190,7 +2194,6 @@ namespace Gafware.Modules.Reservations
 
 		private UserInfo FindUserInfoByUserId(ArrayList users, int userId)
 		{
-			UserInfo userInfo;
 			IEnumerator enumerator = users.GetEnumerator();
 			try
 			{
@@ -2201,10 +2204,8 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					userInfo = current;
-					return userInfo;
+					return current;
 				}
-				return null;
 			}
 			finally
 			{
@@ -2214,7 +2215,7 @@ namespace Gafware.Modules.Reservations
 					disposable.Dispose();
 				}
 			}
-			return userInfo;
+			return null;
 		}
 
 		private UserInfo FindUserInfoByEmail(ArrayList users, string email)
@@ -2316,11 +2317,9 @@ namespace Gafware.Modules.Reservations
 		protected string GetTimeOfDay(TimeOfDayInfo timeOfDayInfo)
 		{
 			DateTime dateTime = new DateTime();
-			dateTime = dateTime;
 			dateTime = dateTime.Add(timeOfDayInfo.StartTime);
 			string shortTimeString = dateTime.ToShortTimeString();
 			dateTime = new DateTime();
-			dateTime = dateTime;
 			dateTime = dateTime.Add(timeOfDayInfo.EndTime);
 			return string.Concat(shortTimeString, " - ", dateTime.ToShortTimeString());
 		}
@@ -2347,14 +2346,12 @@ namespace Gafware.Modules.Reservations
 			{
 				string[] shortTimeString = new string[] { Localization.GetString("fromLabel", base.LocalResourceFile), " ", null, null, null, null, null };
 				DateTime dateTime = new DateTime();
-				dateTime = dateTime;
 				dateTime = dateTime.Add(workingHoursInfo.StartTime);
 				shortTimeString[2] = dateTime.ToShortTimeString();
 				shortTimeString[3] = " ";
 				shortTimeString[4] = Localization.GetString("toLabel", base.LocalResourceFile);
 				shortTimeString[5] = " ";
 				dateTime = new DateTime();
-				dateTime = dateTime;
 				dateTime = dateTime.Add(workingHoursInfo.EndTime);
 				shortTimeString[6] = dateTime.ToShortTimeString();
 				str = string.Concat(shortTimeString);
@@ -2379,14 +2376,12 @@ namespace Gafware.Modules.Reservations
 			{
 				string[] shortTimeString = new string[] { Localization.GetString("fromLabel", base.LocalResourceFile), " ", null, null, null, null, null };
 				date = new DateTime();
-				date = date;
 				date = date.Add(workingHoursExceptionInfo.StartTime);
 				shortTimeString[2] = date.ToShortTimeString();
 				shortTimeString[3] = " ";
 				shortTimeString[4] = Localization.GetString("toLabel", base.LocalResourceFile);
 				shortTimeString[5] = " ";
 				date = new DateTime();
-				date = date;
 				date = date.Add(workingHoursExceptionInfo.EndTime);
 				shortTimeString[6] = date.ToShortTimeString();
 				str = string.Concat(shortTimeString);
@@ -3617,53 +3612,44 @@ namespace Gafware.Modules.Reservations
 
 		protected void UpdateReservationSettingsSection(bool updateSelectedCategorySettings)
 		{
-			bool @checked;
 			if (this.Page.IsValid)
 			{
-				int num = (this.reservationSettingsCategoryDropDownList.SelectedValue == null || !(this.reservationSettingsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.reservationSettingsCategoryDropDownList.SelectedValue));
-				TimeSpan timeSpan = this.GetTimeSpan(this.minTimeAheadTextBox, this.minTimeAheadDropDownList);
-				TimeSpan timeSpan1 = this.GetTimeSpan(this.reservationIntervalTextBox, this.reservationIntervalDropDownList);
-				double totalMinutes = timeSpan1.TotalMinutes;
-				timeSpan1 = this.GetTimeSpan(this.reservationDurationTextBox, this.reservationDurationDropDownList);
-				double totalMinutes1 = timeSpan1.TotalMinutes;
-				timeSpan1 = this.GetTimeSpan(this.reservationDurationMaxTextBox, this.reservationDurationMaxDropDownList);
-				double num1 = timeSpan1.TotalMinutes;
-				timeSpan1 = this.GetTimeSpan(this.reservationDurationIntervalTextBox, this.reservationDurationIntervalDropDownList);
-				double totalMinutes2 = timeSpan1.TotalMinutes;
-				if (num != Null.NullInteger)
+				int category = (this.reservationSettingsCategoryDropDownList.SelectedValue == null || !(this.reservationSettingsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.reservationSettingsCategoryDropDownList.SelectedValue));
+				TimeSpan minTimeAhead = this.GetTimeSpan(this.minTimeAheadTextBox, this.minTimeAheadDropDownList);
+				double reservationInterval = this.GetTimeSpan(this.reservationIntervalTextBox, this.reservationIntervalDropDownList).TotalMinutes;
+				double reservationDuration = this.GetTimeSpan(this.reservationDurationTextBox, this.reservationDurationDropDownList).TotalMinutes;
+				double reservationDurationMax = this.GetTimeSpan(this.reservationDurationMaxTextBox, this.reservationDurationMaxDropDownList).TotalMinutes;
+				double reservationDurationInterval = this.GetTimeSpan(this.reservationDurationIntervalTextBox, this.reservationDurationIntervalDropDownList).TotalMinutes;
+				bool allowCancellations = this.allowCancellationsCheckBox.Checked;
+				bool allowRescheduling = this.allowReschedulingCheckBox.Checked;
+				if (category != Null.NullInteger)
 				{
 					if (!updateSelectedCategorySettings)
 					{
 						return;
 					}
 					CategorySettingController categorySettingController = new CategorySettingController();
-					@checked = this.allowCancellationsCheckBox.Checked;
-					categorySettingController.UpdateCategorySetting(num, "AllowCancellations", @checked.ToString());
-					@checked = this.allowReschedulingCheckBox.Checked;
-					categorySettingController.UpdateCategorySetting(num, "AllowRescheduling", @checked.ToString());
-					categorySettingController.UpdateCategorySetting(num, "ReservationInterval", totalMinutes.ToString());
-					categorySettingController.UpdateCategorySetting(num, "ReservationDuration", totalMinutes1.ToString());
-					categorySettingController.UpdateCategorySetting(num, "ReservationDurationMax", num1.ToString());
-					categorySettingController.UpdateCategorySetting(num, "ReservationDurationInterval", totalMinutes2.ToString());
-					categorySettingController.UpdateCategorySetting(num, "MinTimeAhead", timeSpan.ToString());
-					categorySettingController.UpdateCategorySetting(num, "DaysAhead", this.daysAheadTextBox.Text);
-					categorySettingController.UpdateCategorySetting(num, "MaxReservationsPerTimeSlot", this.maxConflictingReservationsTextBox.Text);
-					categorySettingController.UpdateCategorySetting(num, "MaxReservationsPerUser", (string.IsNullOrEmpty(this.maxReservationsPerUserTextBox.Text.Trim()) ? Null.NullInteger.ToString() : this.maxReservationsPerUserTextBox.Text.Trim()));
+					categorySettingController.UpdateCategorySetting(category, "AllowCancellations", allowCancellations.ToString());
+					categorySettingController.UpdateCategorySetting(category, "AllowRescheduling", allowRescheduling.ToString());
+					categorySettingController.UpdateCategorySetting(category, "ReservationInterval", reservationInterval.ToString());
+					categorySettingController.UpdateCategorySetting(category, "ReservationDuration", reservationDuration.ToString());
+					categorySettingController.UpdateCategorySetting(category, "ReservationDurationMax", reservationDurationMax.ToString());
+					categorySettingController.UpdateCategorySetting(category, "ReservationDurationInterval", reservationDurationInterval.ToString());
+					categorySettingController.UpdateCategorySetting(category, "MinTimeAhead", minTimeAhead.ToString());
+					categorySettingController.UpdateCategorySetting(category, "DaysAhead", this.daysAheadTextBox.Text);
+					categorySettingController.UpdateCategorySetting(category, "MaxReservationsPerTimeSlot", this.maxConflictingReservationsTextBox.Text);
+					categorySettingController.UpdateCategorySetting(category, "MaxReservationsPerUser", (string.IsNullOrEmpty(this.maxReservationsPerUserTextBox.Text.Trim()) ? Null.NullInteger.ToString() : this.maxReservationsPerUserTextBox.Text.Trim()));
 				}
 				else
 				{
 					ModuleController moduleController = new ModuleController();
-					int tabModuleId = base.TabModuleId;
-					@checked = this.allowCancellationsCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId, "AllowCancellations", @checked.ToString());
-					int tabModuleId1 = base.TabModuleId;
-					@checked = this.allowReschedulingCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId1, "AllowRescheduling", @checked.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationInterval", totalMinutes.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDuration", totalMinutes1.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDurationMax", num1.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDurationInterval", totalMinutes2.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "MinTimeAhead", timeSpan.ToString());
+					moduleController.UpdateTabModuleSetting(base.TabModuleId, "AllowCancellations", allowCancellations.ToString());
+					moduleController.UpdateTabModuleSetting(base.TabModuleId, "AllowRescheduling", allowRescheduling.ToString());
+					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationInterval", reservationInterval.ToString());
+					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDuration", reservationDuration.ToString());
+					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDurationMax", reservationDurationMax.ToString());
+					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDurationInterval", reservationDurationInterval.ToString());
+					moduleController.UpdateTabModuleSetting(base.TabModuleId, "MinTimeAhead", minTimeAhead.ToString());
 					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DaysAhead", this.daysAheadTextBox.Text);
 					moduleController.UpdateTabModuleSetting(base.TabModuleId, "MaxReservationsPerTimeSlot", this.maxConflictingReservationsTextBox.Text);
 					moduleController.UpdateTabModuleSetting(base.TabModuleId, "MaxReservationsPerUser", (string.IsNullOrEmpty(this.maxReservationsPerUserTextBox.Text.Trim()) ? Null.NullInteger.ToString() : this.maxReservationsPerUserTextBox.Text.Trim()));
@@ -3671,7 +3657,7 @@ namespace Gafware.Modules.Reservations
 					this._ModuleSettings = null;
 				}
 				this.BindCategoriesDropDownList(this.reservationSettingsCategoryDropDownList, "AllowCancellations", null, null);
-				this.BindReservationSettingsSection(num);
+				this.BindReservationSettingsSection(category);
 			}
 		}
 

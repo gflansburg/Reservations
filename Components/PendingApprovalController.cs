@@ -24,7 +24,7 @@ namespace Gafware.Modules.Reservations
 
 		public PendingApprovalInfo GetPendingApproval(int PendingApprovalID)
 		{
-			return (PendingApprovalInfo)CBO.FillObject(DataProvider.Instance().GetPendingApproval(PendingApprovalID), typeof(PendingApprovalInfo));
+			return (PendingApprovalInfo)CBO.FillObject<PendingApprovalInfo>(DataProvider.Instance().GetPendingApproval(PendingApprovalID));
 		}
 
 		public List<PendingApprovalInfo> GetPendingApprovalList(int TabModuleID)

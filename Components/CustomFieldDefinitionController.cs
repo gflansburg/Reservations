@@ -29,7 +29,7 @@ namespace Gafware.Modules.Reservations
 
 		public CustomFieldDefinitionInfo GetCustomFieldDefinition(int CustomFieldDefinitionID)
 		{
-			return (CustomFieldDefinitionInfo)CBO.FillObject(DataProvider.Instance().GetCustomFieldDefinition(CustomFieldDefinitionID), typeof(CustomFieldDefinitionInfo));
+			return (CustomFieldDefinitionInfo)CBO.FillObject<CustomFieldDefinitionInfo>(DataProvider.Instance().GetCustomFieldDefinition(CustomFieldDefinitionID));
 		}
 
 		public List<CustomFieldDefinitionInfo> GetCustomFieldDefinitionList(int TabModuleID)

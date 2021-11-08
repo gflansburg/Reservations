@@ -48,12 +48,16 @@ namespace Gafware.Modules.Reservations
 					status = this.Status;
 					strArrays[1] = string.Concat("Status=", status.ToString());
 					strArrays[2] = string.Concat("Email=", this.PendingPaymentInfo.Email);
-					return Globals.NavigateURL(tabID, empty, strArrays);
-				}
+#pragma warning disable CS0618 // Type or member is obsolete
+                    return Globals.NavigateURL(tabID, empty, strArrays);
+#pragma warning restore CS0618 // Type or member is obsolete
+                }
 				if (this.Status != PendingPaymentStatus.Held)
 				{
-					return Globals.NavigateURL((new ModuleController()).GetTabModule(this.PendingPaymentInfo.TabModuleID).TabID, string.Empty, new string[] { string.Concat("ModuleMessage=", base.Server.UrlEncode(this.SIMResponse.Message)), string.Concat("ModuleMessageType=", (ModuleMessage.ModuleMessageType)2) });
-				}
+#pragma warning disable CS0618 // Type or member is obsolete
+                    return Globals.NavigateURL((new ModuleController()).GetTabModule(this.PendingPaymentInfo.TabModuleID).TabID, string.Empty, new string[] { string.Concat("ModuleMessage=", base.Server.UrlEncode(this.SIMResponse.Message)), string.Concat("ModuleMessageType=", (ModuleMessage.ModuleMessageType)2) });
+#pragma warning restore CS0618 // Type or member is obsolete
+                }
 				int num = (new ModuleController()).GetTabModule(this.PendingPaymentInfo.TabModuleID).TabID;
 				string str = string.Empty;
 				string[] strArrays1 = new string[5];
@@ -64,8 +68,10 @@ namespace Gafware.Modules.Reservations
 				strArrays1[2] = string.Concat("Email=", this.PendingPaymentInfo.Email);
 				strArrays1[3] = string.Concat("ModuleMessage=", base.Server.UrlEncode(this.SIMResponse.Message));
 				strArrays1[4] = string.Concat("ModuleMessageType=", (ModuleMessage.ModuleMessageType)1);
-				return Globals.NavigateURL(num, str, strArrays1);
-			}
+#pragma warning disable CS0618 // Type or member is obsolete
+                return Globals.NavigateURL(num, str, strArrays1);
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
 		}
 
 		private AuthorizeNet.SIMResponse SIMResponse

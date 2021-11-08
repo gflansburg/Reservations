@@ -1,4 +1,5 @@
-﻿using DotNetNuke.Common;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Security.Permissions;
@@ -7,6 +8,7 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Modules;
 using DotNetNuke.UI.Skins;
 using DotNetNuke.UI.Skins.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -27,6 +29,13 @@ namespace Gafware.Modules.Reservations
 
         protected List<CustomFieldDefinitionInfo> _List;
 
+		private readonly INavigationManager _navigationManager;
+		
+		public ViewCustomFieldDefinitionList()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
+
 		protected string AddLinkButtonUrl
 		{
 			get
@@ -40,7 +49,7 @@ namespace Gafware.Modules.Reservations
 				string[] strArrays1 = new string[1];
 				moduleId = base.ModuleId;
 				strArrays1[0] = string.Concat("mid=", moduleId.ToString());
-				strArrays[1] = string.Concat("ReturnUrl=", server.UrlEncode(Globals.NavigateURL("ViewCustomFieldDefinitionList", strArrays1)));
+				strArrays[1] = string.Concat("ReturnUrl=", server.UrlEncode(_navigationManager.NavigateURL("ViewCustomFieldDefinitionList", strArrays1)));
 				return moduleInstanceContext.NavigateUrl(tabId, "EditCustomFieldDefinition", false, strArrays).Replace("550", "400").Replace("950", "650");
 			}
 		}
@@ -100,14 +109,10 @@ namespace Gafware.Modules.Reservations
 			{
 				if (string.IsNullOrEmpty(base.Request.QueryString["ReturnUrl"]))
 				{
-					return Globals.NavigateURL();
+					return _navigationManager.NavigateURL();
 				}
 				return base.Request.QueryString["ReturnUrl"];
 			}
-		}
-
-		public ViewCustomFieldDefinitionList()
-		{
 		}
 
 		private void AddColumn(string dataField)
@@ -307,7 +312,7 @@ namespace Gafware.Modules.Reservations
 					string[] strArrays1 = new string[1];
 					moduleId = base.ModuleId;
 					strArrays1[0] = string.Concat("mid=", moduleId.ToString());
-					strArrays[2] = string.Concat("ReturnUrl=", server.UrlEncode(Globals.NavigateURL("ViewCustomFieldDefinitionList", strArrays1)));
+					strArrays[2] = string.Concat("ReturnUrl=", server.UrlEncode(_navigationManager.NavigateURL("ViewCustomFieldDefinitionList", strArrays1)));
 					htmlAnchor.HRef = moduleInstanceContext.NavigateUrl(tabId, "EditCustomFieldDefinition", false, strArrays).Replace("550", "400").Replace("950", "650");
 				}
 			}
@@ -380,7 +385,7 @@ namespace Gafware.Modules.Reservations
 			{
 				if (!ModulePermissionController.HasModuleAccess(DotNetNuke.Security.SecurityAccessLevel.Edit, "EDIT", base.ModuleConfiguration))
 				{
-					base.Response.Redirect(Globals.NavigateURL(), true);
+					base.Response.Redirect(_navigationManager.NavigateURL(), true);
 				}
 				if (!base.IsPostBack)
 				{

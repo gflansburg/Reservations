@@ -1,4 +1,5 @@
 ﻿using AuthorizeNet;
+using DotNetNuke.Abstractions;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.ComponentModel;
@@ -13,6 +14,7 @@ using DotNetNuke.Security.Roles;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,6 +81,12 @@ namespace Gafware.Modules.Reservations
 		private int _NumberOfDivs;
 
 		private List<CustomFieldValueInfo> _CustomFieldValueInfoList;
+
+		private readonly INavigationManager _navigationManager;
+		public MakeReservation()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
 
 		protected decimal Amount
 		{
@@ -245,12 +253,12 @@ namespace Gafware.Modules.Reservations
 				{
 					this._CategoryList = new List<CategoryInfo>();
 					List<CategoryInfo> categoryList = (new CategoryController()).GetCategoryList(base.TabModuleId);
-					ArrayList portalRoles = (new RoleController()).GetPortalRoles(base.PortalId);
+					List<RoleInfo> portalRoles = (new RoleController()).GetRoles(base.PortalId).ToList(); //.GetPortalRoles(base.PortalId);
 					for (int i = 0; i < categoryList.Count; i++)
 					{
 						foreach (int categoryPermissionsList in (new CategorySettings(base.PortalId, base.TabModuleId, categoryList[i].CategoryID)).CategoryPermissionsList)
 						{
-							if (!PortalSecurity.IsInRole(this.GetRoleNameByRoleID(portalRoles, categoryPermissionsList)))
+							if (!PortalSecurity.IsInRole(this.GetRoleNameByRoleID(new ArrayList(portalRoles), categoryPermissionsList)))
 							{
 								continue;
 							}
@@ -484,7 +492,7 @@ namespace Gafware.Modules.Reservations
 				string[] strArrays = new string[1];
 				int moduleId = base.ModuleId;
 				strArrays[0] = string.Concat("mid=", moduleId.ToString());
-				moduleActionCollection.Add(nextActionID, str, "", "", "action_settings.gif", Globals.NavigateURL("ViewCustomFieldDefinitionList", strArrays), false, SecurityAccessLevel.Edit, true, false);
+				moduleActionCollection.Add(nextActionID, str, "", "", "action_settings.gif", _navigationManager.NavigateURL("ViewCustomFieldDefinitionList", strArrays), false, SecurityAccessLevel.Edit, true, false);
 				return moduleActionCollection;
 			}
 		}
@@ -539,7 +547,7 @@ namespace Gafware.Modules.Reservations
 							this._PendingApprovalInfo = new Gafware.Modules.Reservations.PendingApprovalInfo();
 						}
 					}
-					catch (Exception exception)
+					catch (Exception)
 					{
 						this._PendingApprovalInfo = new Gafware.Modules.Reservations.PendingApprovalInfo();
 					}
@@ -601,7 +609,7 @@ namespace Gafware.Modules.Reservations
 							this._PendingPaymentInfo = new Gafware.Modules.Reservations.PendingPaymentInfo();
 						}
 					}
-					catch (Exception exception)
+					catch (Exception)
 					{
 						this._PendingPaymentInfo = new Gafware.Modules.Reservations.PendingPaymentInfo();
 					}
@@ -655,7 +663,7 @@ namespace Gafware.Modules.Reservations
 				{
 					pendingPaymentStatu = (PendingPaymentStatus)Enum.Parse(typeof(PendingPaymentStatus), base.Request.QueryString["Status"]);
 				}
-				catch (Exception exception)
+				catch (Exception)
 				{
 					pendingPaymentStatu = PendingPaymentStatus.Processing;
 				}
@@ -719,7 +727,7 @@ namespace Gafware.Modules.Reservations
 							this._ReservationInfo = new Gafware.Modules.Reservations.ReservationInfo();
 						}
 					}
-					catch (Exception exception)
+					catch (Exception)
 					{
 						this._ReservationInfo = new Gafware.Modules.Reservations.ReservationInfo();
 					}
@@ -915,10 +923,6 @@ namespace Gafware.Modules.Reservations
 				}
 				return this._WorkingHoursDictionary;
 			}
-		}
-
-		public MakeReservation()
-		{
 		}
 
 		protected void AddModuleMessage(string message, ModuleMessage.ModuleMessageType moduleMessageType)
@@ -1674,7 +1678,7 @@ namespace Gafware.Modules.Reservations
 			string[] strArrays = new string[1];
 			int moduleId = base.ModuleId;
 			strArrays[0] = string.Concat("mid=", moduleId.ToString());
-			response.Redirect(Globals.NavigateURL("Cashier", strArrays));
+			response.Redirect(_navigationManager.NavigateURL("Cashier", strArrays));
 		}
 
 		protected void CategoriesDropDownListSelectedIndexChanged(object sender, EventArgs e)
@@ -2319,7 +2323,7 @@ namespace Gafware.Modules.Reservations
 		{
 			if (this.ModuleSettings.RedirectUrl == string.Empty)
 			{
-				base.Response.Redirect(Globals.NavigateURL());
+				base.Response.Redirect(_navigationManager.NavigateURL());
 				return;
 			}
 			base.Response.Redirect(this.ModuleSettings.RedirectUrl);
@@ -2332,7 +2336,7 @@ namespace Gafware.Modules.Reservations
 			int moduleId = base.ModuleId;
 			strArrays[0] = string.Concat("mid=", moduleId.ToString());
 			strArrays[1] = "List=DuplicateReservationsListSettings";
-			response.Redirect(Globals.NavigateURL("DuplicateReservations", strArrays));
+			response.Redirect(_navigationManager.NavigateURL("DuplicateReservations", strArrays));
 		}
 
 		protected void DurationDropDownListSelectedIndexChanged(object sender, EventArgs e)
@@ -2387,7 +2391,6 @@ namespace Gafware.Modules.Reservations
 
 		private Gafware.Modules.Reservations.PendingApprovalInfo FindByEventID(List<Gafware.Modules.Reservations.PendingApprovalInfo> pendingApprovalInfoList, int eventID)
 		{
-			Gafware.Modules.Reservations.PendingApprovalInfo pendingApprovalInfo;
 			List<Gafware.Modules.Reservations.PendingApprovalInfo>.Enumerator enumerator = pendingApprovalInfoList.GetEnumerator();
 			try
 			{
@@ -2398,21 +2401,18 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					pendingApprovalInfo = current;
-					return pendingApprovalInfo;
+					return current;
 				}
-				return null;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return pendingApprovalInfo;
+			return null;
 		}
 
 		private Gafware.Modules.Reservations.PendingPaymentInfo FindByEventID(List<Gafware.Modules.Reservations.PendingPaymentInfo> pendingPaymentInfoList, int eventID)
 		{
-			Gafware.Modules.Reservations.PendingPaymentInfo pendingPaymentInfo;
 			List<Gafware.Modules.Reservations.PendingPaymentInfo>.Enumerator enumerator = pendingPaymentInfoList.GetEnumerator();
 			try
 			{
@@ -2423,21 +2423,18 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					pendingPaymentInfo = current;
-					return pendingPaymentInfo;
+					return current;
 				}
-				return null;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return pendingPaymentInfo;
+			return null;
 		}
 
 		private Gafware.Modules.Reservations.PendingPaymentInfo FindByEventIDAndStatus(List<Gafware.Modules.Reservations.PendingPaymentInfo> pendingPaymentInfoList, int eventID, PendingPaymentStatus status)
 		{
-			Gafware.Modules.Reservations.PendingPaymentInfo pendingPaymentInfo;
 			List<Gafware.Modules.Reservations.PendingPaymentInfo>.Enumerator enumerator = pendingPaymentInfoList.GetEnumerator();
 			try
 			{
@@ -2448,21 +2445,18 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					pendingPaymentInfo = current;
-					return pendingPaymentInfo;
+					return current;
 				}
-				return null;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return pendingPaymentInfo;
+			return null;
 		}
 
 		private CategoryInfo FindCategoryInfoByCategoryID(int categoryID)
 		{
-			CategoryInfo categoryInfo;
 			List<CategoryInfo>.Enumerator enumerator = this.CategoryList.GetEnumerator();
 			try
 			{
@@ -2473,16 +2467,14 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					categoryInfo = current;
-					return categoryInfo;
+					return current;
 				}
-				return null;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return categoryInfo;
+			return null;
 		}
 
 		public IEnumerable<Control> FindChildControlsByType(Control control, Type type)
@@ -2946,7 +2938,6 @@ namespace Gafware.Modules.Reservations
 
 		private string GetRoleNameByRoleID(ArrayList roles, int roleID)
 		{
-			string roleName;
 			IEnumerator enumerator = roles.GetEnumerator();
 			try
 			{
@@ -2957,8 +2948,7 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					roleName = current.RoleName;
-					return roleName;
+					return current.RoleName;
 				}
 				if (roleID == -3)
 				{
@@ -2968,7 +2958,6 @@ namespace Gafware.Modules.Reservations
 				{
 					return "All Users";
 				}
-				return null;
 			}
 			finally
 			{
@@ -2978,7 +2967,7 @@ namespace Gafware.Modules.Reservations
 					disposable.Dispose();
 				}
 			}
-			return roleName;
+			return null;
 		}
 
 		protected ArrayList GetTimeSlots(List<DateTimeRange> dateTimeRangeList, DateTime date, TimeSpan reservationInterval)
@@ -3282,7 +3271,7 @@ namespace Gafware.Modules.Reservations
 			PendingPaymentStatus pendingPaymentStatu = PendingPaymentStatus.Void;
 			strArrays[1] = string.Concat("Status=", pendingPaymentStatu.ToString());
 			strArrays[2] = string.Concat("Email=", pendingPaymentInfo.Email);
-			empty = string.Concat(empty, "<input type = 'hidden' name = 'x_cancel_url' value = '", Globals.NavigateURL(tabId, empty1, strArrays), "' />");
+			empty = string.Concat(empty, "<input type = 'hidden' name = 'x_cancel_url' value = '", _navigationManager.NavigateURL(tabId, empty1, strArrays), "' />");
 			empty = string.Concat(empty, SIMFormGenerator.EndForm());
 			this.Gafware_Modules_Reservations_AuthorizeNetSIMForm_Hidden.Value = base.Server.HtmlEncode(empty);
 			this.Gafware_Modules_Reservations_AuthorizeNetSIMForm_Hidden.Visible = true;
@@ -3340,7 +3329,7 @@ namespace Gafware.Modules.Reservations
 			PendingPaymentStatus pendingPaymentStatu = PendingPaymentStatus.Paid;
 			strArrays[1] = string.Concat("Status=", pendingPaymentStatu.ToString());
 			strArrays[2] = string.Concat("Email=", pendingPaymentInfo.Email);
-			payPalUrl[15] = httpServerUtility.UrlPathEncode(Globals.NavigateURL(tabId, empty, strArrays));
+			payPalUrl[15] = httpServerUtility.UrlPathEncode(_navigationManager.NavigateURL(tabId, empty, strArrays));
 			payPalUrl[16] = "&cancel_return=";
 			HttpServerUtility server1 = base.Server;
 			int num = base.TabId;
@@ -3351,7 +3340,7 @@ namespace Gafware.Modules.Reservations
 			pendingPaymentStatu = PendingPaymentStatus.Void;
 			strArrays1[1] = string.Concat("Status=", pendingPaymentStatu.ToString());
 			strArrays1[2] = string.Concat("Email=", pendingPaymentInfo.Email);
-			payPalUrl[17] = server1.UrlPathEncode(Globals.NavigateURL(num, str, strArrays1));
+			payPalUrl[17] = server1.UrlPathEncode(_navigationManager.NavigateURL(num, str, strArrays1));
 			payPalUrl[18] = "&notify_url=";
 			payPalUrl[19] = base.Server.UrlPathEncode(string.Concat((base.Request.IsSecureConnection ? "https://" : "http://"), base.Request.Url.Host, base.ResolveUrl("IPN.aspx")));
 			payPalUrl[20] = "&undefined_quantity=&no_note=1&no_shipping=1";
@@ -3364,7 +3353,7 @@ namespace Gafware.Modules.Reservations
 			string[] strArrays = new string[1];
 			int moduleId = base.ModuleId;
 			strArrays[0] = string.Concat("mid=", moduleId.ToString());
-			response.Redirect(Globals.NavigateURL("Moderate", strArrays));
+			response.Redirect(_navigationManager.NavigateURL("Moderate", strArrays));
 		}
 
 		protected void Page_Init(object sender, EventArgs e)
@@ -3431,16 +3420,16 @@ namespace Gafware.Modules.Reservations
 					{
 						now = DateTime.Parse(Gafware.Modules.Reservations.Helper.Decrypt(ComponentBase<IHostController, HostController>.Instance.GetString(ModuleSettings.INSTALLEDON_KEY)), CultureInfo.InvariantCulture);
 					}
-					catch (Exception exception)
+					catch (Exception)
 					{
 					}
-					string str = string.Concat(new string[] { "https://www.gafware.comDesktopModules/Gafware/Reservations/PurchaseRedirect.aspx?Product=", base.Server.UrlEncode("The Reservations Module"), "&Edition=Standard&ReturnUrl=", base.Server.UrlEncode(base.EditUrl("Activate")), "&CancelUrl=", base.Server.UrlEncode(Globals.NavigateURL()), "&Version=", base.Server.UrlEncode(base.ModuleConfiguration.DesktopModule.Version) });
-					string str1 = string.Concat(new string[] { "https://www.gafware.comDesktopModules/Gafware/Reservations/PurchaseRedirect.aspx?Product=", base.Server.UrlEncode("The Reservations Module"), "&Edition=Professional&ReturnUrl=", base.Server.UrlEncode(base.EditUrl("Activate")), "&CancelUrl=", base.Server.UrlEncode(Globals.NavigateURL()), "&Version=", base.Server.UrlEncode(base.ModuleConfiguration.DesktopModule.Version) });
-					string str2 = string.Concat(new string[] { "https://www.gafware.comDesktopModules/Gafware/Reservations/PurchaseRedirect.aspx?Product=", base.Server.UrlEncode("The Reservations Module"), "&Edition=", base.Server.UrlEncode("Enterprise"), "&ReturnUrl=", base.Server.UrlEncode(base.EditUrl("Activate")), "&CancelUrl=", base.Server.UrlEncode(Globals.NavigateURL()), "&Version=", base.Server.UrlEncode(base.ModuleConfiguration.DesktopModule.Version) });
+					string str = string.Concat(new string[] { "https://www.gafware.com/DesktopModules/Gafware/Reservations/PurchaseRedirect.aspx?Product=", base.Server.UrlEncode("The Reservations Module"), "&Edition=Standard&ReturnUrl=", base.Server.UrlEncode(base.EditUrl("Activate")), "&CancelUrl=", base.Server.UrlEncode(_navigationManager.NavigateURL()), "&Version=", base.Server.UrlEncode(base.ModuleConfiguration.DesktopModule.Version) });
+					string str1 = string.Concat(new string[] { "https://www.gafware.com/DesktopModules/Gafware/Reservations/PurchaseRedirect.aspx?Product=", base.Server.UrlEncode("The Reservations Module"), "&Edition=Professional&ReturnUrl=", base.Server.UrlEncode(base.EditUrl("Activate")), "&CancelUrl=", base.Server.UrlEncode(_navigationManager.NavigateURL()), "&Version=", base.Server.UrlEncode(base.ModuleConfiguration.DesktopModule.Version) });
+					string str2 = string.Concat(new string[] { "https://www.gafware.com/DesktopModules/Gafware/Reservations/PurchaseRedirect.aspx?Product=", base.Server.UrlEncode("The Reservations Module"), "&Edition=", base.Server.UrlEncode("Enterprise"), "&ReturnUrl=", base.Server.UrlEncode(base.EditUrl("Activate")), "&CancelUrl=", base.Server.UrlEncode(_navigationManager.NavigateURL()), "&Version=", base.Server.UrlEncode(base.ModuleConfiguration.DesktopModule.Version) });
 					string[] strArrays = new string[1];
 					int moduleId = base.ModuleId;
 					strArrays[0] = string.Concat("mid=", moduleId.ToString());
-					string str3 = Globals.NavigateURL("Activate", strArrays);
+					string str3 = _navigationManager.NavigateURL("Activate", strArrays);
 					string str4 = string.Concat("<a href=\"", str, "\">*Click here*</a>");
 					string str5 = string.Concat("<a href=\"", str1, "\">*click here*</a>");
 					string str6 = string.Concat("<a href=\"", str2, "\">*click here*</a>");
@@ -3529,7 +3518,7 @@ namespace Gafware.Modules.Reservations
 								this.PendingPaymentInfo.Status = 2;
 								this.PendingPaymentInfo.LastModifiedOnDate = DateTime.Now;
 								(new PendingPaymentController()).UpdatePendingPayment(this.PendingPaymentInfo);
-								base.Response.Redirect(Globals.NavigateURL());
+								base.Response.Redirect(_navigationManager.NavigateURL());
 							}
 							else if (this.QueryStringPendingPaymentStatus == PendingPaymentStatus.Due)
 							{
@@ -3545,7 +3534,7 @@ namespace Gafware.Modules.Reservations
 							Gafware.Modules.Reservations.ReservationInfo reservation = this.ReservationController.GetReservation(this.PendingPaymentInfo.ReservationID);
 							if (reservation == null)
 							{
-								base.Response.Redirect(Globals.NavigateURL());
+								base.Response.Redirect(_navigationManager.NavigateURL());
 							}
 							this.ReservationInfo = reservation;
 							this.BindReservationInfo();
@@ -3578,7 +3567,7 @@ namespace Gafware.Modules.Reservations
 								Gafware.Modules.Reservations.ReservationInfo reservationInfo = this.ReservationController.GetReservation(this.PendingPaymentInfo.ReservationID);
 								if (reservationInfo == null)
 								{
-									base.Response.Redirect(Globals.NavigateURL());
+									base.Response.Redirect(_navigationManager.NavigateURL());
 								}
 								this.ReservationInfo = reservationInfo;
 								this.AddModuleMessage(Localization.GetString("ReservationScheduled", base.LocalResourceFile), 0);
@@ -3589,7 +3578,7 @@ namespace Gafware.Modules.Reservations
 								this.PendingApprovalInfo = pendingApprovalInfo;
 								if (this.PendingApprovalInfo.PendingApprovalID == Null.NullInteger)
 								{
-									base.Response.Redirect(Globals.NavigateURL());
+									base.Response.Redirect(_navigationManager.NavigateURL());
 								}
 								else
 								{
@@ -3616,11 +3605,11 @@ namespace Gafware.Modules.Reservations
 							string str10 = HttpUtility.UrlEncode(HttpContext.Current.Request.RawUrl);
 							if (base.PortalSettings.LoginTabId == Null.NullInteger)
 							{
-								base.Response.Redirect(Globals.NavigateURL(base.TabId, "login", new string[] { string.Concat("returnurl=", str10) }));
+								base.Response.Redirect(_navigationManager.NavigateURL(base.TabId, "login", new string[] { string.Concat("returnurl=", str10) }));
 							}
 							else
 							{
-								base.Response.Redirect(Globals.NavigateURL(base.PortalSettings.LoginTabId, string.Empty, new string[] { string.Concat("returnurl=", str10) }));
+								base.Response.Redirect(_navigationManager.NavigateURL(base.PortalSettings.LoginTabId, string.Empty, new string[] { string.Concat("returnurl=", str10) }));
 							}
 						}
 						else if (this.Helper.CanModerate(base.UserId, this.PendingApprovalInfo.CategoryID))
@@ -3646,7 +3635,7 @@ namespace Gafware.Modules.Reservations
 								this.returnCommandButton.Visible = true;
 							}
 						}
-						catch (Exception exception1)
+						catch (Exception)
 						{
 						}
 					}
@@ -4622,17 +4611,17 @@ namespace Gafware.Modules.Reservations
 			string[] strArrays = new string[1];
 			int moduleId = base.ModuleId;
 			strArrays[0] = string.Concat("mid=", moduleId.ToString());
-			response.Redirect(Globals.NavigateURL("ViewReservationsCalendar", strArrays));
+			response.Redirect(_navigationManager.NavigateURL("ViewReservationsCalendar", strArrays));
 		}
 
-		protected void ViewReservationsCommandButtonClicked(object sender, EventArgs e)
+        protected void ViewReservationsCommandButtonClicked(object sender, EventArgs e)
 		{
 			HttpResponse response = base.Response;
 			string[] strArrays = new string[2];
 			int moduleId = base.ModuleId;
 			strArrays[0] = string.Concat("mid=", moduleId.ToString());
 			strArrays[1] = "List=ViewReservationsListSettings";
-			response.Redirect(Globals.NavigateURL("ViewReservations", strArrays));
+			response.Redirect(_navigationManager.NavigateURL("ViewReservations", strArrays));
 		}
 
 		protected bool WorkingHoursOverlap(DateTime startDateTime1, DateTime endDateTime1, DateTime startDateTime2, DateTime endDateTime2)

@@ -5,16 +5,16 @@
       <description>This module allows users to make online reservations.</description>
       <iconFile>Images/calendar.png</iconFile>
       <owner>
-        <name>Glenn Flansburg</name>
+        <name>Gafware</name>
         <organization>Gafware</organization>
-        <url>https://www.gafware.com</url>
+        <url>https://www.gafware.com/</url>
         <email>support@gafware.com</email>
       </owner>
       <license src="License.txt"></license>
       <releaseNotes src="ReleaseNotes.txt"></releaseNotes>
       <azureCompatible>true</azureCompatible>
       <dependencies>
-        <dependency type="CoreVersion">09.01.00</dependency>
+        <dependency type="CoreVersion">09.06.00</dependency>
       </dependencies>
 
       <components>
@@ -182,17 +182,6 @@
                     <controlSrc>DesktopModules/Gafware/Reservations/ViewList.ascx</controlSrc>
                     <supportsPartialRendering>True</supportsPartialRendering>
                     <controlTitle>Reservations</controlTitle>
-                    <controlType>View</controlType>
-                    <iconFile />
-                    <helpUrl />
-                    <supportsPopUps>False</supportsPopUps>
-                    <viewOrder>0</viewOrder>
-                  </moduleControl>
-                  <moduleControl>
-                    <controlKey>ViewReservationsCalendar</controlKey>
-                    <controlSrc>DesktopModules/Gafware/Reservations/ViewCalendar.ascx</controlSrc>
-                    <supportsPartialRendering>True</supportsPartialRendering>
-                    <controlTitle>Reservations Calendar</controlTitle>
                     <controlType>View</controlType>
                     <iconFile />
                     <helpUrl />

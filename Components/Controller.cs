@@ -49,7 +49,7 @@ namespace Gafware.Modules.Reservations.Components
 
 		private void ChangeThemeToResponsive(ModuleController moduleController, ModuleInfo module)
 		{
-			if ((string)moduleController.GetTabModuleSettings(module.TabModuleID)["Theme"] != "Responsive")
+			if ((string)module.TabModuleSettings["Theme"] != "Responsive")
 			{
 				moduleController.UpdateTabModuleSetting(module.TabModuleID, "Theme", "Responsive");
 				ModuleController.SynchronizeModule(module.ModuleID);
@@ -85,7 +85,7 @@ namespace Gafware.Modules.Reservations.Components
 
 		private void FixCreatedDateColumnName(ModuleController moduleController, ModuleInfo module, string settingName)
 		{
-			string item = (string)moduleController.GetTabModuleSettings(module.TabModuleID)[settingName];
+			string item = (string)module.TabModuleSettings[settingName];
 			if (!string.IsNullOrEmpty(item) && item.IndexOf("CreatedDate") != -1)
 			{
 				item = item.Replace("CreatedDate", "CreatedOnDate");

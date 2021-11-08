@@ -52,7 +52,7 @@ namespace Gafware.Modules.Reservations
 
 		private bool? _IsProfesional;
 
-		private static string edition;
+		public static string edition;
 
 		public static string[] editions;
 
@@ -104,20 +104,26 @@ namespace Gafware.Modules.Reservations
 			}
 		}
 
-		public static bool IsjQuery17orHigher
+        public static bool IsjQuery17orHigher
 		{
 			get
 			{
-				if (!jQuery.UseHostedScript && jQuery.Version.CompareTo("1.7") >= 0)
-				{
+#pragma warning disable CS0618 // Type or member is obsolete
+                if (!jQuery.UseHostedScript && jQuery.Version.CompareTo("1.7") >= 0)
+#pragma warning restore CS0618 // Type or member is obsolete
+                {
 					return true;
 				}
-				if (!jQuery.UseHostedScript)
-				{
+#pragma warning disable CS0618 // Type or member is obsolete
+                if (!jQuery.UseHostedScript)
+#pragma warning restore CS0618 // Type or member is obsolete
+                {
 					return false;
 				}
-				return Helper.GetjQueryVersionFromUrl(jQuery.HostedUrl).CompareTo("1.7") >= 0;
-			}
+#pragma warning disable CS0618 // Type or member is obsolete
+                return Helper.GetjQueryVersionFromUrl(jQuery.HostedUrl).CompareTo("1.7") >= 0;
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
 		}
 
 		private bool IsProfessional
@@ -812,7 +818,7 @@ namespace Gafware.Modules.Reservations
 				}*/
 				try
 				{
-					return Helper.Decrypt(ComponentBase<IHostController, HostController>.Instance.GetString(ModuleSettings.EDITION_KEY));
+					Helper.edition = Helper.Decrypt(ComponentBase<IHostController, HostController>.Instance.GetString(ModuleSettings.EDITION_KEY));
 				}
 				catch
                 {
@@ -1603,8 +1609,10 @@ namespace Gafware.Modules.Reservations
 			string[] strArrays = new string[1];
 			int pendingApprovalID = pendingApprovalInfo.PendingApprovalID;
 			strArrays[0] = string.Concat("PendingApprovalID=", pendingApprovalID.ToString());
-			string str = Globals.NavigateURL(tabID, empty, strArrays);
-			List<CustomFieldValueInfo> customFieldValueListByPendingApprovalID = (new CustomFieldValueController()).GetCustomFieldValueListByPendingApprovalID(pendingApprovalInfo.PendingApprovalID);
+#pragma warning disable CS0618 // Type or member is obsolete
+            string str = Globals.NavigateURL(tabID, empty, strArrays);
+#pragma warning restore CS0618 // Type or member is obsolete
+            List<CustomFieldValueInfo> customFieldValueListByPendingApprovalID = (new CustomFieldValueController()).GetCustomFieldValueListByPendingApprovalID(pendingApprovalInfo.PendingApprovalID);
 			customFieldValueListByPendingApprovalID.Sort((CustomFieldValueInfo x, CustomFieldValueInfo y) => x.SortOrder.CompareTo(y.SortOrder));
 			UserInfo createdByUserInfo = pendingApprovalInfo.CreatedByUserInfo;
 			List<CustomFieldValueInfo> customFieldValueInfos = customFieldValueListByPendingApprovalID;

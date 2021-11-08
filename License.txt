@@ -1,7 +1,7 @@
 ﻿<div class="License">
 	<h3>License</h3>
 	<p class="Owner">
-		Gafware.com  <a href=https://www.gafware.com>https://www.gafware.com</a></br>
+		Gafware  <a href=https://www.gafware.com/>https://www.gafware.com/</a></br>
 		Copyright (c) 2021</br>	
 		by Glenn Flansburg</br>
 	</p>

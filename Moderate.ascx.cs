@@ -1,9 +1,11 @@
-﻿using DotNetNuke.Common;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.WebControls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -37,6 +39,13 @@ namespace Gafware.Modules.Reservations
 		protected ReservationController _ProxyController;
 
 		protected List<CategoryInfo> _CategoryList;
+
+		private readonly INavigationManager _navigationManager;
+		
+		public Moderate()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
 
 		protected List<CategoryInfo> CategoryList
 		{
@@ -255,10 +264,6 @@ namespace Gafware.Modules.Reservations
 			}
 		}
 
-		public Moderate()
-		{
-		}
-
 		private void AddColumn(string dataField)
 		{
 			this.AddColumn(dataField, dataField, "");
@@ -313,7 +318,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void CancelCommandButtonClicked(object sender, EventArgs e)
 		{
-			base.Response.Redirect(Globals.NavigateURL(), true);
+			base.Response.Redirect(_navigationManager.NavigateURL(), true);
 		}
 
 		public List<PendingApprovalInfo> Filter(List<PendingApprovalInfo> list, string columnName, string text)
@@ -352,7 +357,6 @@ namespace Gafware.Modules.Reservations
 
 		private string GetCategoryName(int categoryID)
 		{
-			string name;
 			List<CategoryInfo>.Enumerator enumerator = this.CategoryList.GetEnumerator();
 			try
 			{
@@ -363,16 +367,14 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					name = current.Name;
-					return name;
+					return current.Name;
 				}
-				return null;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return name;
+			return null;
 		}
 
 		public string GetFilterText(string columnName)
@@ -433,8 +435,8 @@ namespace Gafware.Modules.Reservations
 						str = string.Empty;
 					}
 					queryStringParams[2] = str;
-					strArrays[3] = string.Concat("ReturnUrl=", server.UrlEncode(Globals.NavigateURL(empty1, queryStringParams)));
-					response.Redirect(Globals.NavigateURL("ListSettings", strArrays));
+					strArrays[3] = string.Concat("ReturnUrl=", server.UrlEncode(_navigationManager.NavigateURL(empty1, queryStringParams)));
+					response.Redirect(_navigationManager.NavigateURL("ListSettings", strArrays));
 				}
 				else if (e.CommandName == "Approve" || e.CommandName == "Decline")
 				{
@@ -471,8 +473,8 @@ namespace Gafware.Modules.Reservations
 						empty = string.Empty;
 					}
 					queryStringParams1[1] = empty;
-					strArrays1[1] = string.Concat("ReturnUrl=", httpServerUtility.UrlEncode(Globals.NavigateURL(empty2, queryStringParams1)));
-					httpResponse.Redirect(Globals.NavigateURL(tabId, str1, strArrays1));
+					strArrays1[1] = string.Concat("ReturnUrl=", httpServerUtility.UrlEncode(_navigationManager.NavigateURL(empty2, queryStringParams1)));
+					httpResponse.Redirect(_navigationManager.NavigateURL(tabId, str1, strArrays1));
 				}
 			}
 			catch (Exception exception)
@@ -681,7 +683,7 @@ namespace Gafware.Modules.Reservations
 			{
 				if (!this.IsModerator)
 				{
-					base.Response.Redirect(Globals.NavigateURL(), true);
+					base.Response.Redirect(_navigationManager.NavigateURL(), true);
 				}
 				if (!base.IsPostBack)
 				{

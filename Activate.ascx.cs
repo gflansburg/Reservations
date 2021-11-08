@@ -1,4 +1,5 @@
-﻿using DotNetNuke.Application;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Application;
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.ComponentModel;
@@ -9,6 +10,7 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins;
 using DotNetNuke.UI.Skins.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +28,8 @@ namespace Gafware.Modules.Reservations
     {
         private Gafware.Modules.Reservations.ModuleSettings _ModuleSettings;
 
+		private readonly INavigationManager _navigationManager;
+		
 		private Gafware.Modules.Reservations.ModuleSettings ModuleSettings
 		{
 			get
@@ -42,10 +46,10 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string str = Globals.NavigateURL();
+				string str = _navigationManager.NavigateURL();
 				if (!str.StartsWith("http"))
 				{
-					str = string.Concat((base.Request.IsSecureConnection ? "https://" : "http://"), base.Request.Url.Host, (base.Request.Url.IsDefaultPort ? string.Empty : string.Concat(":", base.Request.Url.Port)), Globals.NavigateURL());
+					str = string.Concat((base.Request.IsSecureConnection ? "https://" : "http://"), base.Request.Url.Host, (base.Request.Url.IsDefaultPort ? string.Empty : string.Concat(":", base.Request.Url.Port)), _navigationManager.NavigateURL());
 				}
 				return str;
 			}
@@ -53,6 +57,7 @@ namespace Gafware.Modules.Reservations
 
 		public Activate()
 		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
 		}
 
 		protected void ActivateCommandButtonClicked(object sender, EventArgs e)
@@ -75,7 +80,7 @@ namespace Gafware.Modules.Reservations
 						string[] strArrays = new string[] { "ModuleMessage=ActivationSuccessful", null };
 						ModuleMessage.ModuleMessageType moduleMessageType = 0;
 						strArrays[1] = string.Concat("ModuleMessageType=", moduleMessageType.ToString());
-						response.Redirect(Globals.NavigateURL(empty, strArrays));
+						response.Redirect(_navigationManager.NavigateURL(empty, strArrays));
 					}
 				}
 			}
@@ -106,7 +111,7 @@ namespace Gafware.Modules.Reservations
 				{
 					if (!ModulePermissionController.HasModuleAccess(DotNetNuke.Security.SecurityAccessLevel.Edit, "EDIT", base.ModuleConfiguration))
 					{
-						base.Response.Redirect(Globals.NavigateURL(), true);
+						base.Response.Redirect(_navigationManager.NavigateURL(), true);
 					}
 					Helper.DisplayModuleMessageIfAny(this);
 					this.editionList.DataSource = Helper.editions;
@@ -186,7 +191,7 @@ namespace Gafware.Modules.Reservations
 					{
 						HttpResponse response = base.Response;
 						string[] strArrays = new string[] { "http://www.Gafware.com/Activation.aspx?Invoice=", base.Server.UrlEncode(this.activationInvoiceTextBox.Text.Trim()), "&Fingerprint=", base.Server.UrlEncode(this.activationFingerprintTextBox.Text), "&DotNetNuke=", base.Server.UrlEncode(str), "&Version=", base.Server.UrlEncode(version), "&Email=", base.Server.UrlEncode(this.activationEmailTextBox.Text.Trim()), "&ReturnUrl=", null };
-						strArrays[11] = base.Server.UrlEncode(Globals.NavigateURL("Activate", new string[] { string.Concat("mid=", base.ModuleId) }));
+						strArrays[11] = base.Server.UrlEncode(_navigationManager.NavigateURL("Activate", new string[] { string.Concat("mid=", base.ModuleId) }));
 						response.Redirect(string.Concat(strArrays));
 					}
 					catch (Exception exception1)

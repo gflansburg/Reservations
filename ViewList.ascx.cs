@@ -1,9 +1,11 @@
-﻿using DotNetNuke.Common;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.WebControls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -39,6 +41,12 @@ namespace Gafware.Modules.Reservations
 		private const string ESCAPED_QUOTE = "\"\"";
 
 		private static char[] CHARACTERS_THAT_MUST_BE_QUOTED;
+
+		private readonly INavigationManager _navigationManager;
+		public ViewList()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
 
 		protected bool CanViewList
 		{
@@ -183,9 +191,9 @@ namespace Gafware.Modules.Reservations
 					{
 						this._ListSettings = (Gafware.Modules.Reservations.ListSettings)Activator.CreateInstance(base.GetType().BaseType.Assembly.GetType(string.Concat(base.GetType().BaseType.Namespace, ".", base.Request.QueryString["List"])), new object[] { this });
 					}
-					catch (Exception exception)
+					catch (Exception)
 					{
-						base.Response.Redirect(Globals.NavigateURL());
+						base.Response.Redirect(_navigationManager.NavigateURL());
 					}
 				}
 				return this._ListSettings;
@@ -248,7 +256,7 @@ namespace Gafware.Modules.Reservations
 					empty = string.Empty;
 				}
 				queryStringParams[2] = empty;
-				return server.UrlEncode(Globals.NavigateURL(str, queryStringParams));
+				return server.UrlEncode(_navigationManager.NavigateURL(str, queryStringParams));
 			}
 		}
 
@@ -296,10 +304,6 @@ namespace Gafware.Modules.Reservations
 		static ViewList()
 		{
 			ViewList.CHARACTERS_THAT_MUST_BE_QUOTED = new char[] { ',', '\"', '\n' };
-		}
-
-		public ViewList()
-		{
 		}
 
 		private void AddColumn(string dataField)
@@ -369,7 +373,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void CancelCommandButtonClicked(object sender, EventArgs e)
 		{
-			base.Response.Redirect(Globals.NavigateURL(), true);
+			base.Response.Redirect(_navigationManager.NavigateURL(), true);
 		}
 
 		private Control CreateCalendar(string columnName)
@@ -716,7 +720,7 @@ namespace Gafware.Modules.Reservations
 					strArrays[1] = string.Concat("List=", base.Request.QueryString["List"]);
 					strArrays[2] = string.Concat("Control=", base.Request.QueryString["ctl"]);
 					strArrays[3] = string.Concat("ReturnUrl=", this.ReturnUrl);
-					response.Redirect(Globals.NavigateURL("ListSettings", strArrays));
+					response.Redirect(_navigationManager.NavigateURL("ListSettings", strArrays));
 				}
 				else if (e.CommandName != "Sort")
 				{
@@ -976,7 +980,7 @@ namespace Gafware.Modules.Reservations
 			{
 				if (!this.CanViewList)
 				{
-					base.Response.Redirect(Globals.NavigateURL(), true);
+					base.Response.Redirect(_navigationManager.NavigateURL(), true);
 				}
 				if (!base.IsPostBack)
 				{
@@ -1027,7 +1031,7 @@ namespace Gafware.Modules.Reservations
 			bool flag;
 			try
 			{
-				this.printCommandButton.OnClientClick = string.Concat("window.open('", Globals.NavigateURL(string.Empty, new string[] { this.QueryStringParams, "Printable=True", string.Concat("SkinSrc=", base.Request.ApplicationPath, "/Portals/_default/Skins/_default/No%20Skin"), string.Concat("ContainerSrc=", base.Request.ApplicationPath, "/Portals/_default/Containers/_default/No%20Container") }), "'); return false;");
+				this.printCommandButton.OnClientClick = string.Concat("window.open('", _navigationManager.NavigateURL(string.Empty, new string[] { this.QueryStringParams, "Printable=True", string.Concat("SkinSrc=", base.Request.ApplicationPath, "/Portals/_default/Skins/_default/No%20Skin"), string.Concat("ContainerSrc=", base.Request.ApplicationPath, "/Portals/_default/Containers/_default/No%20Container") }), "'); return false;");
 				this.buttonsTable.Visible = !this.IsPrintable;
 				if (this.ListSettings.AllowPaging && this.ListSettings.PagerMode == Gafware.Modules.Reservations.PagerMode.DotNetNuke)
 				{

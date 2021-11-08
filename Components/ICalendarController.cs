@@ -24,7 +24,7 @@ namespace Gafware.Modules.Reservations
 
 		public ICalendarInfo GetICalendar(int ReservationID)
 		{
-			return (ICalendarInfo)CBO.FillObject(DataProvider.Instance().GetICalendar(ReservationID), typeof(ICalendarInfo));
+			return (ICalendarInfo)CBO.FillObject<ICalendarInfo>(DataProvider.Instance().GetICalendar(ReservationID));
 		}
 
 		public List<ICalendarInfo> GetICalendarList(int ReservationID)

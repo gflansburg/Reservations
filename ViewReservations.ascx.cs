@@ -1,9 +1,11 @@
-﻿using DotNetNuke.Common;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.WebControls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -40,6 +42,13 @@ namespace Gafware.Modules.Reservations
 		protected List<CategoryInfo> _CategoryList;
 
 		protected string _NotAvailable;
+
+		private readonly INavigationManager _navigationManager;
+		
+		public ViewReservations()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
 
 		protected bool CanViewReservations
 		{
@@ -340,10 +349,6 @@ namespace Gafware.Modules.Reservations
 			}
 		}
 
-		public ViewReservations()
-		{
-		}
-
 		private void AddColumn(string dataField)
 		{
 			this.AddColumn(dataField, dataField, "");
@@ -398,7 +403,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void CancelCommandButtonClicked(object sender, EventArgs e)
 		{
-			base.Response.Redirect(Globals.NavigateURL(), true);
+			base.Response.Redirect(_navigationManager.NavigateURL(), true);
 		}
 
 		private Control CreateCalendar(string columnName)
@@ -644,7 +649,6 @@ namespace Gafware.Modules.Reservations
 
 		private ReservationInfo FindEventInfoByEventID(List<ReservationInfo> eventInfoList, int eventID)
 		{
-			ReservationInfo reservationInfo;
 			List<ReservationInfo>.Enumerator enumerator = eventInfoList.GetEnumerator();
 			try
 			{
@@ -655,16 +659,14 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					reservationInfo = current;
-					return reservationInfo;
+					return current;
 				}
-				return null;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return reservationInfo;
+			return null;
 		}
 
 		private List<ReservationInfo> FindEventInfoListByEmailOrPhone(ArrayList eventInfoList, string email, string phone, int startIndex)
@@ -684,7 +686,6 @@ namespace Gafware.Modules.Reservations
 
 		private string GetCategoryName(int categoryID)
 		{
-			string name;
 			List<CategoryInfo>.Enumerator enumerator = this.CategoryList.GetEnumerator();
 			try
 			{
@@ -695,16 +696,14 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					name = current.Name;
-					return name;
+					return current.Name;
 				}
-				return null;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return name;
+			return null;
 		}
 
 		public Control GetFilterControl(string id)
@@ -784,8 +783,8 @@ namespace Gafware.Modules.Reservations
 						str = string.Empty;
 					}
 					queryStringParams[2] = str;
-					strArrays[3] = string.Concat("ReturnUrl=", server.UrlEncode(Globals.NavigateURL(empty1, queryStringParams)));
-					response.Redirect(Globals.NavigateURL("ListSettings", strArrays));
+					strArrays[3] = string.Concat("ReturnUrl=", server.UrlEncode(_navigationManager.NavigateURL(empty1, queryStringParams)));
+					response.Redirect(_navigationManager.NavigateURL("ListSettings", strArrays));
 				}
 				else if (e.CommandName == "View")
 				{
@@ -807,8 +806,8 @@ namespace Gafware.Modules.Reservations
 						empty = string.Empty;
 					}
 					queryStringParams1[2] = empty;
-					strArrays1[1] = string.Concat("ReturnUrl=", httpServerUtility.UrlEncode(Globals.NavigateURL(empty2, queryStringParams1)));
-					httpResponse.Redirect(Globals.NavigateURL(tabId, str1, strArrays1));
+					strArrays1[1] = string.Concat("ReturnUrl=", httpServerUtility.UrlEncode(_navigationManager.NavigateURL(empty2, queryStringParams1)));
+					httpResponse.Redirect(_navigationManager.NavigateURL(tabId, str1, strArrays1));
 				}
 			}
 			catch (Exception exception)
@@ -1064,7 +1063,7 @@ namespace Gafware.Modules.Reservations
 			{
 				if (!this.CanViewReservations)
 				{
-					base.Response.Redirect(Globals.NavigateURL(), true);
+					base.Response.Redirect(_navigationManager.NavigateURL(), true);
 				}
 				if (!base.IsPostBack)
 				{
@@ -1123,7 +1122,7 @@ namespace Gafware.Modules.Reservations
 				filterAndSortQueryStringParams[2] = "Printable=True";
 				filterAndSortQueryStringParams[3] = string.Concat("SkinSrc=", base.Request.ApplicationPath, "/Portals/_default/Skins/_default/No%20Skin");
 				filterAndSortQueryStringParams[4] = string.Concat("ContainerSrc=", base.Request.ApplicationPath, "/Portals/_default/Containers/_default/No%20Container");
-				linkButton.OnClientClick = string.Concat("window.open('", Globals.NavigateURL("ViewReservations", filterAndSortQueryStringParams), "'); return false;");
+				linkButton.OnClientClick = string.Concat("window.open('", _navigationManager.NavigateURL("ViewReservations", filterAndSortQueryStringParams), "'); return false;");
 				this.buttonsTable.Visible = !this.IsPrintable;
 				if (this.ViewReservationsListSettings.AllowPaging && this.ViewReservationsListSettings.PagerMode == Gafware.Modules.Reservations.PagerMode.DotNetNuke)
 				{

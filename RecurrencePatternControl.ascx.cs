@@ -381,7 +381,7 @@ namespace Gafware.Modules.Reservations
 				DateTime.Parse(e.Value);
 				e.IsValid = true;
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -401,7 +401,7 @@ namespace Gafware.Modules.Reservations
 					e.IsValid = (num < 0 ? false : num <= 23);
 				}
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -414,7 +414,7 @@ namespace Gafware.Modules.Reservations
 				int.Parse(e.Value);
 				e.IsValid = true;
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -427,7 +427,7 @@ namespace Gafware.Modules.Reservations
 				int num = int.Parse(e.Value);
 				e.IsValid = (num < 0 ? false : num <= 59);
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = false;
 			}
@@ -458,7 +458,7 @@ namespace Gafware.Modules.Reservations
 					e.IsValid = dateTime <= dateTime1;
 				}
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = true;
 			}
@@ -499,7 +499,7 @@ namespace Gafware.Modules.Reservations
 				}
 				e.IsValid = dateTime <= dateTime1;
 			}
-			catch (Exception exception)
+			catch (Exception)
 			{
 				e.IsValid = true;
 			}

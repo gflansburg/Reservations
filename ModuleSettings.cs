@@ -1258,7 +1258,8 @@ namespace Gafware.Modules.Reservations
 			{
 				if (this._Settings == null)
 				{
-					this._Settings = (new ModuleController()).GetTabModuleSettings(this.TabModuleId);
+					
+					this._Settings = (new ModuleController()).GetTabModule(this.TabModuleId).TabModuleSettings;
 				}
 				return this._Settings;
 			}
@@ -1401,7 +1402,7 @@ namespace Gafware.Modules.Reservations
 			this.TabModuleId = TabModuleId;
 		}
 
-		private int AdjustSelectionModeBasedOnjQuery(int selectionMode)
+        private int AdjustSelectionModeBasedOnjQuery(int selectionMode)
 		{
 			if (selectionMode == 1 && !Helper.IsjQuery17orHigher)
 			{

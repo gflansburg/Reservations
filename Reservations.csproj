@@ -7,7 +7,7 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{7D61A32C-0F21-453F-A981-BD8E5A3A5305}</ProjectGuid>
+    <ProjectGuid>{7D61A32C-0F21-453F-A981-BD8E5A3A5304}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -45,7 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AuthorizeNet">
-      <HintPath>Dependencies\AuthorizeNet.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\flan4248.SOONER\OneDrive - University of Oklahoma\Source\Repos\DNNModues\Reservations.Decompiled\DNNSpecialists.Modules.ReservationsReferences\AuthorizeNet.dll</HintPath>
     </Reference>
     <Reference Include="DotNetNuke">
       <HintPath>..\..\..\bin\DotNetNuke.dll</HintPath>
@@ -53,10 +53,22 @@
     <Reference Include="DotNetNuke.Abstractions">
       <HintPath>..\..\..\bin\DotNetNuke.Abstractions.dll</HintPath>
     </Reference>
+    <Reference Include="DotNetNuke.DependencyInjection, Version=9.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\DotNetNuke.DependencyInjection.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ApplicationBlocks.Data">
       <HintPath>..\..\..\bin\Microsoft.ApplicationBlocks.Data.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=2.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\bin\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>packages\Microsoft.IdentityModel.Logging.1.1.2\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
     </Reference>
@@ -93,7 +105,7 @@
       <HintPath>..\..\..\bin\Telerik.Web.UI.dll</HintPath>
     </Reference>
     <Reference Include="Twilio.Api">
-      <HintPath>Dependencies\Twilio.Api.dll</HintPath>
+      <HintPath>..\..\..\..\..\Users\flan4248.SOONER\OneDrive - University of Oklahoma\Source\Repos\DNNModues\Reservations.Decompiled\DNNSpecialists.Modules.ReservationsReferences\Twilio.Api.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -133,9 +145,6 @@
     <Compile Include="App_Code\UnboundColumn.cs" />
     <Compile Include="App_Code\EmailComparer.cs" />
     <Compile Include="App_Code\UserInfoComparer.cs" />
-    <Compile Include="App_Code\ViewCalendar.cs">
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
     <Compile Include="App_Code\WorkingHourInfoComparer.cs" />
     <Compile Include="App_Code\WorkingHoursExceptionInfoComparer.cs" />
     <Compile Include="AuthorizeNetSIMRelayResponse.aspx.cs">
@@ -284,8 +293,6 @@
     <Content Include="Activate.ascx" />
     <Content Include="AuthorizeNetSIMRelayResponse.aspx" />
     <Content Include="Cashier.ascx" />
-    <None Include="Dependencies\AuthorizeNet.dll" />
-    <None Include="Dependencies\Twilio.Api.dll" />
     <Content Include="Documentation\Documentation.css" />
     <Content Include="Documentation\Documentation.html" />
     <Content Include="DuplicateReservations.ascx" />
@@ -293,8 +300,8 @@
     <Content Include="FeeScheduleControl.ascx" />
     <Content Include="grant.gif" />
     <Content Include="Images\back.png" />
-    <Content Include="Images\csv.png" />
     <Content Include="Images\calendar.png" />
+    <Content Include="Images\csv.png" />
     <Content Include="Images\next.png" />
     <Content Include="IPN.aspx" />
     <Content Include="jquery.authorize.net.js" />
@@ -367,6 +374,9 @@
     <Content Include="App_LocalResources\ViewListSettings.ascx.resx" />
     <Content Include="App_LocalResources\ViewReservations.ascx.resx" />
   </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -383,7 +393,7 @@
           <DevelopmentServerPort>52717</DevelopmentServerPort>
           <DevelopmentServerVPath>
           </DevelopmentServerVPath>
-          <IISUrl>http://dnndev.me/desktopmodules/Gafware/Reservations</IISUrl>
+          <IISUrl>http://dnndev.me/desktopmodules/OUHR/Reservations</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://dnndev.me</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

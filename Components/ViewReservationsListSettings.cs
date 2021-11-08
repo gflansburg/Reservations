@@ -341,8 +341,10 @@ namespace Gafware.Modules.Reservations
 		{
 			if (commandName == "View")
 			{
-				HttpContext.Current.Response.Redirect(Globals.NavigateURL(portalModuleBase.TabId, string.Empty, new string[] { string.Concat("EventID=", id.ToString()), string.Concat("ReturnUrl=", returnUrl) }));
-			}
+#pragma warning disable CS0618 // Type or member is obsolete
+                HttpContext.Current.Response.Redirect(Globals.NavigateURL(portalModuleBase.TabId, string.Empty, new string[] { string.Concat("EventID=", id.ToString()), string.Concat("ReturnUrl=", returnUrl) }));
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
 		}
 
 		public override bool ImplementsCustomFilter(string columnName)

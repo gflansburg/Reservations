@@ -113,7 +113,7 @@ namespace Gafware.Modules.Reservations
 			{
 				if (this._CreatedByUserInfo == null)
 				{
-					this._CreatedByUserInfo = (new UserController()).GetUser(PortalController.GetCurrentPortalSettings().PortalId, this.CreatedByUserID);
+					this._CreatedByUserInfo = (new UserController()).GetUser(PortalController.Instance.GetCurrentSettings().PortalId, this.CreatedByUserID);
 				}
 				return this._CreatedByUserInfo;
 			}

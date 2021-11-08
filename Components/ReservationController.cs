@@ -24,7 +24,7 @@ namespace Gafware.Modules.Reservations
 
 		public ReservationInfo GetReservation(int ReservationID)
 		{
-			return (ReservationInfo)CBO.FillObject(DataProvider.Instance().GetReservation(ReservationID), typeof(ReservationInfo));
+			return (ReservationInfo)CBO.FillObject<ReservationInfo>(DataProvider.Instance().GetReservation(ReservationID));
 		}
 
 		public List<ReservationInfo> GetReservationList(int TabModuleID)

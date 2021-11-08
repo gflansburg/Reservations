@@ -1,4 +1,5 @@
-﻿using DotNetNuke.Common;
+﻿using DotNetNuke.Abstractions;
+using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Security.Permissions;
@@ -6,6 +7,7 @@ using DotNetNuke.Services.Exceptions;
 using DotNetNuke.Services.Localization;
 using DotNetNuke.UI.Skins;
 using DotNetNuke.UI.Skins.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +33,13 @@ namespace Gafware.Modules.Reservations
 
         protected List<CustomFieldDefinitionListItemInfo> _List;
 
+		private readonly INavigationManager _navigationManager;
+		
+		public EditCustomFieldDefinition()
+		{
+			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
+		}
+
 		protected Gafware.Modules.Reservations.CustomFieldDefinitionInfo CustomFieldDefinitionInfo
 		{
 			get
@@ -50,7 +59,7 @@ namespace Gafware.Modules.Reservations
 						this._CustomFieldDefinitionInfo = (new CustomFieldDefinitionController()).GetCustomFieldDefinition((int)this.ViewState["CustomFieldDefinitionID"]);
 						if (this._CustomFieldDefinitionInfo == null || this._CustomFieldDefinitionInfo.TabModuleID != base.TabModuleId)
 						{
-							base.Response.Redirect(Globals.NavigateURL(), true);
+							base.Response.Redirect(_navigationManager.NavigateURL(), true);
 						}
 					}
 				}
@@ -134,14 +143,10 @@ namespace Gafware.Modules.Reservations
 			{
 				if (string.IsNullOrEmpty(base.Request.QueryString["ReturnUrl"]))
 				{
-					return Globals.NavigateURL();
+					return _navigationManager.NavigateURL();
 				}
 				return base.Request.QueryString["ReturnUrl"];
 			}
-		}
-
-		public EditCustomFieldDefinition()
-		{
 		}
 
 		private void AddColumn(string dataField)
@@ -233,8 +238,7 @@ namespace Gafware.Modules.Reservations
 
 		protected int IndexOfCustomFieldDefinitionListItemByID(int id, List<CustomFieldDefinitionListItemInfo> list)
 		{
-			int num;
-			int num1 = 0;
+			int num = 0;
 			List<CustomFieldDefinitionListItemInfo>.Enumerator enumerator = list.GetEnumerator();
 			try
 			{
@@ -242,21 +246,19 @@ namespace Gafware.Modules.Reservations
 				{
 					if (enumerator.Current.CustomFieldDefinitionListItemID != id)
 					{
-						num1++;
+						num++;
 					}
 					else
 					{
-						num = num1;
 						return num;
 					}
 				}
-				return -1;
 			}
 			finally
 			{
 				((IDisposable)enumerator).Dispose();
 			}
-			return num;
+			return -1;
 		}
 
 		public void ItemCommand(object source, DataGridCommandEventArgs e)
@@ -478,7 +480,7 @@ namespace Gafware.Modules.Reservations
 				{
 					if (!this.HasEditPermissions)
 					{
-						base.Response.Redirect(Globals.NavigateURL(), true);
+						base.Response.Redirect(_navigationManager.NavigateURL(), true);
 					}
 					if (!string.IsNullOrEmpty(base.Request.QueryString["ModuleMessage"]) && !string.IsNullOrEmpty(base.Request.QueryString["ModuleMessageType"]))
 					{

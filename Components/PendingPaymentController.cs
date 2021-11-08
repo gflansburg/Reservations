@@ -24,7 +24,7 @@ namespace Gafware.Modules.Reservations
 
 		public PendingPaymentInfo GetPendingPayment(int PendingPaymentID)
 		{
-			return (PendingPaymentInfo)CBO.FillObject(DataProvider.Instance().GetPendingPayment(PendingPaymentID), typeof(PendingPaymentInfo));
+			return (PendingPaymentInfo)CBO.FillObject<PendingPaymentInfo>(DataProvider.Instance().GetPendingPayment(PendingPaymentID));
 		}
 
 		public List<PendingPaymentInfo> GetPendingPaymentList(int TabModuleID)

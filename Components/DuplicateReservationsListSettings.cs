@@ -1,3 +1,4 @@
+using DotNetNuke.Abstractions;
 using DotNetNuke.Common;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
@@ -12,6 +13,7 @@ using System.Reflection;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gafware.Modules.Reservations
 {
@@ -22,6 +24,10 @@ namespace Gafware.Modules.Reservations
 		private List<CommandButton> _CommandButtonList;
 
 		protected string _NotAvailable;
+
+		public DuplicateReservationsListSettings(PortalModuleBase portalModuleBase) : base(portalModuleBase)
+		{
+		}
 
 		public override string ALLOWPAGING_KEY
 		{
@@ -136,10 +142,6 @@ namespace Gafware.Modules.Reservations
 			{
 				return "DuplicateReservationsSortOrder";
 			}
-		}
-
-		public DuplicateReservationsListSettings(PortalModuleBase portalModuleBase) : base(portalModuleBase)
-		{
 		}
 
 		public override bool ApplyCustomFilter(object info, string columnName, string text)
@@ -320,8 +322,10 @@ namespace Gafware.Modules.Reservations
 		{
 			if (commandName == "View")
 			{
-				HttpContext.Current.Response.Redirect(Globals.NavigateURL(portalModuleBase.TabId, string.Empty, new string[] { string.Concat("EventID=", id.ToString()), string.Concat("ReturnUrl=", returnUrl) }));
-			}
+#pragma warning disable CS0618 // Type or member is obsolete
+                HttpContext.Current.Response.Redirect(Globals.NavigateURL(portalModuleBase.TabId, string.Empty, new string[] { string.Concat("EventID=", id.ToString()), string.Concat("ReturnUrl=", returnUrl) }));
+#pragma warning restore CS0618 // Type or member is obsolete
+            }
 		}
 
 		public override bool ImplementsCustomFilter(string columnName)

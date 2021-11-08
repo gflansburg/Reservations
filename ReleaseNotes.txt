@@ -1,15 +1,16 @@
 ﻿<h3>Reservations</h3>
 <p class="Contributor">
-	Glenn Flansburg<br />
+	Gafware <br />
 	<a href="mailto:support@gafware.com">support@gafware.com</a><br />
-	<a href=https://www.gafware.com>https://www.gafware.com</a><br />
+	<a href=https://www.gafware.com/>https://www.gafware.com/</a><br />
 </p>
 <hr/>
 <div class="License">
-	<h3>About the Reservations Moudle</h3>
+	<h3>About the Reservations</h3>
 	<p class="Owner">
-		<b>Version 1.0</b><br /><br />
+		<b>Version 1.0.0</b><br /><br />
 	</p>
 	<p>Description about version.</p>
-		Initial Release	
+	
+	<h4>Initial release</h4>
 </div>
