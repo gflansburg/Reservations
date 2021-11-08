@@ -45,7 +45,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AuthorizeNet">
-      <HintPath>..\..\..\..\..\Users\flan4248.SOONER\OneDrive - University of Oklahoma\Source\Repos\DNNModues\Reservations.Decompiled\DNNSpecialists.Modules.ReservationsReferences\AuthorizeNet.dll</HintPath>
+      <HintPath>Dependencies\AuthorizeNet.dll</HintPath>
     </Reference>
     <Reference Include="DotNetNuke">
       <HintPath>..\..\..\bin\DotNetNuke.dll</HintPath>
@@ -105,7 +105,7 @@
       <HintPath>..\..\..\bin\Telerik.Web.UI.dll</HintPath>
     </Reference>
     <Reference Include="Twilio.Api">
-      <HintPath>..\..\..\..\..\Users\flan4248.SOONER\OneDrive - University of Oklahoma\Source\Repos\DNNModues\Reservations.Decompiled\DNNSpecialists.Modules.ReservationsReferences\Twilio.Api.dll</HintPath>
+      <HintPath>Dependencies\Twilio.Api.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -293,6 +293,8 @@
     <Content Include="Activate.ascx" />
     <Content Include="AuthorizeNetSIMRelayResponse.aspx" />
     <Content Include="Cashier.ascx" />
+    <Content Include="Dependencies\AuthorizeNet.dll" />
+    <Content Include="Dependencies\Twilio.Api.dll" />
     <Content Include="Documentation\Documentation.css" />
     <Content Include="Documentation\Documentation.html" />
     <Content Include="DuplicateReservations.ascx" />
@@ -393,7 +395,7 @@
           <DevelopmentServerPort>52717</DevelopmentServerPort>
           <DevelopmentServerVPath>
           </DevelopmentServerVPath>
-          <IISUrl>http://dnndev.me/desktopmodules/OUHR/Reservations</IISUrl>
+          <IISUrl>http://dnndev.me/desktopmodules/Gafware/Reservations</IISUrl>
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://dnndev.me</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
