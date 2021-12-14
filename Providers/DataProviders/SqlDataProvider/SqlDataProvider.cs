@@ -348,6 +348,11 @@ namespace Gafware.Modules.Reservations.Data
 			return string.Concat(this.DatabaseOwner, this.ObjectQualifier, ModuleQualifier, "Reservations_", name);
 		}
 
+		private string GetBaseName(string name)
+		{
+			return string.Concat(this.DatabaseOwner, this.ObjectQualifier, name);
+		}
+
 		public override IDataReader GetICalendar(int ReservationID)
 		{
 			return SqlHelper.ExecuteReader(this.ConnectionString, this.GetFullyQualifiedName("GetICalendar"), new object[] { ReservationID });
@@ -386,6 +391,11 @@ namespace Gafware.Modules.Reservations.Data
 		public override IDataReader GetReservationList(int TabModuleID)
 		{
 			return SqlHelper.ExecuteReader(this.ConnectionString, this.GetFullyQualifiedName("GetReservationList"), new object[] { GetNull(TabModuleID) });
+		}
+
+		public override IDataReader GetTabModuleSettings(int TabModuleID)
+		{
+			return SqlHelper.ExecuteReader(this.ConnectionString, this.GetBaseName("GetTabModuleSettings"), new object[] { GetNull(TabModuleID) });
 		}
 
 		public override IDataReader GetReservationListByDateRange(int TabModuleID, DateTime From, DateTime To)

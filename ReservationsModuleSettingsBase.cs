@@ -1,23 +1,20 @@
 using DotNetNuke.Common;
 using DotNetNuke.Common.Utilities;
 using DotNetNuke.ComponentModel;
-using DotNetNuke.Entities.Content;
 using DotNetNuke.Entities.Controllers;
 using DotNetNuke.Entities.Modules;
 using DotNetNuke.Entities.Portals;
 using DotNetNuke.Entities.Users;
 using DotNetNuke.Services.Localization;
-using Gafware.Modules.Reservations.Data;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Data;
 using System.Globalization;
 using System.Reflection;
 
 namespace Gafware.Modules.Reservations
 {
-	public class ModuleSettings
+	public class ReservationsModuleSettingsBase : ModuleSettingsBase
 	{
 		public const string INSTALLEDON_KEY = "Gafware_Reservations_InstalledOn";
 
@@ -249,13 +246,67 @@ namespace Gafware.Modules.Reservations
 
 		public const string AUTHORIZENETMERCHANTHASH_KEY = "AuthorizeNetMerchantHash";
 
-		private int PortalId;
+		private int _portalId;
+		private new int PortalId 
+		{ 
+			get
+            {
+				return _portalId;
+            }
+			set
+            {
+				_portalId = value;
+            }
+		}
 
-		private int TabModuleId;
+		private int _tabModuleId;
+		private new int TabModuleId 
+		{ 
+			get
+            {
+				return _tabModuleId;
+            }
+			set
+            {
+				_tabModuleId = value;
+            }
+		}
 
 		private string _FolderName;
 
-		private Hashtable _Settings;
+		public ReservationsModuleSettingsBase()
+        {
+			_portalId = base.PortalId;
+			_tabModuleId = base.TabModuleId;
+			_settings = base.Settings;
+			_localResourceFile = base.LocalResourceFile;
+        }
+
+		public ReservationsModuleSettingsBase(int portalId, int tabModuleId)
+		{
+			_portalId = portalId;
+			_tabModuleId = tabModuleId;
+			_settings = (new ModuleController()).GetTabModule(_tabModuleId).TabModuleSettings;
+			_localResourceFile = string.Concat(new string[] { Globals.ApplicationPath, "/DesktopModules/", FolderName, "/", Localization.LocalResourceDirectory, "/MakeReservation" });
+		}
+
+		private string _localResourceFile;
+		private new string LocalResourceFile
+		{
+			get
+			{
+				return _localResourceFile;
+			}
+		}
+
+		private Hashtable _settings;
+		public new Hashtable Settings
+		{
+			get
+			{
+				return _settings;
+			}
+		}
 
 		public string ActivationCode
 		{
@@ -274,7 +325,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowCancellations"] ?? bool.TrueString;
+				string item = (string)Settings["AllowCancellations"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -283,7 +334,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowCategorySelection"] ?? bool.FalseString;
+				string item = (string)Settings["AllowCategorySelection"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -292,7 +343,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowDescription"] ?? bool.TrueString;
+				string item = (string)Settings["AllowDescription"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -301,7 +352,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowLookupByPhone"] ?? bool.FalseString;
+				string item = (string)Settings["AllowLookupByPhone"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -310,7 +361,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowPayLater"] ?? bool.FalseString;
+				string item = (string)Settings["AllowPayLater"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -319,7 +370,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowRescheduling"] ?? bool.TrueString;
+				string item = (string)Settings["AllowRescheduling"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -328,7 +379,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowSchedulingAnotherReservation"] ?? bool.FalseString;
+				string item = (string)Settings["AllowSchedulingAnotherReservation"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -337,7 +388,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AttachiCalendar"] ?? bool.FalseString;
+				string item = (string)Settings["AttachiCalendar"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -346,7 +397,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["AuthorizeNetApiLogin"];
+				return (string)Settings["AuthorizeNetApiLogin"];
 			}
 		}
 
@@ -354,7 +405,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["AuthorizeNetMerchantHash"];
+				return (string)Settings["AuthorizeNetMerchantHash"];
 			}
 		}
 
@@ -362,7 +413,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AuthorizeNetTestMode"];
+				string item = (string)Settings["AuthorizeNetTestMode"];
 				if (string.IsNullOrEmpty(item))
 				{
 					item = bool.FalseString;
@@ -375,17 +426,17 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["AuthorizeNetTransactionKey"];
+				return (string)Settings["AuthorizeNetTransactionKey"];
 			}
 		}
 
-		public ArrayList BCCList
+		public virtual ArrayList BCCList
 		{
 			get
 			{
-				string item = (string)this.Settings["BCCList"] ?? string.Empty;
-				//return this.DeserializeUserIDList(item);
-				return this.DeserializeEmailList(item);
+				string item = (string)Settings["BCCList"] ?? string.Empty;
+				//return DeserializeUserIDList(item);
+				return DeserializeEmailList(item);
 			}
 		}
 
@@ -393,11 +444,11 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (!this.AllowCategorySelection || this.SelectCategoryLast || this.PreventCrossCategoryConflicts)
+				if (!AllowCategorySelection || SelectCategoryLast || PreventCrossCategoryConflicts)
 				{
 					return false;
 				}
-				string item = (string)this.Settings["BindUponCategorySelection"] ?? bool.FalseString;
+				string item = (string)Settings["BindUponCategorySelection"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -406,7 +457,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["CancellationFee"] ?? "0";
+				string item = (string)Settings["CancellationFee"] ?? "0";
 				return decimal.Parse(item, CultureInfo.InvariantCulture);
 			}
 		}
@@ -415,7 +466,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["CancellationMailBody"] ?? Localization.GetString("CancellationMailBody", this.LocalResourceFile);
+				string item = (string)Settings["CancellationMailBody"] ?? Localization.GetString("CancellationMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -424,7 +475,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["CancellationMailBodyType"] ?? Localization.GetString("CancellationMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["CancellationMailBodyType"] ?? Localization.GetString("CancellationMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -433,36 +484,36 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["CancellationMailSubject"] ?? Localization.GetString("CancellationMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["CancellationMailSubject"] ?? Localization.GetString("CancellationMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
 
-		public ArrayList CashierList
+		public virtual ArrayList CashierList
 		{
 			get
 			{
-				string item = (string)this.Settings["CashierList"] ?? string.Empty;
-				//return this.DeserializeUserIDList(item);
-				return this.DeserializeEmailList(item);
+				string item = (string)Settings["CashierList"] ?? string.Empty;
+				//return DeserializeUserIDList(item);
+				return DeserializeEmailList(item);
 			}
 		}
 
-		public ArrayList CategoryPermissionsList
+		public virtual ArrayList CategoryPermissionsList
 		{
 			get
 			{
-				string item = (string)this.Settings["CategoryPermissions"] ?? "-1";
-				return this.DeserializeRoleIDList(item);
+				string item = (string)Settings["CategoryPermissions"] ?? "-1";
+				return DeserializeRoleIDList(item);
 			}
 		}
 
-		public ModuleSettings.SelectionModeEnum CategorySelectionMode
+		public ReservationsModuleSettingsBase.SelectionModeEnum CategorySelectionMode
 		{
 			get
 			{
-				string item = (string)this.Settings["CategorySelectionMode"] ?? 1.ToString();
-				return (ModuleSettings.SelectionModeEnum)this.AdjustSelectionModeBasedOnjQuery(int.Parse(item));
+				string item = (string)Settings["CategorySelectionMode"] ?? 1.ToString();
+				return (ReservationsModuleSettingsBase.SelectionModeEnum)AdjustSelectionModeBasedOnjQuery(int.Parse(item));
 			}
 		}
 
@@ -470,7 +521,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ConfirmationMailBody"] ?? Localization.GetString("ConfirmationMailBody", this.LocalResourceFile);
+				string item = (string)Settings["ConfirmationMailBody"] ?? Localization.GetString("ConfirmationMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -479,7 +530,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ConfirmationMailBodyType"] ?? Localization.GetString("ConfirmationMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["ConfirmationMailBodyType"] ?? Localization.GetString("ConfirmationMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -488,7 +539,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ConfirmationMailSubject"] ?? Localization.GetString("ConfirmationMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["ConfirmationMailSubject"] ?? Localization.GetString("ConfirmationMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -497,7 +548,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ContactInfoFirst"] ?? bool.FalseString;
+				string item = (string)Settings["ContactInfoFirst"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -506,7 +557,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["Currency"] ?? "USD";
+				return (string)Settings["Currency"] ?? "USD";
 			}
 		}
 
@@ -514,7 +565,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DaysAhead"] ?? "30";
+				string item = (string)Settings["DaysAhead"] ?? "30";
 				return int.Parse(item);
 			}
 		}
@@ -523,7 +574,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DeclinedMailBody"] ?? Localization.GetString("DeclinedMailBody", this.LocalResourceFile);
+				string item = (string)Settings["DeclinedMailBody"] ?? Localization.GetString("DeclinedMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -532,7 +583,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DeclinedMailBodyType"] ?? Localization.GetString("DeclinedMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["DeclinedMailBodyType"] ?? Localization.GetString("DeclinedMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -541,7 +592,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DeclinedMailSubject"] ?? Localization.GetString("DeclinedMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["DeclinedMailSubject"] ?? Localization.GetString("DeclinedMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -550,7 +601,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DepositFee"] ?? "0";
+				string item = (string)Settings["DepositFee"] ?? "0";
 				return decimal.Parse(item, CultureInfo.InvariantCulture);
 			}
 		}
@@ -559,7 +610,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DisplayCalendar"] ?? bool.TrueString;
+				string item = (string)Settings["DisplayCalendar"] ?? bool.TrueString;
 				if (bool.Parse(item))
 				{
 					return true;
@@ -572,7 +623,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DisplayEndTime"] ?? bool.TrueString;
+				string item = (string)Settings["DisplayEndTime"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -581,7 +632,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DisplayRemainingReservations"] ?? bool.TrueString;
+				string item = (string)Settings["DisplayRemainingReservations"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -590,7 +641,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DisplayTimeOfDay"] ?? bool.TrueString;
+				string item = (string)Settings["DisplayTimeOfDay"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -599,7 +650,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DisplayUnavailableCategories"] ?? bool.FalseString;
+				string item = (string)Settings["DisplayUnavailableCategories"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -608,7 +659,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DisplayUnavailableTimeOfDay"] ?? bool.TrueString;
+				string item = (string)Settings["DisplayUnavailableTimeOfDay"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -617,7 +668,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DuplicateReservationMailBody"] ?? Localization.GetString("DuplicateReservationMailBody", this.LocalResourceFile);
+				string item = (string)Settings["DuplicateReservationMailBody"] ?? Localization.GetString("DuplicateReservationMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -626,7 +677,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DuplicateReservationMailBodyType"] ?? Localization.GetString("DuplicateReservationMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["DuplicateReservationMailBodyType"] ?? Localization.GetString("DuplicateReservationMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -635,27 +686,27 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["DuplicateReservationMailSubject"] ?? Localization.GetString("DuplicateReservationMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["DuplicateReservationMailSubject"] ?? Localization.GetString("DuplicateReservationMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
 
-		public ArrayList DuplicateReservationsList
+		public virtual ArrayList DuplicateReservationsList
 		{
 			get
 			{
-				string item = (string)this.Settings["DuplicateReservationsList"] ?? string.Empty;
-				//return this.DeserializeUserIDList(item);
-				return this.DeserializeEmailList(item);
+				string item = (string)Settings["DuplicateReservationsList"] ?? string.Empty;
+				//return DeserializeUserIDList(item);
+				return DeserializeEmailList(item);
 			}
 		}
 
-		public ModuleSettings.SelectionModeEnum DurationSelectionMode
+		public ReservationsModuleSettingsBase.SelectionModeEnum DurationSelectionMode
 		{
 			get
 			{
-				string item = (string)this.Settings["DurationSelectionMode"] ?? 1.ToString();
-				return (ModuleSettings.SelectionModeEnum)this.AdjustSelectionModeBasedOnjQuery(int.Parse(item));
+				string item = (string)Settings["DurationSelectionMode"] ?? 1.ToString();
+				return (ReservationsModuleSettingsBase.SelectionModeEnum)AdjustSelectionModeBasedOnjQuery(int.Parse(item));
 			}
 		}
 
@@ -663,7 +714,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["EmergencyRequestMailBody"] ?? Localization.GetString("EmergencyRequestMailBody", this.LocalResourceFile);
+				string item = (string)Settings["EmergencyRequestMailBody"] ?? Localization.GetString("EmergencyRequestMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -672,7 +723,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["EmergencyRequestMailBodyType"] ?? Localization.GetString("EmergencyRequestMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["EmergencyRequestMailBodyType"] ?? Localization.GetString("EmergencyRequestMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -681,7 +732,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["EmergencyRequestMailSubject"] ?? Localization.GetString("EmergencyRequestMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["EmergencyRequestMailSubject"] ?? Localization.GetString("EmergencyRequestMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -690,7 +741,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["FeeScheduleType"] ?? (this.SchedulingFee != decimal.Zero || this.ReschedulingFee != decimal.Zero || this.CancellationFee != decimal.Zero ? Gafware.Modules.Reservations.FeeScheduleType.Flat.ToString() : Gafware.Modules.Reservations.FeeScheduleType.Free.ToString());
+				string item = (string)Settings["FeeScheduleType"] ?? (SchedulingFee != decimal.Zero || ReschedulingFee != decimal.Zero || CancellationFee != decimal.Zero ? Gafware.Modules.Reservations.FeeScheduleType.Flat.ToString() : Gafware.Modules.Reservations.FeeScheduleType.Free.ToString());
 				return (Gafware.Modules.Reservations.FeeScheduleType)Enum.Parse(typeof(Gafware.Modules.Reservations.FeeScheduleType), item);
 			}
 		}
@@ -701,18 +752,18 @@ namespace Gafware.Modules.Reservations
 			{
 				Gafware.Modules.Reservations.FlatFeeScheduleInfo flatFeeScheduleInfo = new Gafware.Modules.Reservations.FlatFeeScheduleInfo()
 				{
-					DepositFee = this.DepositFee,
-					ReservationFee = this.SchedulingFee,
-					ReschedulingFee = this.ReschedulingFee,
-					CancellationFee = this.CancellationFee
+					DepositFee = DepositFee,
+					ReservationFee = SchedulingFee,
+					ReschedulingFee = ReschedulingFee,
+					CancellationFee = CancellationFee
 				};
-				if (!this.Settings.ContainsKey("SchedulingFeeInterval"))
+				if (!Settings.ContainsKey("SchedulingFeeInterval"))
 				{
-					flatFeeScheduleInfo.Interval = (int)this.ReservationDuration.TotalMinutes;
+					flatFeeScheduleInfo.Interval = (int)ReservationDuration.TotalMinutes;
 				}
 				else
 				{
-					flatFeeScheduleInfo.Interval = int.Parse((string)this.Settings["SchedulingFeeInterval"]);
+					flatFeeScheduleInfo.Interval = int.Parse((string)Settings["SchedulingFeeInterval"]);
 				}
 				return flatFeeScheduleInfo;
 			}
@@ -722,11 +773,11 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._FolderName == null)
+				if (_FolderName == null)
 				{
-					this._FolderName = DesktopModuleController.GetDesktopModuleByModuleName("Gafware.Modules.Reservations", this.PortalId).FolderName;
+					_FolderName = DesktopModuleController.GetDesktopModuleByModuleName("Gafware.Modules.Reservations", PortalId).FolderName;
 				}
-				return this._FolderName;
+				return _FolderName;
 			}
 		}
 
@@ -734,7 +785,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ICalendarAttachmentFileName"] ?? Localization.GetString("ICalendarAttachmentFileName", this.LocalResourceFile);
+				string item = (string)Settings["ICalendarAttachmentFileName"] ?? Localization.GetString("ICalendarAttachmentFileName", LocalResourceFile);
 				return item;
 			}
 		}
@@ -743,7 +794,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings[key];
+				return (string)Settings[key];
 			}
 		}
 
@@ -751,16 +802,8 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PayPalItemDescription"] ?? Localization.GetString("PayPalItemDescription", this.LocalResourceFile);
+				string item = (string)Settings["PayPalItemDescription"] ?? Localization.GetString("PayPalItemDescription", LocalResourceFile);
 				return item;
-			}
-		}
-
-		private string LocalResourceFile
-		{
-			get
-			{
-				return string.Concat(new string[] { Globals.ApplicationPath, "/DesktopModules/", this.FolderName, "/", Localization.LocalResourceDirectory, "/MakeReservation" });
 			}
 		}
 
@@ -768,7 +811,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["MailFrom"] ?? (new PortalController()).GetPortal(this.PortalId).Email;
+				string item = (string)Settings["MailFrom"] ?? (new PortalController()).GetPortal(PortalId).Email;
 				return item;
 			}
 		}
@@ -777,7 +820,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["MaxReservationsPerTimeSlot"] ?? "1";
+				string item = (string)Settings["MaxReservationsPerTimeSlot"] ?? "1";
 				return int.Parse(item);
 			}
 		}
@@ -786,7 +829,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["MaxReservationsPerUser"] ?? Null.NullInteger.ToString();
+				string item = (string)Settings["MaxReservationsPerUser"] ?? Null.NullInteger.ToString();
 				return int.Parse(item);
 			}
 		}
@@ -795,7 +838,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["MinTimeAhead"];
+				string item = (string)Settings["MinTimeAhead"];
 				if (item == null)
 				{
 					TimeSpan timeSpan = new TimeSpan();
@@ -809,18 +852,18 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["Moderate"] ?? bool.FalseString;
+				string item = (string)Settings["Moderate"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
 
-		public ArrayList ModeratorList
+		public virtual ArrayList ModeratorList
 		{
 			get
 			{
-				string item = (string)this.Settings["GlobalModeratorList"] ?? string.Empty;
-				//return this.DeserializeUserIDList(item);
-				return this.DeserializeEmailList(item);
+				string item = (string)Settings["GlobalModeratorList"] ?? string.Empty;
+				//return DeserializeUserIDList(item);
+				return DeserializeEmailList(item);
 			}
 		}
 
@@ -828,7 +871,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ModeratorMailBody"] ?? Localization.GetString("ModeratorMailBody", this.LocalResourceFile);
+				string item = (string)Settings["ModeratorMailBody"] ?? Localization.GetString("ModeratorMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -837,7 +880,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ModeratorMailBodyType"] ?? Localization.GetString("ModeratorMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["ModeratorMailBodyType"] ?? Localization.GetString("ModeratorMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -846,7 +889,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ModeratorMailSubject"] ?? Localization.GetString("ModeratorMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["ModeratorMailSubject"] ?? Localization.GetString("ModeratorMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -855,7 +898,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ModificationMailBody"] ?? Localization.GetString("ModificationMailBody", this.LocalResourceFile);
+				string item = (string)Settings["ModificationMailBody"] ?? Localization.GetString("ModificationMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -864,7 +907,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ModificationMailBodyType"] ?? Localization.GetString("ModificationMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["ModificationMailBodyType"] ?? Localization.GetString("ModificationMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -873,7 +916,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ModificationMailSubject"] ?? Localization.GetString("ModificationMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["ModificationMailSubject"] ?? Localization.GetString("ModificationMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -882,7 +925,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PaymentMethod"];
+				string item = (string)Settings["PaymentMethod"];
 				if (string.IsNullOrEmpty(item))
 				{
 					item = Gafware.Modules.Reservations.PaymentMethod.PayPalPaymentsStandard.ToString();
@@ -895,7 +938,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["PayPalAccount"] ?? string.Empty;
+				return (string)Settings["PayPalAccount"] ?? string.Empty;
 			}
 		}
 
@@ -903,7 +946,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["PayPalSite"] ?? "https://www.paypal.com";
+				return (string)Settings["PayPalSite"] ?? "https://www.paypal.com";
 			}
 		}
 
@@ -911,7 +954,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingCancellationRefundMailBody"] ?? Localization.GetString("PendingCancellationRefundMailBody", this.LocalResourceFile);
+				string item = (string)Settings["PendingCancellationRefundMailBody"] ?? Localization.GetString("PendingCancellationRefundMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -920,7 +963,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingCancellationRefundMailBodyType"] ?? Localization.GetString("PendingCancellationRefundMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["PendingCancellationRefundMailBodyType"] ?? Localization.GetString("PendingCancellationRefundMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -929,7 +972,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingCancellationRefundMailSubject"] ?? Localization.GetString("PendingCancellationRefundMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["PendingCancellationRefundMailSubject"] ?? Localization.GetString("PendingCancellationRefundMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -938,7 +981,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingDeclinationRefundMailBody"] ?? Localization.GetString("PendingDeclinationRefundMailBody", this.LocalResourceFile);
+				string item = (string)Settings["PendingDeclinationRefundMailBody"] ?? Localization.GetString("PendingDeclinationRefundMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -947,7 +990,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingDeclinationRefundMailBodyType"] ?? Localization.GetString("PendingDeclinationRefundMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["PendingDeclinationRefundMailBodyType"] ?? Localization.GetString("PendingDeclinationRefundMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -956,7 +999,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingDeclinationRefundMailSubject"] ?? Localization.GetString("PendingDeclinationRefundMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["PendingDeclinationRefundMailSubject"] ?? Localization.GetString("PendingDeclinationRefundMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -965,7 +1008,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingPaymentExpiration"] ?? "30";
+				string item = (string)Settings["PendingPaymentExpiration"] ?? "30";
 				return new TimeSpan(0, int.Parse(item), 0);
 			}
 		}
@@ -974,7 +1017,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingRescheduleRefundMailBody"] ?? Localization.GetString("PendingRescheduleRefundMailBody", this.LocalResourceFile);
+				string item = (string)Settings["PendingRescheduleRefundMailBody"] ?? Localization.GetString("PendingRescheduleRefundMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -983,7 +1026,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingRescheduleRefundMailBodyType"] ?? Localization.GetString("PendingRescheduleRefundMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["PendingRescheduleRefundMailBodyType"] ?? Localization.GetString("PendingRescheduleRefundMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -992,7 +1035,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["PendingRescheduleRefundMailSubject"] ?? Localization.GetString("PendingRescheduleRefundMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["PendingRescheduleRefundMailSubject"] ?? Localization.GetString("PendingRescheduleRefundMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1001,7 +1044,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["AllowCrossCategoryConflicts"] ?? bool.FalseString;
+				string item = (string)Settings["AllowCrossCategoryConflicts"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -1010,7 +1053,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["RedirectUrl"] ?? string.Empty;
+				return (string)Settings["RedirectUrl"] ?? string.Empty;
 			}
 		}
 
@@ -1018,7 +1061,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReminderMailBody"] ?? Localization.GetString("ReminderMailBody", this.LocalResourceFile);
+				string item = (string)Settings["ReminderMailBody"] ?? Localization.GetString("ReminderMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1027,7 +1070,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReminderMailBodyType"] ?? Localization.GetString("ReminderMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["ReminderMailBodyType"] ?? Localization.GetString("ReminderMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1036,7 +1079,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReminderMailSubject"] ?? Localization.GetString("ReminderMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["ReminderMailSubject"] ?? Localization.GetString("ReminderMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1045,7 +1088,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReminderSMS"] ?? Localization.GetString("ReminderSMS", this.LocalResourceFile);
+				string item = (string)Settings["ReminderSMS"] ?? Localization.GetString("ReminderSMS", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1054,7 +1097,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RequireConfirmation"] ?? bool.FalseString;
+				string item = (string)Settings["RequireConfirmation"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -1063,7 +1106,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RequireConfirmationWhen"];
+				string item = (string)Settings["RequireConfirmationWhen"];
 				if (item == null)
 				{
 					TimeSpan timeSpan = new TimeSpan(0, 8, 0, 0);
@@ -1077,7 +1120,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RequireEmail"] ?? bool.TrueString;
+				string item = (string)Settings["RequireEmail"] ?? bool.TrueString;
 				return bool.Parse(item);
 			}
 		}
@@ -1086,7 +1129,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RequirePhone"] ?? bool.FalseString;
+				string item = (string)Settings["RequirePhone"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -1095,7 +1138,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RequireVerificationCode"] ?? bool.FalseString;
+				string item = (string)Settings["RequireVerificationCode"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -1104,7 +1147,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RescheduledMailBody"] ?? Localization.GetString("RescheduledMailBody", this.LocalResourceFile);
+				string item = (string)Settings["RescheduledMailBody"] ?? Localization.GetString("RescheduledMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1113,7 +1156,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RescheduledMailBodyType"] ?? Localization.GetString("RescheduledMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["RescheduledMailBodyType"] ?? Localization.GetString("RescheduledMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1122,7 +1165,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["RescheduledMailSubject"] ?? Localization.GetString("RescheduledMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["RescheduledMailSubject"] ?? Localization.GetString("RescheduledMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1131,7 +1174,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReschedulingFee"] ?? "0";
+				string item = (string)Settings["ReschedulingFee"] ?? "0";
 				return decimal.Parse(item, CultureInfo.InvariantCulture);
 			}
 		}
@@ -1140,7 +1183,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReservationDuration"] ?? "60";
+				string item = (string)Settings["ReservationDuration"] ?? "60";
 				return new TimeSpan(0, int.Parse(item), 0);
 			}
 		}
@@ -1149,10 +1192,10 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReservationDurationInterval"];
+				string item = (string)Settings["ReservationDurationInterval"];
 				if (item == null)
 				{
-					return this.ReservationDuration;
+					return ReservationDuration;
 				}
 				return new TimeSpan(0, int.Parse(item), 0);
 			}
@@ -1162,10 +1205,10 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReservationDurationMax"];
+				string item = (string)Settings["ReservationDurationMax"];
 				if (item == null)
 				{
-					return this.ReservationDuration;
+					return ReservationDuration;
 				}
 				return new TimeSpan(0, int.Parse(item), 0);
 			}
@@ -1175,10 +1218,10 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["ReservationInterval"];
+				string item = (string)Settings["ReservationInterval"];
 				if (item == null)
 				{
-					return this.ReservationDuration;
+					return ReservationDuration;
 				}
 				return new TimeSpan(0, int.Parse(item), 0);
 			}
@@ -1188,7 +1231,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["SchedulingFee"] ?? "0";
+				string item = (string)Settings["SchedulingFee"] ?? "0";
 				return decimal.Parse(item, CultureInfo.InvariantCulture);
 			}
 		}
@@ -1198,9 +1241,9 @@ namespace Gafware.Modules.Reservations
 			get
 			{
 				string empty = string.Empty;
-				for (int i = 1; this.Settings.ContainsKey(string.Concat("SeasonalFeeScheduleList.", i)); i++)
+				for (int i = 1; Settings.ContainsKey(string.Concat("SeasonalFeeScheduleList.", i)); i++)
 				{
-					empty = string.Concat(empty, this.Settings[string.Concat("SeasonalFeeScheduleList.", i)]);
+					empty = string.Concat(empty, Settings[string.Concat("SeasonalFeeScheduleList.", i)]);
 				}
 				if (string.IsNullOrEmpty(empty))
 				{
@@ -1214,11 +1257,11 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (!this.AllowCategorySelection)
+				if (!AllowCategorySelection)
 				{
 					return false;
 				}
-				string item = (string)this.Settings["SelectCategoryLast"] ?? bool.FalseString;
+				string item = (string)Settings["SelectCategoryLast"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -1227,7 +1270,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["SendReminders"] ?? bool.FalseString;
+				string item = (string)Settings["SendReminders"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -1236,7 +1279,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["SendRemindersVia"] ?? 1.ToString();
+				string item = (string)Settings["SendRemindersVia"] ?? 1.ToString();
 				return int.Parse(item);
 			}
 		}
@@ -1245,7 +1288,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["SendRemindersWhen"];
+				string item = (string)Settings["SendRemindersWhen"];
 				if (item == null)
 				{
 					TimeSpan timeSpan = new TimeSpan(1, 0, 0, 0);
@@ -1255,41 +1298,11 @@ namespace Gafware.Modules.Reservations
 			}
 		}
 
-		public class Setting : ContentItem
-        {
-			public string SettingName { get; set; }
-			public string SettingValue { get; set; }
-
-			public override void Fill(IDataReader dr)
-			{
-				//base.Fill(dr);
-				SettingName = Null.SetNullString(dr["SettingName"]);
-				SettingValue = Null.SetNullString(dr["SettingValue"]);
-			}
-		}
-
-		public Hashtable Settings
-		{
-			get
-			{
-				if (this._Settings == null)
-				{
-					_Settings = new Hashtable();
-					List<Setting> settings = CBO.FillCollection<Setting>(DataProvider.Instance().GetTabModuleSettings(TabModuleId));
-					foreach(Setting setting in settings)
-                    {
-						_Settings.Add(setting.SettingName, setting.SettingValue);
-                    }
-				}
-				return this._Settings;
-			}
-		}
-
 		public bool SkipContactInfoForAuthenticatedUsers
 		{
 			get
 			{
-				string item = (string)this.Settings["SkipContactInfoForAuthenticatedUsers"] ?? bool.FalseString;
+				string item = (string)Settings["SkipContactInfoForAuthenticatedUsers"] ?? bool.FalseString;
 				return bool.Parse(item);
 			}
 		}
@@ -1298,34 +1311,34 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["Theme"] ?? "Responsive";
+				return (string)Settings["Theme"] ?? "Responsive";
 			}
 		}
 
-		public ArrayList TimeOfDayList
+		public virtual ArrayList TimeOfDayList
 		{
 			get
 			{
-				string item = (string)this.Settings["TimesOfDay"] ?? "Morning,00:00:00-12:00:00;Afternoon,12:00:00-17:00:00;Evening,17:00:00-20:00:00;Night,20:00:00-1.00:00:00";
-				return this.DeserializeTimeOfDayList(item);
+				string item = (string)Settings["TimesOfDay"] ?? "Morning,00:00:00-12:00:00;Afternoon,12:00:00-17:00:00;Evening,17:00:00-20:00:00;Night,20:00:00-1.00:00:00";
+				return DeserializeTimeOfDayList(item);
 			}
 		}
 
-		public ModuleSettings.SelectionModeEnum TimeOfDaySelectionMode
+		public ReservationsModuleSettingsBase.SelectionModeEnum TimeOfDaySelectionMode
 		{
 			get
 			{
-				string item = (string)this.Settings["TimeOfDaySelectionMode"] ?? 1.ToString();
-				return (ModuleSettings.SelectionModeEnum)this.AdjustSelectionModeBasedOnjQuery(int.Parse(item));
+				string item = (string)Settings["TimeOfDaySelectionMode"] ?? 1.ToString();
+				return (ReservationsModuleSettingsBase.SelectionModeEnum)AdjustSelectionModeBasedOnjQuery(int.Parse(item));
 			}
 		}
 
-		public ModuleSettings.SelectionModeEnum TimeSelectionMode
+		public ReservationsModuleSettingsBase.SelectionModeEnum TimeSelectionMode
 		{
 			get
 			{
-				string item = (string)this.Settings["TimeSelectionMode"] ?? 1.ToString();
-				return (ModuleSettings.SelectionModeEnum)this.AdjustSelectionModeBasedOnjQuery(int.Parse(item));
+				string item = (string)Settings["TimeSelectionMode"] ?? 1.ToString();
+				return (ReservationsModuleSettingsBase.SelectionModeEnum)AdjustSelectionModeBasedOnjQuery(int.Parse(item));
 			}
 		}
 
@@ -1333,7 +1346,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["TimeZone"];
+				string item = (string)Settings["TimeZone"];
 				if (item == null)
 				{
 					return PortalSettings.Current.TimeZone;
@@ -1346,7 +1359,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["TwilioAccountSID"] ?? string.Empty;
+				return (string)Settings["TwilioAccountSID"] ?? string.Empty;
 			}
 		}
 
@@ -1354,7 +1367,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["TwilioAuthToken"] ?? string.Empty;
+				return (string)Settings["TwilioAuthToken"] ?? string.Empty;
 			}
 		}
 
@@ -1362,7 +1375,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				return (string)this.Settings["TwilioFrom"] ?? string.Empty;
+				return (string)Settings["TwilioFrom"] ?? string.Empty;
 			}
 		}
 
@@ -1370,7 +1383,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["VerificationCodeMailBody"] ?? Localization.GetString("VerificationCodeMailBody", this.LocalResourceFile);
+				string item = (string)Settings["VerificationCodeMailBody"] ?? Localization.GetString("VerificationCodeMailBody", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1379,7 +1392,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["VerificationCodeMailBodyType"] ?? Localization.GetString("VerificationCodeMailBodyType", this.LocalResourceFile);
+				string item = (string)Settings["VerificationCodeMailBodyType"] ?? Localization.GetString("VerificationCodeMailBodyType", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1388,7 +1401,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["VerificationCodeMailSubject"] ?? Localization.GetString("VerificationCodeMailSubject", this.LocalResourceFile);
+				string item = (string)Settings["VerificationCodeMailSubject"] ?? Localization.GetString("VerificationCodeMailSubject", LocalResourceFile);
 				return item;
 			}
 		}
@@ -1397,7 +1410,7 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				string item = (string)this.Settings["VerificationCodeSalt"];
+				string item = (string)Settings["VerificationCodeSalt"];
 				if (item == null)
 				{
 					throw new NotSupportedException();
@@ -1406,20 +1419,14 @@ namespace Gafware.Modules.Reservations
 			}
 		}
 
-		public ArrayList ViewReservationsList
+		public virtual ArrayList ViewReservationsList
 		{
 			get
 			{
-				string item = (string)this.Settings["ViewReservationsList"] ?? string.Empty;
-				//return this.DeserializeUserIDList(item);
-				return this.DeserializeEmailList(item);
+				string item = (string)Settings["ViewReservationsList"] ?? string.Empty;
+				//return DeserializeUserIDList(item);
+				return DeserializeEmailList(item);
 			}
-		}
-
-		public ModuleSettings(int PortalId, int TabModuleId)
-		{
-			this.PortalId = PortalId;
-			this.TabModuleId = TabModuleId;
 		}
 
         private int AdjustSelectionModeBasedOnjQuery(int selectionMode)
@@ -1477,7 +1484,7 @@ namespace Gafware.Modules.Reservations
 				for (int i = 0; i < (int)strArrays.Length; i++)
 				{
 					string str = strArrays[i];
-					UserInfo user = (new UserController()).GetUser(this.PortalId, int.Parse(str));
+					UserInfo user = (new UserController()).GetUser(PortalId, int.Parse(str));
 					if (user != null)
 					{
 						arrayLists.Add(user);
@@ -1499,7 +1506,7 @@ namespace Gafware.Modules.Reservations
 					string str = strArrays[i];
 					if (Helper.IsValidEmail2(str))
 					{
-						IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "Email", true, "Email", str);
+						IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "Email", true, "Email", str);
 						if (users != null && users.Count > 0)
 						{
 							arrayLists.Add(users[0]);
@@ -1515,7 +1522,7 @@ namespace Gafware.Modules.Reservations
 					}
 					else
                     {
-						UserInfo user = (new UserController()).GetUser(this.PortalId, int.Parse(str));
+						UserInfo user = (new UserController()).GetUser(PortalId, int.Parse(str));
 						if (user != null)
 						{
 							arrayLists.Add(user);
@@ -1529,7 +1536,7 @@ namespace Gafware.Modules.Reservations
 
 		public bool IsDefined(string settingName)
 		{
-			return this.Settings.ContainsKey(settingName);
+			return Settings.ContainsKey(settingName);
 		}
 
 		public string SerializeRoleIDList(ArrayList roleIDList)

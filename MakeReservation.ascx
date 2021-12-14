@@ -427,6 +427,8 @@
             causesvalidation="False"><asp:label runat="server" resourcekey="cashierCommandButton" /></asp:linkbutton>
         <asp:linkbutton runat="server" id="duplicateReservationsCommandButton" cssclass="Gafware_Modules_Reservations_CommandButton_Gray"
             causesvalidation="False"><asp:label runat="server" resourcekey="duplicateReservationsCommandButton" /></asp:linkbutton>
+        <asp:linkbutton runat="server" id="mainSettingsCommandButton" cssclass="Gafware_Modules_Reservations_CommandButton_Gray"
+            causesvalidation="False"><asp:label runat="server" resourcekey="mainSettingsCommandButton" /></asp:linkbutton>
     </div>
     <asp:placeholder runat="server" id="editionPlaceHolder" />
     <%--<div class="console"></div>--%>

@@ -164,6 +164,8 @@ namespace Gafware.Modules.Reservations.Data
         public abstract IDataReader GetReservationListByDateRangeAndCategoryID(int TabModuleID, DateTime From, DateTime To, int CategoryID);
 
         public abstract IDataReader GetReservationListToSendReminders();
+        
+        public abstract IDataReader GetTabModuleSettings(int TabModuleID);
 
         public abstract void UpdateCategory(int TabModuleID, int CategoryID, string Name, int CreatedByUserID, DateTime CreatedOnDate, int LastModifiedByUserID, DateTime LastModifiedOnDate);
 

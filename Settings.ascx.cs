@@ -78,6 +78,7 @@ namespace Gafware.Modules.Reservations
         private ArrayList _ViewReservationsList;
 
 		private readonly INavigationManager _navigationManager;
+
 		public Settings()
 		{
 			_navigationManager = DependencyProvider.GetRequiredService<INavigationManager>();
@@ -87,27 +88,27 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._BCCList == null)
+				if (_BCCList == null)
 				{
-					if (this.ViewState["BCCList"] != null)
+					if (ViewState["BCCList"] != null)
 					{
-						//this._BCCList = this.ModuleSettings.DeserializeUserIDList((string)this.ViewState["BCCList"]);
-						this._BCCList = this.ModuleSettings.DeserializeEmailList((string)this.ViewState["BCCList"]);
+						//_BCCList = ModuleSettings.DeserializeUserIDList((string)ViewState["BCCList"]);
+						_BCCList = ModuleSettings.DeserializeEmailList((string)ViewState["BCCList"]);
 					}
 					else
 					{
-						int num = (!base.IsPostBack || this.bccListCategoryDropDownList.SelectedValue == null || !(this.bccListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.bccListCategoryDropDownList.SelectedValue));
+						int num = (!IsPostBack || bccListCategoryDropDownList.SelectedValue == null || !(bccListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(bccListCategoryDropDownList.SelectedValue));
 						if (num != Null.NullInteger)
 						{
-							this._BCCList = (new CategorySettings(base.PortalId, base.TabModuleId, num)).BCCList;
+							_BCCList = (new CategorySettings(PortalId, TabModuleId, num)).BCCList;
 						}
 						else
 						{
-							this._BCCList = this.ModuleSettings.BCCList;
+							_BCCList = ModuleSettings.BCCList;
 						}
 					}
 				}
-				return this._BCCList;
+				return _BCCList;
 			}
 		}
 
@@ -115,27 +116,27 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._CashierList == null)
+				if (_CashierList == null)
 				{
-					if (this.ViewState["CashierList"] != null)
+					if (ViewState["CashierList"] != null)
 					{
-						//this._CashierList = this.ModuleSettings.DeserializeUserIDList((string)this.ViewState["CashierList"]);
-						this._CashierList = this.ModuleSettings.DeserializeEmailList((string)this.ViewState["CashierList"]);
+						//_CashierList = ModuleSettings.DeserializeUserIDList((string)ViewState["CashierList"]);
+						_CashierList = ModuleSettings.DeserializeEmailList((string)ViewState["CashierList"]);
 					}
 					else
 					{
-						int num = (!base.IsPostBack || this.cashierListCategoryDropDownList.SelectedValue == null || !(this.cashierListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.cashierListCategoryDropDownList.SelectedValue));
+						int num = (!IsPostBack || cashierListCategoryDropDownList.SelectedValue == null || !(cashierListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(cashierListCategoryDropDownList.SelectedValue));
 						if (num != Null.NullInteger)
 						{
-							this._CashierList = (new CategorySettings(base.PortalId, base.TabModuleId, num)).CashierList;
+							_CashierList = (new CategorySettings(PortalId, TabModuleId, num)).CashierList;
 						}
 						else
 						{
-							this._CashierList = this.ModuleSettings.CashierList;
+							_CashierList = ModuleSettings.CashierList;
 						}
 					}
 				}
-				return this._CashierList;
+				return _CashierList;
 			}
 		}
 
@@ -143,19 +144,19 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._CategoryList == null)
+				if (_CategoryList == null)
 				{
-					if (this.ViewState["CategoryList"] != null)
+					if (ViewState["CategoryList"] != null)
 					{
-						this._CategoryList = this.DeserializeCategoryList((string)this.ViewState["CategoryList"]);
+						_CategoryList = DeserializeCategoryList((string)ViewState["CategoryList"]);
 					}
 					else
 					{
-						this._CategoryList = (new CategoryController()).GetCategoryList(base.TabModuleId);
-						this._CategoryList.Sort((CategoryInfo x, CategoryInfo y) => x.Name.CompareTo(y.Name));
+						_CategoryList = (new CategoryController()).GetCategoryList(TabModuleId);
+						_CategoryList.Sort((CategoryInfo x, CategoryInfo y) => x.Name.CompareTo(y.Name));
 					}
 				}
-				return this._CategoryList;
+				return _CategoryList;
 			}
 		}
 
@@ -163,26 +164,26 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._CategoryPermissionsList == null)
+				if (_CategoryPermissionsList == null)
 				{
-					if (this.ViewState["CategoryPermissionsList"] != null)
+					if (ViewState["CategoryPermissionsList"] != null)
 					{
-						this._CategoryPermissionsList = this.ModuleSettings.DeserializeRoleIDList((string)this.ViewState["CategoryPermissionsList"]);
+						_CategoryPermissionsList = ModuleSettings.DeserializeRoleIDList((string)ViewState["CategoryPermissionsList"]);
 					}
 					else
 					{
-						int num = (!base.IsPostBack || this.categoryPermissionsDropDownList.SelectedValue == null || !(this.categoryPermissionsDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.categoryPermissionsDropDownList.SelectedValue));
+						int num = (!IsPostBack || categoryPermissionsDropDownList.SelectedValue == null || !(categoryPermissionsDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(categoryPermissionsDropDownList.SelectedValue));
 						if (num != Null.NullInteger)
 						{
-							this._CategoryPermissionsList = (new CategorySettings(base.PortalId, base.TabModuleId, num)).CategoryPermissionsList;
+							_CategoryPermissionsList = (new CategorySettings(PortalId, TabModuleId, num)).CategoryPermissionsList;
 						}
 						else
 						{
-							this._CategoryPermissionsList = this.ModuleSettings.CategoryPermissionsList;
+							_CategoryPermissionsList = ModuleSettings.CategoryPermissionsList;
 						}
 					}
 				}
-				return this._CategoryPermissionsList;
+				return _CategoryPermissionsList;
 			}
 		}
 
@@ -190,19 +191,19 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._DuplicateReservationsList == null)
+				if (_DuplicateReservationsList == null)
 				{
-					if (this.ViewState["DuplicateReservationsList"] != null)
+					if (ViewState["DuplicateReservationsList"] != null)
 					{
-						//this._DuplicateReservationsList = this.ModuleSettings.DeserializeUserIDList((string)this.ViewState["DuplicateReservationsList"]);
-						this._DuplicateReservationsList = this.ModuleSettings.DeserializeEmailList((string)this.ViewState["DuplicateReservationsList"]);
+						//_DuplicateReservationsList = ModuleSettings.DeserializeUserIDList((string)ViewState["DuplicateReservationsList"]);
+						_DuplicateReservationsList = ModuleSettings.DeserializeEmailList((string)ViewState["DuplicateReservationsList"]);
 					}
 					else
 					{
-						this._DuplicateReservationsList = this.ModuleSettings.DuplicateReservationsList;
+						_DuplicateReservationsList = ModuleSettings.DuplicateReservationsList;
 					}
 				}
-				return this._DuplicateReservationsList;
+				return _DuplicateReservationsList;
 			}
 		}
 
@@ -218,11 +219,11 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (!this._IsProfesional.HasValue)
+				if (!_IsProfesional.HasValue)
 				{
-					this._IsProfesional = new bool?(Helper.GetEdition(this.ModuleSettings.ActivationCode) != "Standard");
+					_IsProfesional = new bool?(Helper.GetEdition(ModuleSettings.ActivationCode) != "Standard");
 				}
-				return this._IsProfesional.Value;
+				return _IsProfesional.Value;
 			}
 		}
 
@@ -230,28 +231,28 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._ModerationHours == null)
+				if (_ModerationHours == null)
 				{
-					if (this.ViewState["ModerationHours"] != null)
+					if (ViewState["ModerationHours"] != null)
 					{
-						this._ModerationHours = this.DeserializeWorkingHours((string)this.ViewState["ModerationHours"]);
+						_ModerationHours = DeserializeWorkingHours((string)ViewState["ModerationHours"]);
 					}
 					else
 					{
-						this._ModerationHours = new ArrayList();
-						int num = (!base.IsPostBack || this.moderationCategoryDropDownList.SelectedValue == null || !(this.moderationCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.moderationCategoryDropDownList.SelectedValue));
+						_ModerationHours = new ArrayList();
+						int num = (!IsPostBack || moderationCategoryDropDownList.SelectedValue == null || !(moderationCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(moderationCategoryDropDownList.SelectedValue));
 						Hashtable settings = null;
 						if (num != Null.NullInteger)
 						{
-							settings = (new CategorySettings(base.PortalId, base.TabModuleId, num)).Settings;
+							settings = (new CategorySettings(PortalId, TabModuleId, num)).Settings;
 							if (!settings.ContainsKey(string.Concat("Moderation.", DayOfWeek.Monday.ToString())))
 							{
-								settings = this.ModuleSettings.Settings;
+								settings = ModuleSettings.Settings;
 							}
 						}
 						else
 						{
-							settings = this.ModuleSettings.Settings;
+							settings = ModuleSettings.Settings;
 						}
 						foreach (DayOfWeek value in Enum.GetValues(typeof(DayOfWeek)))
 						{
@@ -276,12 +277,12 @@ namespace Gafware.Modules.Reservations
 								{
 									workingHoursInfo.AllDay = true;
 								}
-								this._ModerationHours.Add(workingHoursInfo);
+								_ModerationHours.Add(workingHoursInfo);
 							}
 						}
 					}
 				}
-				return this._ModerationHours;
+				return _ModerationHours;
 			}
 		}
 
@@ -289,27 +290,27 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._ModeratorList == null)
+				if (_ModeratorList == null)
 				{
-					if (this.ViewState["ModeratorList"] != null)
+					if (ViewState["ModeratorList"] != null)
 					{
-						//this._ModeratorList = this.ModuleSettings.DeserializeUserIDList((string)this.ViewState["ModeratorList"]);
-						this._ModeratorList = this.ModuleSettings.DeserializeEmailList((string)this.ViewState["ModeratorList"]);
+						//_ModeratorList = ModuleSettings.DeserializeUserIDList((string)ViewState["ModeratorList"]);
+						_ModeratorList = ModuleSettings.DeserializeEmailList((string)ViewState["ModeratorList"]);
 					}
 					else
 					{
-						int num = (!base.IsPostBack || this.moderationCategoryDropDownList.SelectedValue == null || !(this.moderationCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.moderationCategoryDropDownList.SelectedValue));
+						int num = (!IsPostBack || moderationCategoryDropDownList.SelectedValue == null || !(moderationCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(moderationCategoryDropDownList.SelectedValue));
 						if (num != Null.NullInteger)
 						{
-							this._ModeratorList = (new CategorySettings(base.PortalId, base.TabModuleId, num)).ModeratorList;
+							_ModeratorList = (new CategorySettings(PortalId, TabModuleId, num)).ModeratorList;
 						}
 						else
 						{
-							this._ModeratorList = this.ModuleSettings.ModeratorList;
+							_ModeratorList = ModuleSettings.ModeratorList;
 						}
 					}
 				}
-				return this._ModeratorList;
+				return _ModeratorList;
 			}
 		}
 
@@ -317,11 +318,11 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._ModuleSettings == null)
+				if (_ModuleSettings == null)
 				{
-					this._ModuleSettings = new Gafware.Modules.Reservations.ModuleSettings(base.PortalId, base.TabModuleId);
+					_ModuleSettings = new Gafware.Modules.Reservations.ModuleSettings(PortalId, TabModuleId);
 				}
-				return this._ModuleSettings;
+				return _ModuleSettings;
 			}
 		}
 
@@ -329,18 +330,18 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._TimeOfDayList == null)
+				if (_TimeOfDayList == null)
 				{
-					if (this.ViewState["TimeOfDayList"] != null)
+					if (ViewState["TimeOfDayList"] != null)
 					{
-						this._TimeOfDayList = this.ModuleSettings.DeserializeTimeOfDayList((string)this.ViewState["TimeOfDayList"]);
+						_TimeOfDayList = ModuleSettings.DeserializeTimeOfDayList((string)ViewState["TimeOfDayList"]);
 					}
 					else
 					{
-						this._TimeOfDayList = this.ModuleSettings.TimeOfDayList;
+						_TimeOfDayList = ModuleSettings.TimeOfDayList;
 					}
 				}
-				return this._TimeOfDayList;
+				return _TimeOfDayList;
 			}
 		}
 
@@ -348,20 +349,20 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._Users == null)
+				if (_Users == null)
 				{
-					this._Users = UserController.GetUsers(base.PortalId);
+					_Users = UserController.GetUsers(PortalId);
 					foreach (UserInfo user in UserController.GetUsers(Null.NullInteger))
 					{
-						if (!user.IsSuperUser || this.FindUserInfoByUserId(this._Users, user.UserID) != null)
+						if (!user.IsSuperUser || FindUserInfoByUserId(_Users, user.UserID) != null)
 						{
 							continue;
 						}
-						this._Users.Add(user);
+						_Users.Add(user);
 					}
-					this._Users.Sort(new UserInfoComparer());
+					_Users.Sort(new UserInfoComparer());
 				}
-				return this._Users;
+				return _Users;
 			}
 		}
 
@@ -369,19 +370,19 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._ViewReservationsList == null)
+				if (_ViewReservationsList == null)
 				{
-					if (this.ViewState["ViewReservationsList"] != null)
+					if (ViewState["ViewReservationsList"] != null)
 					{
-						//this._ViewReservationsList = this.ModuleSettings.DeserializeUserIDList((string)this.ViewState["ViewReservationsList"]);
-						this._ViewReservationsList = this.ModuleSettings.DeserializeEmailList((string)this.ViewState["ViewReservationsList"]);
+						//_ViewReservationsList = ModuleSettings.DeserializeUserIDList((string)ViewState["ViewReservationsList"]);
+						_ViewReservationsList = ModuleSettings.DeserializeEmailList((string)ViewState["ViewReservationsList"]);
 					}
 					else
 					{
-						this._ViewReservationsList = this.ModuleSettings.ViewReservationsList;
+						_ViewReservationsList = ModuleSettings.ViewReservationsList;
 					}
 				}
-				return this._ViewReservationsList;
+				return _ViewReservationsList;
 			}
 		}
 
@@ -389,35 +390,35 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._WorkingHours == null)
+				if (_WorkingHours == null)
 				{
-					if (this.ViewState["WorkingHours"] != null)
+					if (ViewState["WorkingHours"] != null)
 					{
-						this._WorkingHours = this.DeserializeRecurrencePatternList((string)this.ViewState["WorkingHours"]);
+						_WorkingHours = DeserializeRecurrencePatternList((string)ViewState["WorkingHours"]);
 					}
 					else
 					{
-						this._WorkingHours = new List<RecurrencePattern>();
-						int num = (!base.IsPostBack || this.workingHoursCategoryDropDownList.SelectedValue == null || !(this.workingHoursCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.workingHoursCategoryDropDownList.SelectedValue));
+						_WorkingHours = new List<RecurrencePattern>();
+						int num = (!IsPostBack || workingHoursCategoryDropDownList.SelectedValue == null || !(workingHoursCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(workingHoursCategoryDropDownList.SelectedValue));
 						Hashtable settings = null;
 						if (num != Null.NullInteger)
 						{
-							settings = (new CategorySettings(base.PortalId, base.TabModuleId, num)).Settings;
+							settings = (new CategorySettings(PortalId, TabModuleId, num)).Settings;
 							if (!settings.ContainsKey("WorkingHours.1"))
 							{
-								settings = this.ModuleSettings.Settings;
+								settings = ModuleSettings.Settings;
 							}
 						}
 						else
 						{
-							settings = this.ModuleSettings.Settings;
+							settings = ModuleSettings.Settings;
 						}
 						int num1 = 1;
 						while (settings.ContainsKey(string.Concat("WorkingHours.", num1)))
 						{
 							if (!string.IsNullOrEmpty((string)settings[string.Concat("WorkingHours.", num1)]))
 							{
-								this._WorkingHours.Add(Helper.DeserializeRecurrencePattern((string)settings[string.Concat("WorkingHours.", num1)]));
+								_WorkingHours.Add(Helper.DeserializeRecurrencePattern((string)settings[string.Concat("WorkingHours.", num1)]));
 								num1++;
 							}
 							else
@@ -427,7 +428,7 @@ namespace Gafware.Modules.Reservations
 						}
 					}
 				}
-				return this._WorkingHours;
+				return _WorkingHours;
 			}
 		}
 
@@ -435,58 +436,58 @@ namespace Gafware.Modules.Reservations
 		{
 			get
 			{
-				if (this._WorkingHoursExceptions == null)
+				if (_WorkingHoursExceptions == null)
 				{
-					if (this.ViewState["WorkingHoursExceptions"] != null)
+					if (ViewState["WorkingHoursExceptions"] != null)
 					{
-						this._WorkingHoursExceptions = this.DeserializeWorkingHoursExceptions((string)this.ViewState["WorkingHoursExceptions"]);
+						_WorkingHoursExceptions = DeserializeWorkingHoursExceptions((string)ViewState["WorkingHoursExceptions"]);
 					}
 					else
 					{
-						int num = (!base.IsPostBack || this.workingHoursExceptionsCategoryDropDownList.SelectedValue == null || !(this.workingHoursExceptionsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.workingHoursExceptionsCategoryDropDownList.SelectedValue));
+						int num = (!IsPostBack || workingHoursExceptionsCategoryDropDownList.SelectedValue == null || !(workingHoursExceptionsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(workingHoursExceptionsCategoryDropDownList.SelectedValue));
 						if (num != Null.NullInteger)
 						{
-							CategorySettings categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, num);
+							CategorySettings categorySetting = new CategorySettings(PortalId, TabModuleId, num);
 							if (!categorySetting.WorkingHoursExceptionsDefined)
 							{
-								this._WorkingHoursExceptions = this.GetWorkingHoursExceptions(this.ModuleSettings.Settings);
+								_WorkingHoursExceptions = GetWorkingHoursExceptions(ModuleSettings.Settings);
 							}
 							else
 							{
-								this._WorkingHoursExceptions = this.GetWorkingHoursExceptions(categorySetting.Settings);
+								_WorkingHoursExceptions = GetWorkingHoursExceptions(categorySetting.Settings);
 							}
 						}
 						else
 						{
-							this._WorkingHoursExceptions = this.GetWorkingHoursExceptions(this.ModuleSettings.Settings);
+							_WorkingHoursExceptions = GetWorkingHoursExceptions(ModuleSettings.Settings);
 						}
 					}
 				}
-				return this._WorkingHoursExceptions;
+				return _WorkingHoursExceptions;
 			}
 		}
 
 		protected void AddCashierCommandButtonClicked(object sender, EventArgs e)
 		{
-			/*if (this.cashierListUsersDropDownList.Visible && this.cashierListUsersDropDownList.SelectedValue != "-1")
+			/*if (cashierListUsersDropDownList.Visible && cashierListUsersDropDownList.SelectedValue != "-1")
 			{
-				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.cashierListUsersDropDownList.SelectedValue));
-				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.cashierListUsersDropDownList.SelectedValue);
-				//if (this.FindUserInfoByUserId(this.CashierList, int.Parse(this.cashierListUsersDropDownList.SelectedValue)) == null)
-				if (this.FindUserInfoByEmail(this.CashierList, this.cashierListUsersDropDownList.SelectedValue) == null)
+				//UserInfo userInfo = FindUserInfoByUserId(Users, int.Parse(cashierListUsersDropDownList.SelectedValue));
+				UserInfo userInfo = FindUserInfoByEmail(Users, cashierListUsersDropDownList.SelectedValue);
+				//if (FindUserInfoByUserId(CashierList, int.Parse(cashierListUsersDropDownList.SelectedValue)) == null)
+				if (FindUserInfoByEmail(CashierList, cashierListUsersDropDownList.SelectedValue) == null)
 				{
-					this.CashierList.Add(userInfo);
-					this.BindCashierListDataGrid();
-					this.BindUsersDropDownList(this.cashierListUsersDropDownList, this.CashierList);
+					CashierList.Add(userInfo);
+					BindCashierListDataGrid();
+					BindUsersDropDownList(cashierListUsersDropDownList, CashierList);
 					return;
 				}
 			}
-			else if (this.cashierListUsernameTextBox.Visible)*/
+			else if (cashierListUsernameTextBox.Visible)*/
 			{
-				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.cashierListUsernameTextBox.Text);
-				if (userByName == null && Helper.IsValidEmail2(this.cashierListUsernameTextBox.Text))
+				UserInfo userByName = UserController.GetUserByName(PortalId, cashierListUsernameTextBox.Text);
+				if (userByName == null && Helper.IsValidEmail2(cashierListUsernameTextBox.Text))
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "Email", true, "Email", this.cashierListUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "Email", true, "Email", cashierListUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = users[0];
@@ -495,69 +496,69 @@ namespace Gafware.Modules.Reservations
 					{
 						userByName = new UserInfo();
 						userByName.UserID = -1;
-						userByName.Email = this.cashierListUsernameTextBox.Text;
-						userByName.DisplayName = this.cashierListUsernameTextBox.Text;
+						userByName.Email = cashierListUsernameTextBox.Text;
+						userByName.DisplayName = cashierListUsernameTextBox.Text;
 					}
 				}
 				if (userByName == null)
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "DisplayName", true, "DisplayName", this.cashierListUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "DisplayName", true, "DisplayName", cashierListUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = (UserInfo)users[0];
 					}
 				}
-				//if (userByName != null && this.FindUserInfoByUserId(this.CashierList, userByName.UserID) == null)
-				if (userByName != null && this.FindUserInfoByEmail(this.CashierList, userByName.Email) == null)
+				//if (userByName != null && FindUserInfoByUserId(CashierList, userByName.UserID) == null)
+				if (userByName != null && FindUserInfoByEmail(CashierList, userByName.Email) == null)
 				{
-					this.CashierList.Add(userByName);
-					this.BindCashierListDataGrid();
+					CashierList.Add(userByName);
+					BindCashierListDataGrid();
 				}
-				this.cashierListUsernameTextBox.Text = string.Empty;
+				cashierListUsernameTextBox.Text = string.Empty;
 			}
 		}
 
 		protected void AddCategoryCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
 				CategoryInfo categoryInfo = new CategoryInfo()
 				{
-					TabModuleID = base.TabModuleId,
-					Name = this.categoryNameTextBox.Text.Trim(),
-					CreatedByUserID = base.UserId,
+					TabModuleID = TabModuleId,
+					Name = categoryNameTextBox.Text.Trim(),
+					CreatedByUserID = UserId,
 					CreatedOnDate = DateTime.Now
 				};
 				categoryInfo = (new CategoryController()).AddCategory(categoryInfo);
-				this.CategoryList.Add(categoryInfo);
-				this.CategoryList.Sort((CategoryInfo x, CategoryInfo y) => x.Name.CompareTo(y.Name));
-				this.categoryNameTextBox.Text = string.Empty;
-				this.BindCategoryListDataGrid();
-				this.RebindCategoryDependentSections();
+				CategoryList.Add(categoryInfo);
+				CategoryList.Sort((CategoryInfo x, CategoryInfo y) => x.Name.CompareTo(y.Name));
+				categoryNameTextBox.Text = string.Empty;
+				BindCategoryListDataGrid();
+				RebindCategoryDependentSections();
 			}
 		}
 
 		protected void AddDuplicateReservationsCommandButtonClicked(object sender, EventArgs e)
 		{
-			/*if (this.duplicateReservationsUsersDropDownList.Visible && this.duplicateReservationsUsersDropDownList.SelectedValue != "-1")
+			/*if (duplicateReservationsUsersDropDownList.Visible && duplicateReservationsUsersDropDownList.SelectedValue != "-1")
 			{
-				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.duplicateReservationsUsersDropDownList.SelectedValue));
-				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.duplicateReservationsUsersDropDownList.SelectedValue);
-				//if (this.FindUserInfoByUserId(this.DuplicateReservationsList, int.Parse(this.duplicateReservationsUsersDropDownList.SelectedValue)) == null)
-				if (this.FindUserInfoByEmail(this.DuplicateReservationsList, this.duplicateReservationsUsersDropDownList.SelectedValue) == null)
+				//UserInfo userInfo = FindUserInfoByUserId(Users, int.Parse(duplicateReservationsUsersDropDownList.SelectedValue));
+				UserInfo userInfo = FindUserInfoByEmail(Users, duplicateReservationsUsersDropDownList.SelectedValue);
+				//if (FindUserInfoByUserId(DuplicateReservationsList, int.Parse(duplicateReservationsUsersDropDownList.SelectedValue)) == null)
+				if (FindUserInfoByEmail(DuplicateReservationsList, duplicateReservationsUsersDropDownList.SelectedValue) == null)
 				{
-					this.DuplicateReservationsList.Add(userInfo);
-					this.BindDuplicateReservationsDataGrid();
-					this.BindUsersDropDownList(this.duplicateReservationsUsersDropDownList, this.DuplicateReservationsList);
+					DuplicateReservationsList.Add(userInfo);
+					BindDuplicateReservationsDataGrid();
+					BindUsersDropDownList(duplicateReservationsUsersDropDownList, DuplicateReservationsList);
 					return;
 				}
 			}
-			else if (this.duplicateReservationsUsernameTextBox.Visible)*/
+			else if (duplicateReservationsUsernameTextBox.Visible)*/
 			{
-				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.duplicateReservationsUsernameTextBox.Text);
-				if (userByName == null && Helper.IsValidEmail2(this.duplicateReservationsUsernameTextBox.Text))
+				UserInfo userByName = UserController.GetUserByName(PortalId, duplicateReservationsUsernameTextBox.Text);
+				if (userByName == null && Helper.IsValidEmail2(duplicateReservationsUsernameTextBox.Text))
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "Email", true, "Email", this.duplicateReservationsUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "Email", true, "Email", duplicateReservationsUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = users[0];
@@ -566,49 +567,49 @@ namespace Gafware.Modules.Reservations
 					{
 						userByName = new UserInfo();
 						userByName.UserID = -1;
-						userByName.Email = this.duplicateReservationsUsernameTextBox.Text;
-						userByName.DisplayName = this.duplicateReservationsUsernameTextBox.Text;
+						userByName.Email = duplicateReservationsUsernameTextBox.Text;
+						userByName.DisplayName = duplicateReservationsUsernameTextBox.Text;
 					}
 				}
 				if (userByName == null)
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "DisplayName", true, "DisplayName", this.duplicateReservationsUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "DisplayName", true, "DisplayName", duplicateReservationsUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = (UserInfo)users[0];
 					}
 				}
-				//if (userByName != null && this.FindUserInfoByUserId(this.DuplicateReservationsList, userByName.UserID) == null)
-				if (userByName != null && this.FindUserInfoByEmail(this.DuplicateReservationsList, userByName.Email) == null)
+				//if (userByName != null && FindUserInfoByUserId(DuplicateReservationsList, userByName.UserID) == null)
+				if (userByName != null && FindUserInfoByEmail(DuplicateReservationsList, userByName.Email) == null)
 				{
-					this.DuplicateReservationsList.Add(userByName);
-					this.BindDuplicateReservationsDataGrid();
+					DuplicateReservationsList.Add(userByName);
+					BindDuplicateReservationsDataGrid();
 				}
-				this.duplicateReservationsUsernameTextBox.Text = string.Empty;
+				duplicateReservationsUsernameTextBox.Text = string.Empty;
 			}
 		}
 
 		protected void AddGlobalModeratorCommandButtonClicked(object sender, EventArgs e)
 		{
-			/*if (this.moderatorUsersDropDownList.Visible && this.moderatorUsersDropDownList.SelectedValue != "-1")
+			/*if (moderatorUsersDropDownList.Visible && moderatorUsersDropDownList.SelectedValue != "-1")
 			{
-				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.moderatorUsersDropDownList.SelectedValue));
-				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.moderatorUsersDropDownList.SelectedValue);
-				//if (this.FindUserInfoByUserId(this.ModeratorList, int.Parse(this.moderatorUsersDropDownList.SelectedValue)) == null)
-				if (this.FindUserInfoByEmail(this.ModeratorList, this.moderatorUsersDropDownList.SelectedValue) == null)
+				//UserInfo userInfo = FindUserInfoByUserId(Users, int.Parse(moderatorUsersDropDownList.SelectedValue));
+				UserInfo userInfo = FindUserInfoByEmail(Users, moderatorUsersDropDownList.SelectedValue);
+				//if (FindUserInfoByUserId(ModeratorList, int.Parse(moderatorUsersDropDownList.SelectedValue)) == null)
+				if (FindUserInfoByEmail(ModeratorList, moderatorUsersDropDownList.SelectedValue) == null)
 				{
-					this.ModeratorList.Add(userInfo);
-					this.BindModeratorsDataGrid();
-					this.BindUsersDropDownList(this.moderatorUsersDropDownList, this.ModeratorList);
+					ModeratorList.Add(userInfo);
+					BindModeratorsDataGrid();
+					BindUsersDropDownList(moderatorUsersDropDownList, ModeratorList);
 					return;
 				}
 			}
-			else if (this.moderatorUsernameTextBox.Visible)*/
+			else if (moderatorUsernameTextBox.Visible)*/
 			{
-				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.moderatorUsernameTextBox.Text);
-				if (userByName == null && Helper.IsValidEmail2(this.moderatorUsernameTextBox.Text))
+				UserInfo userByName = UserController.GetUserByName(PortalId, moderatorUsernameTextBox.Text);
+				if (userByName == null && Helper.IsValidEmail2(moderatorUsernameTextBox.Text))
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "Email", true, "Email", this.moderatorUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "Email", true, "Email", moderatorUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = users[0];
@@ -617,25 +618,25 @@ namespace Gafware.Modules.Reservations
 					{
 						userByName = new UserInfo();
 						userByName.UserID = -1;
-						userByName.Email = this.moderatorUsernameTextBox.Text;
-						userByName.DisplayName = this.moderatorUsernameTextBox.Text;
+						userByName.Email = moderatorUsernameTextBox.Text;
+						userByName.DisplayName = moderatorUsernameTextBox.Text;
 					}
 				}
 				if (userByName == null)
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "DisplayName", true, "DisplayName", this.moderatorUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "DisplayName", true, "DisplayName", moderatorUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = (UserInfo)users[0];
 					}
 				}
-				//if (userByName != null && this.FindUserInfoByUserId(this.ModeratorList, userByName.UserID) == null)
-				if (userByName != null && this.FindUserInfoByEmail(this.ModeratorList, userByName.Email) == null)
+				//if (userByName != null && FindUserInfoByUserId(ModeratorList, userByName.UserID) == null)
+				if (userByName != null && FindUserInfoByEmail(ModeratorList, userByName.Email) == null)
 				{
-					this.ModeratorList.Add(userByName);
-					this.BindModeratorsDataGrid();
+					ModeratorList.Add(userByName);
+					BindModeratorsDataGrid();
 				}
-				this.moderatorUsernameTextBox.Text = string.Empty;
+				moderatorUsernameTextBox.Text = string.Empty;
 			}
 		}
 
@@ -643,22 +644,22 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				if (this.Page.IsValid)
+				if (Page.IsValid)
 				{
 					WorkingHoursInfo workingHoursInfo = new WorkingHoursInfo()
 					{
-						DayOfWeek = (DayOfWeek)int.Parse(this.moderationWeekDaysDropDownList.SelectedValue)
+						DayOfWeek = (DayOfWeek)int.Parse(moderationWeekDaysDropDownList.SelectedValue)
 					};
-					for (int i = 0; i < this.ModerationHours.Count; i++)
+					for (int i = 0; i < ModerationHours.Count; i++)
 					{
-						if (((WorkingHoursInfo)this.ModerationHours[i]).DayOfWeek == workingHoursInfo.DayOfWeek && ((WorkingHoursInfo)this.ModerationHours[i]).AllDay)
+						if (((WorkingHoursInfo)ModerationHours[i]).DayOfWeek == workingHoursInfo.DayOfWeek && ((WorkingHoursInfo)ModerationHours[i]).AllDay)
 						{
-							this.ModerationHours.RemoveAt(i);
+							ModerationHours.RemoveAt(i);
 							i--;
 						}
 					}
-					workingHoursInfo.StartTime = this.GetTime(this.moderationStartHourDropDownList, this.moderationStartMinuteDropDownList, this.moderationStartAMPMDropDownList);
-					workingHoursInfo.EndTime = this.GetTime(this.moderationEndHourDropDownList, this.moderationEndMinuteDropDownList, this.moderationEndAMPMDropDownList);
+					workingHoursInfo.StartTime = GetTime(moderationStartHourDropDownList, moderationStartMinuteDropDownList, moderationStartAMPMDropDownList);
+					workingHoursInfo.EndTime = GetTime(moderationEndHourDropDownList, moderationEndMinuteDropDownList, moderationEndAMPMDropDownList);
 					TimeSpan startTime = workingHoursInfo.StartTime;
 					TimeSpan timeSpan = new TimeSpan();
 					if (startTime == timeSpan)
@@ -680,8 +681,8 @@ namespace Gafware.Modules.Reservations
 						workingHoursInfo.EndTime = new TimeSpan(1, 0, 0, 0);
 					}
 				Label0:
-					this.ModerationHours.Add(workingHoursInfo);
-					this.BindModerationHoursDataGrid();
+					ModerationHours.Add(workingHoursInfo);
+					BindModerationHoursDataGrid();
 				}
 			}
 			catch (Exception exception)
@@ -694,13 +695,13 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				if (this.Page.IsValid)
+				if (Page.IsValid)
 				{
 					TimeOfDayInfo timeOfDayInfo = new TimeOfDayInfo()
 					{
-						Name = this.timeOfDayNameTextBox.Text.Trim(),
-						StartTime = this.GetTime(this.timeOfDayStartHourDropDownList, this.timeOfDayStartMinuteDropDownList, this.timeOfDayStartAMPMDropDownList),
-						EndTime = this.GetTime(this.timeOfDayEndHourDropDownList, this.timeOfDayEndMinuteDropDownList, this.timeOfDayEndAMPMDropDownList)
+						Name = timeOfDayNameTextBox.Text.Trim(),
+						StartTime = GetTime(timeOfDayStartHourDropDownList, timeOfDayStartMinuteDropDownList, timeOfDayStartAMPMDropDownList),
+						EndTime = GetTime(timeOfDayEndHourDropDownList, timeOfDayEndMinuteDropDownList, timeOfDayEndAMPMDropDownList)
 					};
 					TimeSpan endTime = timeOfDayInfo.EndTime;
 					TimeSpan timeSpan = new TimeSpan();
@@ -709,9 +710,9 @@ namespace Gafware.Modules.Reservations
 						timeSpan = timeOfDayInfo.EndTime;
 						timeOfDayInfo.EndTime = timeSpan.Add(new TimeSpan(1, 0, 0, 0));
 					}
-					this.TimeOfDayList.Add(timeOfDayInfo);
-					this.TimeOfDayList.Sort();
-					this.BindTimeOfDayDataGrid();
+					TimeOfDayList.Add(timeOfDayInfo);
+					TimeOfDayList.Sort();
+					BindTimeOfDayDataGrid();
 				}
 			}
 			catch (Exception exception)
@@ -722,25 +723,25 @@ namespace Gafware.Modules.Reservations
 
 		protected void AddUserCommandButtonClicked(object sender, EventArgs e)
 		{
-			/*if (this.usersDropDownList.Visible && this.usersDropDownList.SelectedValue != "-1")
+			/*if (usersDropDownList.Visible && usersDropDownList.SelectedValue != "-1")
 			{
-				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.usersDropDownList.SelectedValue));
-				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.usersDropDownList.SelectedValue);
-				//if (this.FindUserInfoByUserId(this.BCCList, int.Parse(this.usersDropDownList.SelectedValue)) == null)
-				if (this.FindUserInfoByEmail(this.BCCList, this.usersDropDownList.SelectedValue) == null)
+				//UserInfo userInfo = FindUserInfoByUserId(Users, int.Parse(usersDropDownList.SelectedValue));
+				UserInfo userInfo = FindUserInfoByEmail(Users, usersDropDownList.SelectedValue);
+				//if (FindUserInfoByUserId(BCCList, int.Parse(usersDropDownList.SelectedValue)) == null)
+				if (FindUserInfoByEmail(BCCList, usersDropDownList.SelectedValue) == null)
 				{
-					this.BCCList.Add(userInfo);
-					this.BindBCCListDataGrid();
-					this.BindUsersDropDownList(this.usersDropDownList, this.BCCList);
+					BCCList.Add(userInfo);
+					BindBCCListDataGrid();
+					BindUsersDropDownList(usersDropDownList, BCCList);
 					return;
 				}
 			}
-			else if (this.usernameTextBox.Visible)*/
+			else if (usernameTextBox.Visible)*/
 			{
-				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.usernameTextBox.Text);
-				if(userByName == null && Helper.IsValidEmail2(this.usernameTextBox.Text))
+				UserInfo userByName = UserController.GetUserByName(PortalId, usernameTextBox.Text);
+				if(userByName == null && Helper.IsValidEmail2(usernameTextBox.Text))
                 {
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "Email", true, "Email", this.usernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "Email", true, "Email", usernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = (UserInfo)users[0];
@@ -749,49 +750,49 @@ namespace Gafware.Modules.Reservations
                     {
 						userByName = new UserInfo();
 						userByName.UserID = -1;
-						userByName.Email = this.usernameTextBox.Text;
-						userByName.DisplayName = this.usernameTextBox.Text;
+						userByName.Email = usernameTextBox.Text;
+						userByName.DisplayName = usernameTextBox.Text;
                     }
 				}
 				if(userByName == null)
                 {
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "DisplayName", true, "DisplayName", this.usernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "DisplayName", true, "DisplayName", usernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = (UserInfo)users[0];
 					}
 				}
-				//if (userByName != null && this.FindUserInfoByUserId(this.BCCList, userByName.UserID) == null)
-				if (userByName != null && this.FindUserInfoByEmail(this.BCCList, userByName.Email) == null)
+				//if (userByName != null && FindUserInfoByUserId(BCCList, userByName.UserID) == null)
+				if (userByName != null && FindUserInfoByEmail(BCCList, userByName.Email) == null)
 				{
-					this.BCCList.Add(userByName);
-					this.BindBCCListDataGrid();
+					BCCList.Add(userByName);
+					BindBCCListDataGrid();
 				}
-				this.usernameTextBox.Text = string.Empty;
+				usernameTextBox.Text = string.Empty;
 			}
 		}
 
 		protected void AddViewReservationsCommandButtonClicked(object sender, EventArgs e)
 		{
-			/*if (this.viewReservationsUsersDropDownList.Visible && this.viewReservationsUsersDropDownList.SelectedValue != "-1")
+			/*if (viewReservationsUsersDropDownList.Visible && viewReservationsUsersDropDownList.SelectedValue != "-1")
 			{
-				//UserInfo userInfo = this.FindUserInfoByUserId(this.Users, int.Parse(this.viewReservationsUsersDropDownList.SelectedValue));
-				UserInfo userInfo = this.FindUserInfoByEmail(this.Users, this.viewReservationsUsersDropDownList.SelectedValue);
-				//if (this.FindUserInfoByUserId(this.ViewReservationsList, int.Parse(this.viewReservationsUsersDropDownList.SelectedValue)) == null)
-				if (this.FindUserInfoByEmail(this.ViewReservationsList, this.viewReservationsUsersDropDownList.SelectedValue) == null)
+				//UserInfo userInfo = FindUserInfoByUserId(Users, int.Parse(viewReservationsUsersDropDownList.SelectedValue));
+				UserInfo userInfo = FindUserInfoByEmail(Users, viewReservationsUsersDropDownList.SelectedValue);
+				//if (FindUserInfoByUserId(ViewReservationsList, int.Parse(viewReservationsUsersDropDownList.SelectedValue)) == null)
+				if (FindUserInfoByEmail(ViewReservationsList, viewReservationsUsersDropDownList.SelectedValue) == null)
 				{
-					this.ViewReservationsList.Add(userInfo);
-					this.BindViewReservationsDataGrid();
-					this.BindUsersDropDownList(this.viewReservationsUsersDropDownList, this.ViewReservationsList);
+					ViewReservationsList.Add(userInfo);
+					BindViewReservationsDataGrid();
+					BindUsersDropDownList(viewReservationsUsersDropDownList, ViewReservationsList);
 					return;
 				}
 			}
-			else if (this.viewReservationsUsernameTextBox.Visible)*/
+			else if (viewReservationsUsernameTextBox.Visible)*/
 			{
-				UserInfo userByName = UserController.GetUserByName(base.PortalId, this.viewReservationsUsernameTextBox.Text);
-				if (userByName == null && Helper.IsValidEmail2(this.viewReservationsUsernameTextBox.Text))
+				UserInfo userByName = UserController.GetUserByName(PortalId, viewReservationsUsernameTextBox.Text);
+				if (userByName == null && Helper.IsValidEmail2(viewReservationsUsernameTextBox.Text))
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "Email", true, "Email", this.viewReservationsUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "Email", true, "Email", viewReservationsUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = users[0];
@@ -800,25 +801,25 @@ namespace Gafware.Modules.Reservations
 					{
 						userByName = new UserInfo();
 						userByName.UserID = -1;
-						userByName.Email = this.viewReservationsUsernameTextBox.Text;
-						userByName.DisplayName = this.viewReservationsUsernameTextBox.Text;
+						userByName.Email = viewReservationsUsernameTextBox.Text;
+						userByName.DisplayName = viewReservationsUsernameTextBox.Text;
 					}
 				}
 				if (userByName == null)
 				{
-					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(this.PortalId, 0, 1, "DisplayName", true, "DisplayName", this.viewReservationsUsernameTextBox.Text);
+					IList<UserInfo> users = (new UserController()).GetUsersBasicSearch(PortalId, 0, 1, "DisplayName", true, "DisplayName", viewReservationsUsernameTextBox.Text);
 					if (users != null && users.Count > 0)
 					{
 						userByName = (UserInfo)users[0];
 					}
 				}
-				//if (userByName != null && this.FindUserInfoByUserId(this.ViewReservationsList, userByName.UserID) == null)
-				if (userByName != null && this.FindUserInfoByEmail(this.ViewReservationsList, userByName.Email) == null)
+				//if (userByName != null && FindUserInfoByUserId(ViewReservationsList, userByName.UserID) == null)
+				if (userByName != null && FindUserInfoByEmail(ViewReservationsList, userByName.Email) == null)
 				{
-					this.ViewReservationsList.Add(userByName);
-					this.BindViewReservationsDataGrid();
+					ViewReservationsList.Add(userByName);
+					BindViewReservationsDataGrid();
 				}
-				this.viewReservationsUsernameTextBox.Text = string.Empty;
+				viewReservationsUsernameTextBox.Text = string.Empty;
 			}
 		}
 
@@ -826,8 +827,8 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				this.recurrencepatterncontrol.Visible = true;
-				this.addWorkingHoursCommandButton.Visible = false;
+				recurrencepatterncontrol.Visible = true;
+				addWorkingHoursCommandButton.Visible = false;
 			}
 			catch (Exception exception)
 			{
@@ -839,25 +840,25 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				if (this.Page.IsValid)
+				if (Page.IsValid)
 				{
 					WorkingHoursExceptionInfo workingHoursExceptionInfo = new WorkingHoursExceptionInfo()
 					{
-						Date = DateTime.Parse(this.workingHoursExceptionDateTextBox.Text)
+						Date = DateTime.Parse(workingHoursExceptionDateTextBox.Text)
 					};
-					if (!this.workingHoursExceptionNoWorkingHoursRadioButton.Checked)
+					if (!workingHoursExceptionNoWorkingHoursRadioButton.Checked)
 					{
-						for (int i = 0; i < this.WorkingHoursExceptions.Count; i++)
+						for (int i = 0; i < WorkingHoursExceptions.Count; i++)
 						{
-							WorkingHoursExceptionInfo item = (WorkingHoursExceptionInfo)this.WorkingHoursExceptions[i];
+							WorkingHoursExceptionInfo item = (WorkingHoursExceptionInfo)WorkingHoursExceptions[i];
 							if (item.Date == workingHoursExceptionInfo.Date && (item.StartTime == item.EndTime || item.AllDay))
 							{
-								this.WorkingHoursExceptions.RemoveAt(i);
+								WorkingHoursExceptions.RemoveAt(i);
 								i--;
 							}
 						}
-						workingHoursExceptionInfo.StartTime = this.GetTime(this.workingHoursExceptionStartHourDropDownList, this.workingHoursExceptionStartMinuteDropDownList, this.workingHoursExceptionStartAMPMDropDownList);
-						workingHoursExceptionInfo.EndTime = this.GetTime(this.workingHoursExceptionEndHourDropDownList, this.workingHoursExceptionEndMinuteDropDownList, this.workingHoursExceptionEndAMPMDropDownList);
+						workingHoursExceptionInfo.StartTime = GetTime(workingHoursExceptionStartHourDropDownList, workingHoursExceptionStartMinuteDropDownList, workingHoursExceptionStartAMPMDropDownList);
+						workingHoursExceptionInfo.EndTime = GetTime(workingHoursExceptionEndHourDropDownList, workingHoursExceptionEndMinuteDropDownList, workingHoursExceptionEndAMPMDropDownList);
 						TimeSpan startTime = workingHoursExceptionInfo.StartTime;
 						TimeSpan timeSpan = new TimeSpan();
 						if (startTime == timeSpan)
@@ -878,17 +879,17 @@ namespace Gafware.Modules.Reservations
 					}
 					else
 					{
-						for (int j = 0; j < this.WorkingHoursExceptions.Count; j++)
+						for (int j = 0; j < WorkingHoursExceptions.Count; j++)
 						{
-							if (((WorkingHoursExceptionInfo)this.WorkingHoursExceptions[j]).Date == workingHoursExceptionInfo.Date)
+							if (((WorkingHoursExceptionInfo)WorkingHoursExceptions[j]).Date == workingHoursExceptionInfo.Date)
 							{
-								this.WorkingHoursExceptions.RemoveAt(j);
+								WorkingHoursExceptions.RemoveAt(j);
 								j--;
 							}
 						}
 					}
-					this.WorkingHoursExceptions.Add(workingHoursExceptionInfo);
-					this.BindWorkingHoursExceptionsDataGrid();
+					WorkingHoursExceptions.Add(workingHoursExceptionInfo);
+					BindWorkingHoursExceptionsDataGrid();
 				}
 			}
 			catch (Exception exception)
@@ -899,31 +900,31 @@ namespace Gafware.Modules.Reservations
 
 		protected void AllowCategorySelectionCheckBoxCheckedChanged(object sender, EventArgs e)
 		{
-			this.RebindCategoryDependentSections();
+			RebindCategoryDependentSections();
 		}
 
 		protected void BCCListCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindBCCListSection(int.Parse(this.bccListCategoryDropDownList.SelectedValue));
+			BindBCCListSection(int.Parse(bccListCategoryDropDownList.SelectedValue));
 		}
 
 		protected void BCCListResetCommandButtonClicked(object sender, EventArgs e)
 		{
-			int num = int.Parse(this.bccListCategoryDropDownList.SelectedValue);
+			int num = int.Parse(bccListCategoryDropDownList.SelectedValue);
 			(new CategorySettingController()).DeleteCategorySetting(num, "BCCList");
-			this.BindCategoriesDropDownList(this.bccListCategoryDropDownList, "BCCList", null, null);
-			this.BindBCCListSection(num);
+			BindCategoriesDropDownList(bccListCategoryDropDownList, "BCCList", null, null);
+			BindBCCListSection(num);
 		}
 
 		protected void BCCListUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateBCCListSection(true);
+			UpdateBCCListSection(true);
 		}
 
 		protected void BindAMPMDropDownList(DropDownList dropDownList)
 		{
-			dropDownList.Visible = !this.Is24HourClock;
-			if (!this.Is24HourClock)
+			dropDownList.Visible = !Is24HourClock;
+			if (!Is24HourClock)
 			{
 				dropDownList.Items.Clear();
 				dropDownList.Items.Add(new ListItem(CultureInfo.CurrentCulture.DateTimeFormat.AMDesignator, "AM"));
@@ -933,43 +934,43 @@ namespace Gafware.Modules.Reservations
 
 		protected void BindBCCListDataGrid()
 		{
-			this.bccListDataGrid.DataSource = this.BCCList;
-			this.bccListDataGrid.DataBind();
-			this.noUsersLabel.Visible = this.bccListDataGrid.Items.Count == 0;
+			bccListDataGrid.DataSource = BCCList;
+			bccListDataGrid.DataBind();
+			noUsersLabel.Visible = bccListDataGrid.Items.Count == 0;
 		}
 
 		protected void BindBCCListSection()
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.bccListUpdateResetTableRow;
-			HtmlTableRow htmlTableRow1 = this.bccListCategoryTableRow;
-			flag = (base.IsPostBack ? this.allowCategorySelectionCheckBox.Checked : this.ModuleSettings.AllowCategorySelection);
+			HtmlTableRow htmlTableRow = bccListUpdateResetTableRow;
+			HtmlTableRow htmlTableRow1 = bccListCategoryTableRow;
+			flag = (IsPostBack ? allowCategorySelectionCheckBox.Checked : ModuleSettings.AllowCategorySelection);
 			bool flag1 = flag;
 			htmlTableRow1.Visible = flag;
 			htmlTableRow.Visible = flag1;
-			if (this.bccListCategoryTableRow.Visible)
+			if (bccListCategoryTableRow.Visible)
 			{
-				this.BindCategoriesDropDownList(this.bccListCategoryDropDownList, "BCCList", null, null);
+				BindCategoriesDropDownList(bccListCategoryDropDownList, "BCCList", null, null);
 			}
-			this.BindBCCListSection(Null.NullInteger);
+			BindBCCListSection(Null.NullInteger);
 		}
 
 		protected void BindBCCListSection(int categoryID)
 		{
-			this.bccListCategoryDropDownList.SelectedValue = categoryID.ToString();
+			bccListCategoryDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			this.ViewState.Remove("BCCList");
-			this.BindBCCListDataGrid();
-			//if (this.Users.Count > 100)
+			ViewState.Remove("BCCList");
+			BindBCCListDataGrid();
+			//if (Users.Count > 100)
 			{
-				RequiredFieldValidator requiredFieldValidator = this.usernameRequiredFieldValidator;
-				TextBox textBox = this.usernameTextBox;
+				RequiredFieldValidator requiredFieldValidator = usernameRequiredFieldValidator;
+				TextBox textBox = usernameTextBox;
 				bool flag = false;
-				//this.usersDropDownList.Visible = false;
+				//usersDropDownList.Visible = false;
 				bool flag1 = !flag;
 				bool flag2 = flag1;
 				textBox.Visible = flag1;
@@ -977,50 +978,50 @@ namespace Gafware.Modules.Reservations
 			}
 			/*else
 			{
-				this.BindUsersDropDownList(this.usersDropDownList, this.BCCList);
+				BindUsersDropDownList(usersDropDownList, BCCList);
 			}*/
-			this.bccListResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("BCCList"));
+			bccListResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("BCCList"));
 		}
 
 		protected void BindCashierListDataGrid()
 		{
-			this.cashierListDataGrid.DataSource = this.CashierList;
-			this.cashierListDataGrid.DataBind();
-			this.noCashiersLabel.Visible = this.cashierListDataGrid.Items.Count == 0;
+			cashierListDataGrid.DataSource = CashierList;
+			cashierListDataGrid.DataBind();
+			noCashiersLabel.Visible = cashierListDataGrid.Items.Count == 0;
 		}
 
 		protected void BindCashierListSection()
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.cashierUpdateResetTableRow;
-			HtmlTableRow htmlTableRow1 = this.cashierListCategoryTableRow;
-			flag = (base.IsPostBack ? this.allowCategorySelectionCheckBox.Checked : this.ModuleSettings.AllowCategorySelection);
+			HtmlTableRow htmlTableRow = cashierUpdateResetTableRow;
+			HtmlTableRow htmlTableRow1 = cashierListCategoryTableRow;
+			flag = (IsPostBack ? allowCategorySelectionCheckBox.Checked : ModuleSettings.AllowCategorySelection);
 			bool flag1 = flag;
 			htmlTableRow1.Visible = flag;
 			htmlTableRow.Visible = flag1;
-			if (this.cashierListCategoryTableRow.Visible)
+			if (cashierListCategoryTableRow.Visible)
 			{
-				this.BindCategoriesDropDownList(this.cashierListCategoryDropDownList, "CashierList", null, null);
+				BindCategoriesDropDownList(cashierListCategoryDropDownList, "CashierList", null, null);
 			}
-			this.BindCashierListSection(Null.NullInteger);
+			BindCashierListSection(Null.NullInteger);
 		}
 
 		protected void BindCashierListSection(int categoryID)
 		{
-			this.cashierListCategoryDropDownList.SelectedValue = categoryID.ToString();
+			cashierListCategoryDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			this.ViewState.Remove("CashierList");
-			this.BindCashierListDataGrid();
-			//if (this.Users.Count > 100)
+			ViewState.Remove("CashierList");
+			BindCashierListDataGrid();
+			//if (Users.Count > 100)
 			{
-				RequiredFieldValidator requiredFieldValidator = this.cashierListUsernameRequiredFieldValidator;
-				TextBox textBox = this.cashierListUsernameTextBox;
+				RequiredFieldValidator requiredFieldValidator = cashierListUsernameRequiredFieldValidator;
+				TextBox textBox = cashierListUsernameTextBox;
 				bool flag = false;
-				//this.cashierListUsersDropDownList.Visible = false;
+				//cashierListUsersDropDownList.Visible = false;
 				bool flag1 = !flag;
 				bool flag2 = flag1;
 				textBox.Visible = flag1;
@@ -1028,24 +1029,24 @@ namespace Gafware.Modules.Reservations
 			}
 			/*else
 			{
-				this.BindUsersDropDownList(this.cashierListUsersDropDownList, this.CashierList);
+				BindUsersDropDownList(cashierListUsersDropDownList, CashierList);
 			}*/
-			this.cashierListResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("CashierList"));
+			cashierListResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("CashierList"));
 		}
 
 		private void BindCategoriesDropDownList(DropDownList dropDownList, string settingName, string settingName2 = null, string settingName3 = null)
 		{
 			int categoryID;
 			dropDownList.Items.Clear();
-			foreach (CategoryInfo categoryList in (new CategoryController()).GetCategoryList(base.TabModuleId))
+			foreach (CategoryInfo categoryList in (new CategoryController()).GetCategoryList(TabModuleId))
 			{
-				CategorySettings categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryList.CategoryID);
+				CategorySettings categorySetting = new CategorySettings(PortalId, TabModuleId, categoryList.CategoryID);
 				ListItemCollection items = dropDownList.Items;
-				string str = string.Concat(categoryList.Name, (categorySetting.IsDefined(settingName) || settingName2 != null && categorySetting.IsDefined(settingName2) || settingName3 != null && categorySetting.IsDefined(settingName3) ? base.Server.HtmlDecode(" &#10004;") : string.Empty));
+				string str = string.Concat(categoryList.Name, (categorySetting.IsDefined(settingName) || settingName2 != null && categorySetting.IsDefined(settingName2) || settingName3 != null && categorySetting.IsDefined(settingName3) ? Server.HtmlDecode(" &#10004;") : string.Empty));
 				categoryID = categoryList.CategoryID;
 				items.Add(new ListItem(str, categoryID.ToString()));
 			}
-			string str1 = Localization.GetString("All", base.LocalResourceFile);
+			string str1 = Localization.GetString("All", LocalResourceFile);
 			categoryID = Null.NullInteger;
 			ListItem listItem = new ListItem(str1, categoryID.ToString());
 			dropDownList.Items.Insert(0, listItem);
@@ -1053,15 +1054,15 @@ namespace Gafware.Modules.Reservations
 
 		protected void BindCategoriesSection()
 		{
-			HtmlTableRow htmlTableRow = this.selectCategoryLastTableRow;
-			HtmlTableRow htmlTableRow1 = this.categoryListTableRow2;
-			HtmlTableRow htmlTableRow2 = this.categoryListTableRow;
-			HtmlTableRow htmlTableRow3 = this.categorySelectionModeTableRow;
-			HtmlTableRow htmlTableRow4 = this.bindUponSelectionTableRow;
-			HtmlTableRow htmlTableRow5 = this.allowCrossCategoryConflictsTableRow;
-			HtmlTableRow htmlTableRow6 = this.displayUnavailableCategoriesTableRow;
-			CheckBox checkBox = this.allowCategorySelectionCheckBox;
-			bool allowCategorySelection = this.ModuleSettings.AllowCategorySelection;
+			HtmlTableRow htmlTableRow = selectCategoryLastTableRow;
+			HtmlTableRow htmlTableRow1 = categoryListTableRow2;
+			HtmlTableRow htmlTableRow2 = categoryListTableRow;
+			HtmlTableRow htmlTableRow3 = categorySelectionModeTableRow;
+			HtmlTableRow htmlTableRow4 = bindUponSelectionTableRow;
+			HtmlTableRow htmlTableRow5 = allowCrossCategoryConflictsTableRow;
+			HtmlTableRow htmlTableRow6 = displayUnavailableCategoriesTableRow;
+			CheckBox checkBox = allowCategorySelectionCheckBox;
+			bool allowCategorySelection = ModuleSettings.AllowCategorySelection;
 			bool flag = allowCategorySelection;
 			checkBox.Checked = allowCategorySelection;
 			bool flag1 = flag;
@@ -1083,34 +1084,34 @@ namespace Gafware.Modules.Reservations
 			bool flag12 = flag11;
 			htmlTableRow1.Visible = flag11;
 			htmlTableRow.Visible = flag12;
-			this.selectCategoryLastCheckBox.Checked = this.ModuleSettings.SelectCategoryLast;
-			this.preventCrossCategoryConflictsCheckBox.Checked = this.ModuleSettings.PreventCrossCategoryConflicts;
-			this.bindUponSelectionCheckBox.Checked = this.ModuleSettings.BindUponCategorySelection;
-			this.displayUnavailableCategoriesCheckBox.Checked = this.ModuleSettings.DisplayUnavailableCategories;
-			this.SelectCategoryLastChanged(null, null);
-			this.PreventCrossCategoryConflictsChanged(null, null);
-			this.BindCategoryListDataGrid();
+			selectCategoryLastCheckBox.Checked = ModuleSettings.SelectCategoryLast;
+			preventCrossCategoryConflictsCheckBox.Checked = ModuleSettings.PreventCrossCategoryConflicts;
+			bindUponSelectionCheckBox.Checked = ModuleSettings.BindUponCategorySelection;
+			displayUnavailableCategoriesCheckBox.Checked = ModuleSettings.DisplayUnavailableCategories;
+			SelectCategoryLastChanged(null, null);
+			PreventCrossCategoryConflictsChanged(null, null);
+			BindCategoryListDataGrid();
 		}
 
 		protected void BindCategoryListDataGrid()
 		{
-			this.categoryListDataGrid.DataSource = this.CategoryList;
-			this.categoryListDataGrid.DataBind();
-			this.noCategoriesLabel.Visible = this.categoryListDataGrid.Items.Count == 0;
+			categoryListDataGrid.DataSource = CategoryList;
+			categoryListDataGrid.DataBind();
+			noCategoriesLabel.Visible = categoryListDataGrid.Items.Count == 0;
 		}
 
 		protected void BindCategoryPermissionsSection()
 		{
-			LinkButton linkButton = this.categoryPermissionsUpdateCommandButton;
-			HtmlTableRow htmlTableRow = this.selectCategoryLastTableRow;
-			HtmlTableRow htmlTableRow1 = this.categoryPermissionsTableRow;
-			HtmlTableRow htmlTableRow2 = this.allowCrossCategoryConflictsTableRow;
-			HtmlTableRow htmlTableRow3 = this.categorySelectionModeTableRow;
-			HtmlTableRow htmlTableRow4 = this.bindUponSelectionTableRow;
-			HtmlTableRow htmlTableRow5 = this.displayUnavailableCategoriesTableRow;
-			HtmlTableRow htmlTableRow6 = this.categoryListTableRow;
-			HtmlTableRow htmlTableRow7 = this.categoryListTableRow2;
-			bool @checked = this.allowCategorySelectionCheckBox.Checked;
+			LinkButton linkButton = categoryPermissionsUpdateCommandButton;
+			HtmlTableRow htmlTableRow = selectCategoryLastTableRow;
+			HtmlTableRow htmlTableRow1 = categoryPermissionsTableRow;
+			HtmlTableRow htmlTableRow2 = allowCrossCategoryConflictsTableRow;
+			HtmlTableRow htmlTableRow3 = categorySelectionModeTableRow;
+			HtmlTableRow htmlTableRow4 = bindUponSelectionTableRow;
+			HtmlTableRow htmlTableRow5 = displayUnavailableCategoriesTableRow;
+			HtmlTableRow htmlTableRow6 = categoryListTableRow;
+			HtmlTableRow htmlTableRow7 = categoryListTableRow2;
+			bool @checked = allowCategorySelectionCheckBox.Checked;
 			bool flag = @checked;
 			htmlTableRow7.Visible = @checked;
 			bool flag1 = flag;
@@ -1135,26 +1136,26 @@ namespace Gafware.Modules.Reservations
 			bool flag14 = flag13;
 			htmlTableRow.Visible = flag13;
 			linkButton.Visible = flag14;
-			this.bindUponSelectionTableRow.Visible = (!this.allowCategorySelectionCheckBox.Checked || this.preventCrossCategoryConflictsCheckBox.Checked ? false : !this.selectCategoryLastCheckBox.Checked);
-			if (this.allowCategorySelectionCheckBox.Checked)
+			bindUponSelectionTableRow.Visible = (!allowCategorySelectionCheckBox.Checked || preventCrossCategoryConflictsCheckBox.Checked ? false : !selectCategoryLastCheckBox.Checked);
+			if (allowCategorySelectionCheckBox.Checked)
 			{
-				this.BindCategoriesDropDownList(this.categoryPermissionsDropDownList, "CategoryPermissions", null, null);
+				BindCategoriesDropDownList(categoryPermissionsDropDownList, "CategoryPermissions", null, null);
 			}
-			this.BindCategoryPermissionsSection(Null.NullInteger);
+			BindCategoryPermissionsSection(Null.NullInteger);
 		}
 
 		protected void BindCategoryPermissionsSection(int categoryID)
 		{
-			this.categoryPermissionsDropDownList.SelectedValue = categoryID.ToString();
+			categoryPermissionsDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			this.ViewState.Remove("CategoryPermissionsList");
-			this._CategoryPermissionsList = null;
-			this.BindRolesCheckboxList();
-			this.categoryPermissionsResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("CategoryPermissions"));
+			ViewState.Remove("CategoryPermissionsList");
+			_CategoryPermissionsList = null;
+			BindRolesCheckboxList();
+			categoryPermissionsResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("CategoryPermissions"));
 		}
 
 		protected void BindCurrencyDropDownList(DropDownList dropDownList)
@@ -1169,24 +1170,24 @@ namespace Gafware.Modules.Reservations
 
 		protected void BindDuplicateReservationsDataGrid()
 		{
-			this.duplicateReservationsDataGrid.DataSource = this.DuplicateReservationsList;
-			this.duplicateReservationsDataGrid.DataBind();
-			this.noDuplicateReservationsLabel.Visible = this.duplicateReservationsDataGrid.Items.Count == 0;
+			duplicateReservationsDataGrid.DataSource = DuplicateReservationsList;
+			duplicateReservationsDataGrid.DataBind();
+			noDuplicateReservationsLabel.Visible = duplicateReservationsDataGrid.Items.Count == 0;
 		}
 
 		protected void BindDuplicateReservationsSection()
 		{
-			this.ViewState.Remove("DuplicateReservationsList");
-			this.BindDuplicateReservationsDataGrid();
-			/*if (this.Users.Count <= 100)
+			ViewState.Remove("DuplicateReservationsList");
+			BindDuplicateReservationsDataGrid();
+			/*if (Users.Count <= 100)
 			{
-				this.BindUsersDropDownList(this.duplicateReservationsUsersDropDownList, this.DuplicateReservationsList);
+				BindUsersDropDownList(duplicateReservationsUsersDropDownList, DuplicateReservationsList);
 				return;
 			}*/
-			RequiredFieldValidator requiredFieldValidator = this.duplicateReservationsUsernameRequiredFieldValidator;
-			TextBox textBox = this.duplicateReservationsUsernameTextBox;
+			RequiredFieldValidator requiredFieldValidator = duplicateReservationsUsernameRequiredFieldValidator;
+			TextBox textBox = duplicateReservationsUsernameTextBox;
 			bool flag = false;
-			//this.duplicateReservationsUsersDropDownList.Visible = false;
+			//duplicateReservationsUsersDropDownList.Visible = false;
 			bool flag1 = !flag;
 			bool flag2 = flag1;
 			textBox.Visible = flag1;
@@ -1195,51 +1196,51 @@ namespace Gafware.Modules.Reservations
 
 		protected void BindGeneralSettingsSection()
 		{
-			this.BindTimeZoneDropDownList();
-			if (this.timeZoneDropDownList.Items.FindByValue(this.ModuleSettings.TimeZone.Id) != null)
+			BindTimeZoneDropDownList();
+			if (timeZoneDropDownList.Items.FindByValue(ModuleSettings.TimeZone.Id) != null)
 			{
-				this.timeZoneDropDownList.SelectedValue = this.ModuleSettings.TimeZone.Id;
+				timeZoneDropDownList.SelectedValue = ModuleSettings.TimeZone.Id;
 			}
-			this.BindThemesDropDownList();
-			if (this.themeDropDownList.Items.FindByValue(this.ModuleSettings.Theme) != null)
+			BindThemesDropDownList();
+			if (themeDropDownList.Items.FindByValue(ModuleSettings.Theme) != null)
 			{
-				this.themeDropDownList.SelectedValue = this.ModuleSettings.Theme;
+				themeDropDownList.SelectedValue = ModuleSettings.Theme;
 			}
-			this.contactInfoFirstCheckBox.Checked = this.ModuleSettings.ContactInfoFirst;
-			this.categorySelectionModeList.Checked = this.ModuleSettings.CategorySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
-			this.categorySelectionModeList.Enabled = Helper.IsjQuery17orHigher;
-			this.categorySelectionModeDropDownList.Checked = this.ModuleSettings.CategorySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
-			this.categorySelectionModeListBox.Checked = this.ModuleSettings.CategorySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
-			RadioButton radioButton = this.displayListRadioButton;
-			RadioButton radioButton1 = this.displayCalendarRadioButton;
-			bool displayCalendar = this.ModuleSettings.DisplayCalendar;
+			contactInfoFirstCheckBox.Checked = ModuleSettings.ContactInfoFirst;
+			categorySelectionModeList.Checked = ModuleSettings.CategorySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
+			categorySelectionModeList.Enabled = Helper.IsjQuery17orHigher;
+			categorySelectionModeDropDownList.Checked = ModuleSettings.CategorySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
+			categorySelectionModeListBox.Checked = ModuleSettings.CategorySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
+			RadioButton radioButton = displayListRadioButton;
+			RadioButton radioButton1 = displayCalendarRadioButton;
+			bool displayCalendar = ModuleSettings.DisplayCalendar;
 			bool flag = displayCalendar;
 			radioButton1.Checked = displayCalendar;
 			radioButton.Checked = !flag;
-			this.displayListRadioButton.Enabled = Helper.IsjQuery17orHigher;
-			this.timeOfDaySelectionModeList.Checked = this.ModuleSettings.TimeOfDaySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
-			this.timeOfDaySelectionModeList.Enabled = Helper.IsjQuery17orHigher;
-			this.timeOfDaySelectionModeDropDownList.Checked = this.ModuleSettings.TimeOfDaySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
-			this.timeOfDaySelectionModeListBox.Checked = this.ModuleSettings.TimeOfDaySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
-			this.timeSelectionModeList.Checked = this.ModuleSettings.TimeSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
-			this.timeSelectionModeList.Enabled = Helper.IsjQuery17orHigher;
-			this.timeSelectionModeDropDownList.Checked = this.ModuleSettings.TimeSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
-			this.timeSelectionModeListBox.Checked = this.ModuleSettings.TimeSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
-			this.durationSelectionModeList.Checked = this.ModuleSettings.DurationSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
-			this.durationSelectionModeList.Enabled = Helper.IsjQuery17orHigher;
-			this.durationSelectionModeDropDownList.Checked = this.ModuleSettings.DurationSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
-			this.durationSelectionModeListBox.Checked = this.ModuleSettings.DurationSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
-			this.displayRemainingReservationsCheckBox.Checked = this.ModuleSettings.DisplayRemainingReservations;
-			this.displayEndTimeCheckBox.Checked = this.ModuleSettings.DisplayEndTime;
-			this.allowDescriptionCheckBox.Checked = this.ModuleSettings.AllowDescription;
-			this.allowSchedulingAnotherReservationCheckBox.Checked = this.ModuleSettings.AllowSchedulingAnotherReservation;
-			this.requireEmailCheckBox.Checked = this.ModuleSettings.RequireEmail;
-			this.requirePhoneCheckBox.Checked = this.ModuleSettings.RequirePhone;
-			this.allowLookupByPhoneCheckBox.Checked = this.ModuleSettings.AllowLookupByPhone;
-			this.redirectUrlTextBox.Text = this.ModuleSettings.RedirectUrl;
-			this.skipContactInfoCheckBox.Checked = this.ModuleSettings.SkipContactInfoForAuthenticatedUsers;
-			this.requireVerificationCodeTableRow.Visible = this.requireEmailCheckBox.Checked;
-			this.requireVerificationCodeCheckBox.Checked = this.ModuleSettings.RequireVerificationCode;
+			displayListRadioButton.Enabled = Helper.IsjQuery17orHigher;
+			timeOfDaySelectionModeList.Checked = ModuleSettings.TimeOfDaySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
+			timeOfDaySelectionModeList.Enabled = Helper.IsjQuery17orHigher;
+			timeOfDaySelectionModeDropDownList.Checked = ModuleSettings.TimeOfDaySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
+			timeOfDaySelectionModeListBox.Checked = ModuleSettings.TimeOfDaySelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
+			timeSelectionModeList.Checked = ModuleSettings.TimeSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
+			timeSelectionModeList.Enabled = Helper.IsjQuery17orHigher;
+			timeSelectionModeDropDownList.Checked = ModuleSettings.TimeSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
+			timeSelectionModeListBox.Checked = ModuleSettings.TimeSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
+			durationSelectionModeList.Checked = ModuleSettings.DurationSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.HorizontalScroll;
+			durationSelectionModeList.Enabled = Helper.IsjQuery17orHigher;
+			durationSelectionModeDropDownList.Checked = ModuleSettings.DurationSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.DropDownList;
+			durationSelectionModeListBox.Checked = ModuleSettings.DurationSelectionMode == Gafware.Modules.Reservations.ModuleSettings.SelectionModeEnum.ListBox;
+			displayRemainingReservationsCheckBox.Checked = ModuleSettings.DisplayRemainingReservations;
+			displayEndTimeCheckBox.Checked = ModuleSettings.DisplayEndTime;
+			allowDescriptionCheckBox.Checked = ModuleSettings.AllowDescription;
+			allowSchedulingAnotherReservationCheckBox.Checked = ModuleSettings.AllowSchedulingAnotherReservation;
+			requireEmailCheckBox.Checked = ModuleSettings.RequireEmail;
+			requirePhoneCheckBox.Checked = ModuleSettings.RequirePhone;
+			allowLookupByPhoneCheckBox.Checked = ModuleSettings.AllowLookupByPhone;
+			redirectUrlTextBox.Text = ModuleSettings.RedirectUrl;
+			skipContactInfoCheckBox.Checked = ModuleSettings.SkipContactInfoForAuthenticatedUsers;
+			requireVerificationCodeTableRow.Visible = requireEmailCheckBox.Checked;
+			requireVerificationCodeCheckBox.Checked = ModuleSettings.RequireVerificationCode;
 		}
 
 		protected void BindHoursDropDownList(DropDownList dropDownList)
@@ -1251,7 +1252,7 @@ namespace Gafware.Modules.Reservations
 			while (true)
 			{
 				DateTime dateTime1 = date1;
-				if (this.Is24HourClock)
+				if (Is24HourClock)
 				{
 					date = DateTime.Now.Date;
 					dateTime = date.AddDays(1);
@@ -1266,7 +1267,7 @@ namespace Gafware.Modules.Reservations
 					break;
 				}
 				ListItemCollection items = dropDownList.Items;
-				string str = date1.ToString((this.Is24HourClock ? "HH" : "hh"));
+				string str = date1.ToString((Is24HourClock ? "HH" : "hh"));
 				double totalHours = date1.TimeOfDay.TotalHours;
 				items.Add(new ListItem(str, totalHours.ToString()));
 				date1 = date1.AddHours(1);
@@ -1275,32 +1276,32 @@ namespace Gafware.Modules.Reservations
 
 		protected void BindMailTemplates()
 		{
-			this.mailTemplateDropDownList.Items.Clear();
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Confirmation", base.LocalResourceFile), "Confirmation"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Modification", base.LocalResourceFile), "Modification"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Rescheduled", base.LocalResourceFile), "Rescheduled"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Cancellation", base.LocalResourceFile), "Cancellation"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Moderator", base.LocalResourceFile), "Moderator"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Declined", base.LocalResourceFile), "Declined"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Reminder", base.LocalResourceFile), "Reminder"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("VerificationCode", base.LocalResourceFile), "VerificationCode"));
-			this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("DuplicateReservation", base.LocalResourceFile), "DuplicateReservation"));
-			if (this.IsProfessional)
+			mailTemplateDropDownList.Items.Clear();
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Confirmation", LocalResourceFile), "Confirmation"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Modification", LocalResourceFile), "Modification"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Rescheduled", LocalResourceFile), "Rescheduled"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Cancellation", LocalResourceFile), "Cancellation"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Moderator", LocalResourceFile), "Moderator"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Declined", LocalResourceFile), "Declined"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Reminder", LocalResourceFile), "Reminder"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("VerificationCode", LocalResourceFile), "VerificationCode"));
+			mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("DuplicateReservation", LocalResourceFile), "DuplicateReservation"));
+			if (IsProfessional)
 			{
-				this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("PendingRescheduleRefund", base.LocalResourceFile), "PendingRescheduleRefund"));
-				this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("PendingCancellationRefund", base.LocalResourceFile), "PendingCancellationRefund"));
-				this.mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("PendingDeclinationRefund", base.LocalResourceFile), "PendingDeclinationRefund"));
+				mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("PendingRescheduleRefund", LocalResourceFile), "PendingRescheduleRefund"));
+				mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("PendingCancellationRefund", LocalResourceFile), "PendingCancellationRefund"));
+				mailTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("PendingDeclinationRefund", LocalResourceFile), "PendingDeclinationRefund"));
 			}
-			this.mailTemplateDropDownList.SelectedIndex = 0;
-			this.MailTemplateDropDownListSelectedIndexChanged(null, null);
+			mailTemplateDropDownList.SelectedIndex = 0;
+			MailTemplateDropDownListSelectedIndexChanged(null, null);
 		}
 
 		protected void BindMailTemplatesSection()
 		{
-			this.mailFromTextBox.Text = this.ModuleSettings.MailFrom;
-			this.attachICalendarCheckBox.Checked = this.ModuleSettings.AttachICalendar;
-			this.iCalendarAttachmentFileNameTextBox.Text = this.ModuleSettings.ICalendarAttachmentFileName;
-			this.BindMailTemplates();
+			mailFromTextBox.Text = ModuleSettings.MailFrom;
+			attachICalendarCheckBox.Checked = ModuleSettings.AttachICalendar;
+			iCalendarAttachmentFileNameTextBox.Text = ModuleSettings.ICalendarAttachmentFileName;
+			BindMailTemplates();
 		}
 
 		protected void BindMinutesDropDownList(DropDownList dropDownList)
@@ -1314,62 +1315,62 @@ namespace Gafware.Modules.Reservations
 
 		protected void BindModerationHoursDataGrid()
 		{
-			this.ModerationHours.Sort(new WorkingHourInfoComparer());
-			this.moderationHoursDataGrid.DataSource = this.ModerationHours;
-			this.moderationHoursDataGrid.DataBind();
-			this.noModerationHoursLabel.Visible = this.moderationHoursDataGrid.Items.Count == 0;
+			ModerationHours.Sort(new WorkingHourInfoComparer());
+			moderationHoursDataGrid.DataSource = ModerationHours;
+			moderationHoursDataGrid.DataBind();
+			noModerationHoursLabel.Visible = moderationHoursDataGrid.Items.Count == 0;
 		}
 
 		protected void BindModerationSection()
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.moderationUpdateResetTableRow;
-			HtmlTableRow htmlTableRow1 = this.moderationCategoryTableRow;
-			flag = (base.IsPostBack ? this.allowCategorySelectionCheckBox.Checked : this.ModuleSettings.AllowCategorySelection);
+			HtmlTableRow htmlTableRow = moderationUpdateResetTableRow;
+			HtmlTableRow htmlTableRow1 = moderationCategoryTableRow;
+			flag = (IsPostBack ? allowCategorySelectionCheckBox.Checked : ModuleSettings.AllowCategorySelection);
 			bool flag1 = flag;
 			htmlTableRow1.Visible = flag;
 			htmlTableRow.Visible = flag1;
-			if (this.moderationCategoryTableRow.Visible)
+			if (moderationCategoryTableRow.Visible)
 			{
-				this.BindCategoriesDropDownList(this.moderationCategoryDropDownList, "Moderate", null, null);
+				BindCategoriesDropDownList(moderationCategoryDropDownList, "Moderate", null, null);
 			}
-			if (!base.IsPostBack)
+			if (!IsPostBack)
 			{
-				this.BindWeekDaysDropDownList(this.moderationWeekDaysDropDownList);
-				this.BindHoursDropDownList(this.moderationStartHourDropDownList);
-				this.BindHoursDropDownList(this.moderationEndHourDropDownList);
-				this.BindMinutesDropDownList(this.moderationStartMinuteDropDownList);
-				this.BindMinutesDropDownList(this.moderationEndMinuteDropDownList);
-				this.BindAMPMDropDownList(this.moderationStartAMPMDropDownList);
-				this.BindAMPMDropDownList(this.moderationEndAMPMDropDownList);
-				this.moderationStartHourDropDownList.SelectedValue = "8";
-				if (!this.Is24HourClock)
+				BindWeekDaysDropDownList(moderationWeekDaysDropDownList);
+				BindHoursDropDownList(moderationStartHourDropDownList);
+				BindHoursDropDownList(moderationEndHourDropDownList);
+				BindMinutesDropDownList(moderationStartMinuteDropDownList);
+				BindMinutesDropDownList(moderationEndMinuteDropDownList);
+				BindAMPMDropDownList(moderationStartAMPMDropDownList);
+				BindAMPMDropDownList(moderationEndAMPMDropDownList);
+				moderationStartHourDropDownList.SelectedValue = "8";
+				if (!Is24HourClock)
 				{
-					this.moderationEndHourDropDownList.SelectedValue = "5";
-					this.moderationEndAMPMDropDownList.SelectedValue = "PM";
+					moderationEndHourDropDownList.SelectedValue = "5";
+					moderationEndAMPMDropDownList.SelectedValue = "PM";
 				}
 				else
 				{
-					this.moderationEndHourDropDownList.SelectedValue = "17";
+					moderationEndHourDropDownList.SelectedValue = "17";
 				}
 			}
-			this.BindModerationSection(Null.NullInteger);
+			BindModerationSection(Null.NullInteger);
 		}
 
 		protected void BindModerationSection(int categoryID)
 		{
 			bool flag;
-			this.moderationCategoryDropDownList.SelectedValue = categoryID.ToString();
+			moderationCategoryDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			HtmlTableRow htmlTableRow = this.moderationHoursTableRow;
-			HtmlTableRow htmlTableRow1 = this.globalModeratorsDropDownListTableRow;
-			HtmlTableRow htmlTableRow2 = this.globalModeratorsDataGridTableRow;
-			CheckBox checkBox = this.moderateCheckBox;
-			flag = (categorySetting != null ? categorySetting.Moderate : this.ModuleSettings.Moderate);
+			HtmlTableRow htmlTableRow = moderationHoursTableRow;
+			HtmlTableRow htmlTableRow1 = globalModeratorsDropDownListTableRow;
+			HtmlTableRow htmlTableRow2 = globalModeratorsDataGridTableRow;
+			CheckBox checkBox = moderateCheckBox;
+			flag = (categorySetting != null ? categorySetting.Moderate : ModuleSettings.Moderate);
 			bool flag1 = flag;
 			checkBox.Checked = flag;
 			bool flag2 = flag1;
@@ -1379,17 +1380,17 @@ namespace Gafware.Modules.Reservations
 			bool flag5 = flag4;
 			htmlTableRow1.Visible = flag4;
 			htmlTableRow.Visible = flag5;
-			this.ViewState.Remove("ModeratorList");
-			this._ModeratorList = null;
-			this.ViewState.Remove("ModerationHours");
-			this._ModerationHours = null;
-			this.BindModeratorsDataGrid();
-			//if (this.Users.Count > 100)
+			ViewState.Remove("ModeratorList");
+			_ModeratorList = null;
+			ViewState.Remove("ModerationHours");
+			_ModerationHours = null;
+			BindModeratorsDataGrid();
+			//if (Users.Count > 100)
 			{
-				RequiredFieldValidator requiredFieldValidator = this.moderatorUsernameRequiredFieldValidator;
-				TextBox textBox = this.moderatorUsernameTextBox;
+				RequiredFieldValidator requiredFieldValidator = moderatorUsernameRequiredFieldValidator;
+				TextBox textBox = moderatorUsernameTextBox;
 				flag3 = false;
-				//this.moderatorUsersDropDownList.Visible = false;
+				//moderatorUsersDropDownList.Visible = false;
 				bool flag6 = !flag3;
 				flag5 = flag6;
 				textBox.Visible = flag6;
@@ -1397,92 +1398,92 @@ namespace Gafware.Modules.Reservations
 			}
 			/*else
 			{
-				this.BindUsersDropDownList(this.moderatorUsersDropDownList, this.ModeratorList);
+				BindUsersDropDownList(moderatorUsersDropDownList, ModeratorList);
 			}*/
-			this.BindModerationHoursDataGrid();
-			this.moderationResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("Moderate"));
+			BindModerationHoursDataGrid();
+			moderationResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("Moderate"));
 		}
 
 		protected void BindModeratorsDataGrid()
 		{
-			this.globalModeratorsDataGrid.DataSource = this.ModeratorList;
-			this.globalModeratorsDataGrid.DataBind();
-			this.noGlobalModeratorsLabel.Visible = this.globalModeratorsDataGrid.Items.Count == 0;
+			globalModeratorsDataGrid.DataSource = ModeratorList;
+			globalModeratorsDataGrid.DataBind();
+			noGlobalModeratorsLabel.Visible = globalModeratorsDataGrid.Items.Count == 0;
 		}
 
 		protected void BindRemindersSection()
 		{
 			bool flag;
-			this.sendRemindersCheckBox.Checked = this.ModuleSettings.SendReminders;
-			this.requireConfirmationCheckBox.Checked = this.ModuleSettings.RequireConfirmation;
-			this.BindTimeSpanDropDownList(this.sendRemindersWhenDropDownList);
-			this.SetTimeSpan(this.ModuleSettings.SendRemindersWhen, this.sendRemindersWhenTextBox, this.sendRemindersWhenDropDownList);
-			this.BindTimeSpanDropDownList(this.requireConfirmationWhenDropDownList);
-			this.SetTimeSpan(this.ModuleSettings.RequireConfirmationWhen, this.requireConfirmationWhenTextBox, this.requireConfirmationWhenDropDownList);
-			this.sendRemindersViaDropDownList.DataSource = Helper.LocalizeEnum(typeof(SendReminderVia), base.LocalResourceFile);
-			this.sendRemindersViaDropDownList.DataTextField = "LocalizedName";
-			this.sendRemindersViaDropDownList.DataValueField = "Value";
-			this.sendRemindersViaDropDownList.DataBind();
-			this.sendRemindersViaDropDownList.SelectedValue = this.ModuleSettings.SendRemindersVia.ToString();
-			HtmlTableRow htmlTableRow = this.requireConfirmationTableRow;
-			HtmlTableRow htmlTableRow1 = this.sendRemindersWhenTableRow;
-			HtmlTableRow htmlTableRow2 = this.sendRemindersViaTableRow;
-			bool @checked = this.sendRemindersCheckBox.Checked;
+			sendRemindersCheckBox.Checked = ModuleSettings.SendReminders;
+			requireConfirmationCheckBox.Checked = ModuleSettings.RequireConfirmation;
+			BindTimeSpanDropDownList(sendRemindersWhenDropDownList);
+			SetTimeSpan(ModuleSettings.SendRemindersWhen, sendRemindersWhenTextBox, sendRemindersWhenDropDownList);
+			BindTimeSpanDropDownList(requireConfirmationWhenDropDownList);
+			SetTimeSpan(ModuleSettings.RequireConfirmationWhen, requireConfirmationWhenTextBox, requireConfirmationWhenDropDownList);
+			sendRemindersViaDropDownList.DataSource = Helper.LocalizeEnum(typeof(SendReminderVia), LocalResourceFile);
+			sendRemindersViaDropDownList.DataTextField = "LocalizedName";
+			sendRemindersViaDropDownList.DataValueField = "Value";
+			sendRemindersViaDropDownList.DataBind();
+			sendRemindersViaDropDownList.SelectedValue = ModuleSettings.SendRemindersVia.ToString();
+			HtmlTableRow htmlTableRow = requireConfirmationTableRow;
+			HtmlTableRow htmlTableRow1 = sendRemindersWhenTableRow;
+			HtmlTableRow htmlTableRow2 = sendRemindersViaTableRow;
+			bool @checked = sendRemindersCheckBox.Checked;
 			bool flag1 = @checked;
 			htmlTableRow2.Visible = @checked;
 			bool flag2 = flag1;
 			bool flag3 = flag2;
 			htmlTableRow1.Visible = flag2;
 			htmlTableRow.Visible = flag3;
-			HtmlTableRow htmlTableRow3 = this.requireConfirmationTableRow2;
-			HtmlTableRow htmlTableRow4 = this.requireConfirmationWhenTableRow;
-			flag = (!this.requireConfirmationTableRow.Visible ? false : this.requireConfirmationCheckBox.Checked);
+			HtmlTableRow htmlTableRow3 = requireConfirmationTableRow2;
+			HtmlTableRow htmlTableRow4 = requireConfirmationWhenTableRow;
+			flag = (!requireConfirmationTableRow.Visible ? false : requireConfirmationCheckBox.Checked);
 			flag3 = flag;
 			htmlTableRow4.Visible = flag;
 			htmlTableRow3.Visible = flag3;
-			this.sendRemindersViaTableRow.Visible = (!this.sendRemindersViaTableRow.Visible ? false : this.IsProfessional);
+			sendRemindersViaTableRow.Visible = (!sendRemindersViaTableRow.Visible ? false : IsProfessional);
 		}
 
 		protected void BindReservationFeesSection()
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.reservationFeesUpdateResetTableRow;
-			HtmlTableRow htmlTableRow1 = this.reservationFeesCategoryTableRow;
-			flag = (base.IsPostBack ? this.allowCategorySelectionCheckBox.Checked : this.ModuleSettings.AllowCategorySelection);
+			HtmlTableRow htmlTableRow = reservationFeesUpdateResetTableRow;
+			HtmlTableRow htmlTableRow1 = reservationFeesCategoryTableRow;
+			flag = (IsPostBack ? allowCategorySelectionCheckBox.Checked : ModuleSettings.AllowCategorySelection);
 			bool flag1 = flag;
 			htmlTableRow1.Visible = flag;
 			htmlTableRow.Visible = flag1;
-			if (this.reservationFeesCategoryTableRow.Visible)
+			if (reservationFeesCategoryTableRow.Visible)
 			{
-				this.BindCategoriesDropDownList(this.reservationFeesCategoryDropDownList, "SchedulingFee", "FeeScheduleType", null);
+				BindCategoriesDropDownList(reservationFeesCategoryDropDownList, "SchedulingFee", "FeeScheduleType", null);
 			}
-			this.payPalAccountTextBox.Text = this.ModuleSettings.PayPalAccount;
-			this.payPalUrlTextBox.Text = this.ModuleSettings.PayPalUrl;
-			this.payPalItemDescriptionTextBox.Text = this.ModuleSettings.ItemDescription;
-			this.pendingPaymentExpirationTextBox.Text = this.ModuleSettings.PendingPaymentExpiration.TotalMinutes.ToString();
-			this.allowPayLaterCheckBox.Checked = this.ModuleSettings.AllowPayLater;
-			this.BindCurrencyDropDownList(this.currencyDropDownList);
-			this.currencyDropDownList.SelectedValue = this.ModuleSettings.Currency;
-			this.paymentMethodDropDownList.Items.Clear();
-			ListItemCollection items = this.paymentMethodDropDownList.Items;
+			payPalAccountTextBox.Text = ModuleSettings.PayPalAccount;
+			payPalUrlTextBox.Text = ModuleSettings.PayPalUrl;
+			payPalItemDescriptionTextBox.Text = ModuleSettings.ItemDescription;
+			pendingPaymentExpirationTextBox.Text = ModuleSettings.PendingPaymentExpiration.TotalMinutes.ToString();
+			allowPayLaterCheckBox.Checked = ModuleSettings.AllowPayLater;
+			BindCurrencyDropDownList(currencyDropDownList);
+			currencyDropDownList.SelectedValue = ModuleSettings.Currency;
+			paymentMethodDropDownList.Items.Clear();
+			ListItemCollection items = paymentMethodDropDownList.Items;
 			PaymentMethod paymentMethod = PaymentMethod.PayPalPaymentsStandard;
-			string str = Localization.GetString(paymentMethod.ToString(), base.LocalResourceFile);
+			string str = Localization.GetString(paymentMethod.ToString(), LocalResourceFile);
 			paymentMethod = PaymentMethod.PayPalPaymentsStandard;
 			items.Add(new ListItem(str, paymentMethod.ToString()));
-			ListItemCollection listItemCollections = this.paymentMethodDropDownList.Items;
+			ListItemCollection listItemCollections = paymentMethodDropDownList.Items;
 			paymentMethod = PaymentMethod.AuthorizeNetSIM;
-			string str1 = Localization.GetString(paymentMethod.ToString(), base.LocalResourceFile);
+			string str1 = Localization.GetString(paymentMethod.ToString(), LocalResourceFile);
 			paymentMethod = PaymentMethod.AuthorizeNetSIM;
 			listItemCollections.Add(new ListItem(str1, paymentMethod.ToString()));
-			DropDownList dropDownList = this.paymentMethodDropDownList;
-			paymentMethod = this.ModuleSettings.PaymentMethod;
+			DropDownList dropDownList = paymentMethodDropDownList;
+			paymentMethod = ModuleSettings.PaymentMethod;
 			dropDownList.SelectedValue = paymentMethod.ToString();
-			this.authorizeNetApiLoginTextBox.Text = this.ModuleSettings.AuthorizeNetApiLogin;
-			this.authorizeNetTransactionKeyTextBox.Text = this.ModuleSettings.AuthorizeNetTransactionKey;
-			this.authorizeNetMerchantHashTextBox.Text = this.ModuleSettings.AuthorizeNetMerchantHash;
-			this.authorizeNetTestModeCheckBox.Checked = this.ModuleSettings.AuthorizeNetTestMode;
-			this.BindReservationFeesSection(Null.NullInteger);
-			this.PaymentMethodChanged(null, null);
+			authorizeNetApiLoginTextBox.Text = ModuleSettings.AuthorizeNetApiLogin;
+			authorizeNetTransactionKeyTextBox.Text = ModuleSettings.AuthorizeNetTransactionKey;
+			authorizeNetMerchantHashTextBox.Text = ModuleSettings.AuthorizeNetMerchantHash;
+			authorizeNetTestModeCheckBox.Checked = ModuleSettings.AuthorizeNetTestMode;
+			BindReservationFeesSection(Null.NullInteger);
+			PaymentMethodChanged(null, null);
 		}
 
 		protected void BindReservationFeesSection(int categoryID)
@@ -1491,15 +1492,15 @@ namespace Gafware.Modules.Reservations
 			bool selectedValue;
 			bool flag;
 			bool flag1;
-			this.reservationFeesCategoryDropDownList.SelectedValue = categoryID.ToString();
+			reservationFeesCategoryDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			this.paymentMethodTableRow.Visible = categorySetting == null;
-			HtmlTableRow htmlTableRow = this.payPalAccountTableRow;
-			HtmlTableRow htmlTableRow1 = this.payPalUrlTableRow;
+			paymentMethodTableRow.Visible = categorySetting == null;
+			HtmlTableRow htmlTableRow = payPalAccountTableRow;
+			HtmlTableRow htmlTableRow1 = payPalUrlTableRow;
 			if (categorySetting != null)
 			{
 				selectedValue = false;
@@ -1507,15 +1508,15 @@ namespace Gafware.Modules.Reservations
 			else
 			{
 				paymentMethod = PaymentMethod.PayPalPaymentsStandard;
-				selectedValue = this.paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
+				selectedValue = paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
 			}
 			bool flag2 = selectedValue;
 			htmlTableRow1.Visible = selectedValue;
 			htmlTableRow.Visible = flag2;
-			HtmlTableRow htmlTableRow2 = this.authorizeNetApiLoginTableRow;
-			HtmlTableRow htmlTableRow3 = this.authorizeNetMerchantHashTableRow;
-			HtmlTableRow htmlTableRow4 = this.authorizeNetTestModeTableRow;
-			HtmlTableRow htmlTableRow5 = this.authorizeNetTransactionKeyTableRow;
+			HtmlTableRow htmlTableRow2 = authorizeNetApiLoginTableRow;
+			HtmlTableRow htmlTableRow3 = authorizeNetMerchantHashTableRow;
+			HtmlTableRow htmlTableRow4 = authorizeNetTestModeTableRow;
+			HtmlTableRow htmlTableRow5 = authorizeNetTransactionKeyTableRow;
 			if (categorySetting != null)
 			{
 				flag = false;
@@ -1523,7 +1524,7 @@ namespace Gafware.Modules.Reservations
 			else
 			{
 				paymentMethod = PaymentMethod.AuthorizeNetSIM;
-				flag = this.paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
+				flag = paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
 			}
 			bool flag3 = flag;
 			htmlTableRow5.Visible = flag;
@@ -1534,11 +1535,11 @@ namespace Gafware.Modules.Reservations
 			flag2 = flag6;
 			htmlTableRow3.Visible = flag6;
 			htmlTableRow2.Visible = flag2;
-			this.itemDescriptionTableRow.Visible = categorySetting == null;
-			this.pendingPaymentExpirationTableRow.Visible = categorySetting == null;
-			this.currencyTableRow.Visible = categorySetting == null;
-			this.allowPayLaterTableRow.Visible = categorySetting == null;
-			LinkButton linkButton = this.reservationFeesResetCommandButton;
+			itemDescriptionTableRow.Visible = categorySetting == null;
+			pendingPaymentExpirationTableRow.Visible = categorySetting == null;
+			currencyTableRow.Visible = categorySetting == null;
+			allowPayLaterTableRow.Visible = categorySetting == null;
+			LinkButton linkButton = reservationFeesResetCommandButton;
 			if (categorySetting == null)
 			{
 				flag1 = false;
@@ -1548,41 +1549,41 @@ namespace Gafware.Modules.Reservations
 				flag1 = (categorySetting.IsDefined("SchedulingFee") ? true : categorySetting.IsDefined("FeeScheduleType"));
 			}
 			linkButton.Visible = flag1;
-			this.feeschedulecontrol.Currency = this.ModuleSettings.Currency;
-			this.feeschedulecontrol.FeeScheduleType = (categorySetting != null ? categorySetting.FeeScheduleType : this.ModuleSettings.FeeScheduleType);
-			if (this.feeschedulecontrol.FeeScheduleType == FeeScheduleType.Flat)
+			feeschedulecontrol.Currency = ModuleSettings.Currency;
+			feeschedulecontrol.FeeScheduleType = (categorySetting != null ? categorySetting.FeeScheduleType : ModuleSettings.FeeScheduleType);
+			if (feeschedulecontrol.FeeScheduleType == FeeScheduleType.Flat)
 			{
-				this.feeschedulecontrol.FlatFeeScheduleInfo = (categorySetting != null ? categorySetting.FlatFeeScheduleInfo : this.ModuleSettings.FlatFeeScheduleInfo);
+				feeschedulecontrol.FlatFeeScheduleInfo = (categorySetting != null ? categorySetting.FlatFeeScheduleInfo : ModuleSettings.FlatFeeScheduleInfo);
 			}
-			else if (this.feeschedulecontrol.FeeScheduleType == FeeScheduleType.Seasonal)
+			else if (feeschedulecontrol.FeeScheduleType == FeeScheduleType.Seasonal)
 			{
-				this.feeschedulecontrol.SeasonalFeeScheduleList = (categorySetting != null ? categorySetting.SeasonalFeeScheduleList : this.ModuleSettings.SeasonalFeeScheduleList);
+				feeschedulecontrol.SeasonalFeeScheduleList = (categorySetting != null ? categorySetting.SeasonalFeeScheduleList : ModuleSettings.SeasonalFeeScheduleList);
 			}
-			this.feeschedulecontrol.DataBind();
+			feeschedulecontrol.DataBind();
 		}
 
 		protected void BindReservationSettingsSection()
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.reservationSettingsUpdateResetTableRow;
-			HtmlTableRow htmlTableRow1 = this.reservationSettingsCategoryTableRow;
-			flag = (base.IsPostBack ? this.allowCategorySelectionCheckBox.Checked : this.ModuleSettings.AllowCategorySelection);
+			HtmlTableRow htmlTableRow = reservationSettingsUpdateResetTableRow;
+			HtmlTableRow htmlTableRow1 = reservationSettingsCategoryTableRow;
+			flag = (IsPostBack ? allowCategorySelectionCheckBox.Checked : ModuleSettings.AllowCategorySelection);
 			bool flag1 = flag;
 			htmlTableRow1.Visible = flag;
 			htmlTableRow.Visible = flag1;
-			if (this.reservationSettingsCategoryTableRow.Visible)
+			if (reservationSettingsCategoryTableRow.Visible)
 			{
-				this.BindCategoriesDropDownList(this.reservationSettingsCategoryDropDownList, "AllowCancellations", null, null);
+				BindCategoriesDropDownList(reservationSettingsCategoryDropDownList, "AllowCancellations", null, null);
 			}
-			if (!base.IsPostBack)
+			if (!IsPostBack)
 			{
-				this.BindTimeSpanDropDownList(this.minTimeAheadDropDownList);
-				this.BindTimeSpanDropDownList(this.reservationIntervalDropDownList);
-				this.BindTimeSpanDropDownList(this.reservationDurationDropDownList);
-				this.BindTimeSpanDropDownList(this.reservationDurationMaxDropDownList);
-				this.BindTimeSpanDropDownList(this.reservationDurationIntervalDropDownList);
+				BindTimeSpanDropDownList(minTimeAheadDropDownList);
+				BindTimeSpanDropDownList(reservationIntervalDropDownList);
+				BindTimeSpanDropDownList(reservationDurationDropDownList);
+				BindTimeSpanDropDownList(reservationDurationMaxDropDownList);
+				BindTimeSpanDropDownList(reservationDurationIntervalDropDownList);
 			}
-			this.BindReservationSettingsSection(Null.NullInteger);
+			BindReservationSettingsSection(Null.NullInteger);
 		}
 
 		protected void BindReservationSettingsSection(int categoryID)
@@ -1591,44 +1592,44 @@ namespace Gafware.Modules.Reservations
 			string str;
 			string str1;
 			string empty;
-			this.reservationSettingsCategoryDropDownList.SelectedValue = categoryID.ToString();
+			reservationSettingsCategoryDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			this.allowCancellationsCheckBox.Checked = (categorySetting != null ? categorySetting.AllowCancellations : this.ModuleSettings.AllowCancellations);
-			this.allowReschedulingCheckBox.Checked = (categorySetting != null ? categorySetting.AllowRescheduling : this.ModuleSettings.AllowRescheduling);
-			TextBox textBox = this.daysAheadTextBox;
+			allowCancellationsCheckBox.Checked = (categorySetting != null ? categorySetting.AllowCancellations : ModuleSettings.AllowCancellations);
+			allowReschedulingCheckBox.Checked = (categorySetting != null ? categorySetting.AllowRescheduling : ModuleSettings.AllowRescheduling);
+			TextBox textBox = daysAheadTextBox;
 			if (categorySetting != null)
 			{
 				str = categorySetting.DaysAhead.ToString();
 			}
 			else
 			{
-				daysAhead = this.ModuleSettings.DaysAhead;
+				daysAhead = ModuleSettings.DaysAhead;
 				str = daysAhead.ToString();
 			}
 			textBox.Text = str;
-			TextBox textBox1 = this.maxConflictingReservationsTextBox;
+			TextBox textBox1 = maxConflictingReservationsTextBox;
 			if (categorySetting != null)
 			{
 				str1 = categorySetting.MaxConflictingReservations.ToString();
 			}
 			else
 			{
-				daysAhead = this.ModuleSettings.MaxConflictingReservations;
+				daysAhead = ModuleSettings.MaxConflictingReservations;
 				str1 = daysAhead.ToString();
 			}
 			textBox1.Text = str1;
-			TextBox textBox2 = this.maxReservationsPerUserTextBox;
+			TextBox textBox2 = maxReservationsPerUserTextBox;
 			if (categorySetting != null && categorySetting.MaxReservationsPerUser != Null.NullInteger)
 			{
 				empty = categorySetting.MaxReservationsPerUser.ToString();
 			}
-			else if (this.ModuleSettings.MaxReservationsPerUser != Null.NullInteger)
+			else if (ModuleSettings.MaxReservationsPerUser != Null.NullInteger)
 			{
-				daysAhead = this.ModuleSettings.MaxReservationsPerUser;
+				daysAhead = ModuleSettings.MaxReservationsPerUser;
 				empty = daysAhead.ToString();
 			}
 			else
@@ -1638,88 +1639,88 @@ namespace Gafware.Modules.Reservations
 			textBox2.Text = empty;
 			if (categorySetting == null)
 			{
-				this.SetTimeSpan(this.ModuleSettings.MinTimeAhead, this.minTimeAheadTextBox, this.minTimeAheadDropDownList);
-				this.SetTimeSpan(this.ModuleSettings.ReservationInterval, this.reservationIntervalTextBox, this.reservationIntervalDropDownList);
-				this.SetTimeSpan(this.ModuleSettings.ReservationDuration, this.reservationDurationTextBox, this.reservationDurationDropDownList);
-				this.SetTimeSpan(this.ModuleSettings.ReservationDurationMax, this.reservationDurationMaxTextBox, this.reservationDurationMaxDropDownList);
-				this.SetTimeSpan(this.ModuleSettings.ReservationDurationInterval, this.reservationDurationIntervalTextBox, this.reservationDurationIntervalDropDownList);
+				SetTimeSpan(ModuleSettings.MinTimeAhead, minTimeAheadTextBox, minTimeAheadDropDownList);
+				SetTimeSpan(ModuleSettings.ReservationInterval, reservationIntervalTextBox, reservationIntervalDropDownList);
+				SetTimeSpan(ModuleSettings.ReservationDuration, reservationDurationTextBox, reservationDurationDropDownList);
+				SetTimeSpan(ModuleSettings.ReservationDurationMax, reservationDurationMaxTextBox, reservationDurationMaxDropDownList);
+				SetTimeSpan(ModuleSettings.ReservationDurationInterval, reservationDurationIntervalTextBox, reservationDurationIntervalDropDownList);
 			}
 			else
 			{
-				this.SetTimeSpan(categorySetting.MinTimeAhead, this.minTimeAheadTextBox, this.minTimeAheadDropDownList);
-				this.SetTimeSpan(categorySetting.ReservationInterval, this.reservationIntervalTextBox, this.reservationIntervalDropDownList);
-				this.SetTimeSpan(categorySetting.ReservationDuration, this.reservationDurationTextBox, this.reservationDurationDropDownList);
-				this.SetTimeSpan(categorySetting.ReservationDurationMax, this.reservationDurationMaxTextBox, this.reservationDurationMaxDropDownList);
-				this.SetTimeSpan(categorySetting.ReservationDurationInterval, this.reservationDurationIntervalTextBox, this.reservationDurationIntervalDropDownList);
+				SetTimeSpan(categorySetting.MinTimeAhead, minTimeAheadTextBox, minTimeAheadDropDownList);
+				SetTimeSpan(categorySetting.ReservationInterval, reservationIntervalTextBox, reservationIntervalDropDownList);
+				SetTimeSpan(categorySetting.ReservationDuration, reservationDurationTextBox, reservationDurationDropDownList);
+				SetTimeSpan(categorySetting.ReservationDurationMax, reservationDurationMaxTextBox, reservationDurationMaxDropDownList);
+				SetTimeSpan(categorySetting.ReservationDurationInterval, reservationDurationIntervalTextBox, reservationDurationIntervalDropDownList);
 			}
-			this.reservationSettingsResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("AllowCancellations"));
+			reservationSettingsResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("AllowCancellations"));
 		}
 
 		protected void BindRolesCheckboxList()
 		{
-			this.categoryPermissionsCheckboxList.Items.Clear();
-			this.categoryPermissionsCheckboxList.DataSource = (new RoleController()).GetRoles(base.PortalId); //.GetPortalRoles(base.PortalId);
-			this.categoryPermissionsCheckboxList.DataTextField = "RoleName";
-			this.categoryPermissionsCheckboxList.DataValueField = "RoleID";
-			this.categoryPermissionsCheckboxList.DataBind();
-			this.categoryPermissionsCheckboxList.Items.Insert(0, new ListItem(Localization.GetString("AllUsers", base.LocalResourceFile), "-1"));
-			this.categoryPermissionsCheckboxList.Items.Add(new ListItem(Localization.GetString("UnauthenticatedUsers", base.LocalResourceFile), "-3"));
-			foreach (ListItem item in this.categoryPermissionsCheckboxList.Items)
+			categoryPermissionsCheckboxList.Items.Clear();
+			categoryPermissionsCheckboxList.DataSource = (new RoleController()).GetRoles(PortalId); //.GetPortalRoles(PortalId);
+			categoryPermissionsCheckboxList.DataTextField = "RoleName";
+			categoryPermissionsCheckboxList.DataValueField = "RoleID";
+			categoryPermissionsCheckboxList.DataBind();
+			categoryPermissionsCheckboxList.Items.Insert(0, new ListItem(Localization.GetString("AllUsers", LocalResourceFile), "-1"));
+			categoryPermissionsCheckboxList.Items.Add(new ListItem(Localization.GetString("UnauthenticatedUsers", LocalResourceFile), "-3"));
+			foreach (ListItem item in categoryPermissionsCheckboxList.Items)
 			{
-				item.Selected = this.CategoryPermissionsList.IndexOf(int.Parse(item.Value)) != -1;
+				item.Selected = CategoryPermissionsList.IndexOf(int.Parse(item.Value)) != -1;
 			}
 		}
 
 		protected void BindSMSTemplates()
 		{
-			this.smsTemplateDropDownList.Items.Clear();
-			this.smsTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Reminder", base.LocalResourceFile), "Reminder"));
-			this.smsTemplateDropDownList.SelectedIndex = 0;
-			this.SMSTemplateDropDownListSelectedIndexChanged(null, null);
+			smsTemplateDropDownList.Items.Clear();
+			smsTemplateDropDownList.Items.Add(new ListItem(Localization.GetString("Reminder", LocalResourceFile), "Reminder"));
+			smsTemplateDropDownList.SelectedIndex = 0;
+			SMSTemplateDropDownListSelectedIndexChanged(null, null);
 		}
 
 		protected void BindSMSTemplatesSection()
 		{
-			this.smsTemplatesSectionTableRow.Visible = this.IsProfessional;
-			this.twilioAccountSIDTextBox.Text = this.ModuleSettings.TwilioAccountSID;
-			this.twilioAuthTokenTextBox.Text = this.ModuleSettings.TwilioAuthToken;
-			this.twilioFromTextBox.Text = this.ModuleSettings.TwilioFrom;
-			this.BindSMSTemplates();
+			smsTemplatesSectionTableRow.Visible = IsProfessional;
+			twilioAccountSIDTextBox.Text = ModuleSettings.TwilioAccountSID;
+			twilioAuthTokenTextBox.Text = ModuleSettings.TwilioAuthToken;
+			twilioFromTextBox.Text = ModuleSettings.TwilioFrom;
+			BindSMSTemplates();
 		}
 
 		protected void BindThemesDropDownList()
 		{
-			this.themeDropDownList.DataSource = (new DirectoryInfo(base.Server.MapPath(string.Concat(this.TemplateSourceDirectory, "/Themes")))).GetDirectories();
-			this.themeDropDownList.DataTextField = "Name";
-			this.themeDropDownList.DataValueField = "Name";
-			this.themeDropDownList.DataBind();
+			themeDropDownList.DataSource = (new DirectoryInfo(Server.MapPath(string.Concat(TemplateSourceDirectory, "/Themes")))).GetDirectories();
+			themeDropDownList.DataTextField = "Name";
+			themeDropDownList.DataValueField = "Name";
+			themeDropDownList.DataBind();
 		}
 
 		protected void BindTimeOfDayDataGrid()
 		{
-			this.timeOfDayDataGrid.DataSource = this.TimeOfDayList;
-			this.timeOfDayDataGrid.DataBind();
-			this.noTimeOfDayLabel.Visible = this.timeOfDayDataGrid.Items.Count == 0;
+			timeOfDayDataGrid.DataSource = TimeOfDayList;
+			timeOfDayDataGrid.DataBind();
+			noTimeOfDayLabel.Visible = timeOfDayDataGrid.Items.Count == 0;
 		}
 
 		protected void BindTimeOfDaySection()
 		{
-			if (!base.IsPostBack)
+			if (!IsPostBack)
 			{
-				this.BindHoursDropDownList(this.timeOfDayStartHourDropDownList);
-				this.BindHoursDropDownList(this.timeOfDayEndHourDropDownList);
-				this.BindMinutesDropDownList(this.timeOfDayStartMinuteDropDownList);
-				this.BindMinutesDropDownList(this.timeOfDayEndMinuteDropDownList);
-				this.BindAMPMDropDownList(this.timeOfDayStartAMPMDropDownList);
-				this.BindAMPMDropDownList(this.timeOfDayEndAMPMDropDownList);
+				BindHoursDropDownList(timeOfDayStartHourDropDownList);
+				BindHoursDropDownList(timeOfDayEndHourDropDownList);
+				BindMinutesDropDownList(timeOfDayStartMinuteDropDownList);
+				BindMinutesDropDownList(timeOfDayEndMinuteDropDownList);
+				BindAMPMDropDownList(timeOfDayStartAMPMDropDownList);
+				BindAMPMDropDownList(timeOfDayEndAMPMDropDownList);
 			}
-			this.displayTimeOfDayCheckBox.Checked = this.ModuleSettings.DisplayTimeOfDay;
-			this.displayUnavailableTimeOfDayCheckBox.Checked = this.ModuleSettings.DisplayUnavailableTimeOfDay;
-			this.BindTimeOfDayDataGrid();
-			HtmlTableRow htmlTableRow = this.timeOfDaySelectionModeTableRow;
-			HtmlTableRow htmlTableRow1 = this.displayUnavailableTimeOfDayTableRow;
-			HtmlTableRow htmlTableRow2 = this.timeOfDayTableRow;
-			bool @checked = this.displayTimeOfDayCheckBox.Checked;
+			displayTimeOfDayCheckBox.Checked = ModuleSettings.DisplayTimeOfDay;
+			displayUnavailableTimeOfDayCheckBox.Checked = ModuleSettings.DisplayUnavailableTimeOfDay;
+			BindTimeOfDayDataGrid();
+			HtmlTableRow htmlTableRow = timeOfDaySelectionModeTableRow;
+			HtmlTableRow htmlTableRow1 = displayUnavailableTimeOfDayTableRow;
+			HtmlTableRow htmlTableRow2 = timeOfDayTableRow;
+			bool @checked = displayTimeOfDayCheckBox.Checked;
 			bool flag = @checked;
 			htmlTableRow2.Visible = @checked;
 			bool flag1 = flag;
@@ -1731,26 +1732,26 @@ namespace Gafware.Modules.Reservations
 		protected void BindTimeSpanDropDownList(DropDownList dropDownList)
 		{
 			dropDownList.Items.Clear();
-			dropDownList.Items.Add(new ListItem(Localization.GetString("Minutes", base.LocalResourceFile), "M"));
-			dropDownList.Items.Add(new ListItem(Localization.GetString("Hours", base.LocalResourceFile), "H"));
-			dropDownList.Items.Add(new ListItem(Localization.GetString("Days", base.LocalResourceFile), "D"));
+			dropDownList.Items.Add(new ListItem(Localization.GetString("Minutes", LocalResourceFile), "M"));
+			dropDownList.Items.Add(new ListItem(Localization.GetString("Hours", LocalResourceFile), "H"));
+			dropDownList.Items.Add(new ListItem(Localization.GetString("Days", LocalResourceFile), "D"));
 		}
 
 		protected void BindTimeZoneDropDownList()
 		{
-			this.timeZoneDropDownList.DataSource = TimeZoneInfo.GetSystemTimeZones();
-			this.timeZoneDropDownList.DataTextField = "DisplayName";
-			this.timeZoneDropDownList.DataValueField = "Id";
-			this.timeZoneDropDownList.DataBind();
+			timeZoneDropDownList.DataSource = TimeZoneInfo.GetSystemTimeZones();
+			timeZoneDropDownList.DataTextField = "DisplayName";
+			timeZoneDropDownList.DataValueField = "Id";
+			timeZoneDropDownList.DataBind();
 		}
 
 		protected void BindUsersDropDownList(DropDownList dropDownList, ArrayList usersToExclude)
 		{
 			dropDownList.Items.Clear();
-			foreach (UserInfo user in this.Users)
+			foreach (UserInfo user in Users)
 			{
-				//if (this.FindUserInfoByUserId(usersToExclude, user.UserID) != null)
-				if (this.FindUserInfoByEmail(usersToExclude, user.Email) != null)
+				//if (FindUserInfoByUserId(usersToExclude, user.UserID) != null)
+				if (FindUserInfoByEmail(usersToExclude, user.Email) != null)
 				{
 					continue;
 				}
@@ -1760,29 +1761,29 @@ namespace Gafware.Modules.Reservations
 				//items.Add(new ListItem(displayName, userID.ToString()));
 				items.Add(new ListItem(user.DisplayName, user.Email));
 			}
-			dropDownList.Items.Insert(0, new ListItem(Localization.GetString("NoneSpecified", base.LocalResourceFile), "-1"));
+			dropDownList.Items.Insert(0, new ListItem(Localization.GetString("NoneSpecified", LocalResourceFile), "-1"));
 		}
 
 		protected void BindViewReservationsDataGrid()
 		{
-			this.viewReservationsDataGrid.DataSource = this.ViewReservationsList;
-			this.viewReservationsDataGrid.DataBind();
-			this.noViewReservationsLabel.Visible = this.viewReservationsDataGrid.Items.Count == 0;
+			viewReservationsDataGrid.DataSource = ViewReservationsList;
+			viewReservationsDataGrid.DataBind();
+			noViewReservationsLabel.Visible = viewReservationsDataGrid.Items.Count == 0;
 		}
 
 		protected void BindViewReservationsSection()
 		{
-			this.ViewState.Remove("ViewReservationsList");
-			this.BindViewReservationsDataGrid();
-			/*if (this.Users.Count <= 100)
+			ViewState.Remove("ViewReservationsList");
+			BindViewReservationsDataGrid();
+			/*if (Users.Count <= 100)
 			{
-				this.BindUsersDropDownList(this.viewReservationsUsersDropDownList, this.ViewReservationsList);
+				BindUsersDropDownList(viewReservationsUsersDropDownList, ViewReservationsList);
 				return;
 			}*/
-			RequiredFieldValidator requiredFieldValidator = this.viewReservationsUsernameRequiredFieldValidator;
-			TextBox textBox = this.viewReservationsUsernameTextBox;
+			RequiredFieldValidator requiredFieldValidator = viewReservationsUsernameRequiredFieldValidator;
+			TextBox textBox = viewReservationsUsernameTextBox;
 			bool flag = false;
-			//this.viewReservationsUsersDropDownList.Visible = false;
+			//viewReservationsUsersDropDownList.Visible = false;
 			bool flag1 = !flag;
 			bool flag2 = flag1;
 			textBox.Visible = flag1;
@@ -1810,151 +1811,151 @@ namespace Gafware.Modules.Reservations
 
 		protected void BindWorkingHoursDataGrid()
 		{
-			this.workingHoursDataGrid.DataSource = this.WorkingHours;
-			this.workingHoursDataGrid.DataBind();
-			this.noWorkingHoursLabel.Visible = this.workingHoursDataGrid.Items.Count == 0;
+			workingHoursDataGrid.DataSource = WorkingHours;
+			workingHoursDataGrid.DataBind();
+			noWorkingHoursLabel.Visible = workingHoursDataGrid.Items.Count == 0;
 		}
 
 		protected void BindWorkingHoursExceptionsDataGrid()
 		{
-			this.WorkingHoursExceptions.Sort(new WorkingHoursExceptionInfoComparer());
-			this.workingHoursExceptionsWorkingHoursDataGrid.DataSource = this.WorkingHoursExceptions;
-			this.workingHoursExceptionsWorkingHoursDataGrid.DataBind();
-			this.workingHoursExceptionsNoWorkingHoursLabel.Visible = this.workingHoursExceptionsWorkingHoursDataGrid.Items.Count == 0;
+			WorkingHoursExceptions.Sort(new WorkingHoursExceptionInfoComparer());
+			workingHoursExceptionsWorkingHoursDataGrid.DataSource = WorkingHoursExceptions;
+			workingHoursExceptionsWorkingHoursDataGrid.DataBind();
+			workingHoursExceptionsNoWorkingHoursLabel.Visible = workingHoursExceptionsWorkingHoursDataGrid.Items.Count == 0;
 		}
 
 		protected void BindWorkingHoursExceptionsSection()
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.workingHoursExceptionsUpdateResetTableRow;
-			HtmlTableRow htmlTableRow1 = this.workingHoursExceptionsCategoryTableRow;
-			flag = (base.IsPostBack ? this.allowCategorySelectionCheckBox.Checked : this.ModuleSettings.AllowCategorySelection);
+			HtmlTableRow htmlTableRow = workingHoursExceptionsUpdateResetTableRow;
+			HtmlTableRow htmlTableRow1 = workingHoursExceptionsCategoryTableRow;
+			flag = (IsPostBack ? allowCategorySelectionCheckBox.Checked : ModuleSettings.AllowCategorySelection);
 			bool flag1 = flag;
 			htmlTableRow1.Visible = flag;
 			htmlTableRow.Visible = flag1;
-			if (this.workingHoursExceptionsCategoryTableRow.Visible)
+			if (workingHoursExceptionsCategoryTableRow.Visible)
 			{
-				this.BindCategoriesDropDownList(this.workingHoursExceptionsCategoryDropDownList, "WorkingHoursExceptionsDefined", null, null);
+				BindCategoriesDropDownList(workingHoursExceptionsCategoryDropDownList, "WorkingHoursExceptionsDefined", null, null);
 			}
-			if (!base.IsPostBack)
+			if (!IsPostBack)
 			{
-				this.BindHoursDropDownList(this.workingHoursExceptionStartHourDropDownList);
-				this.BindHoursDropDownList(this.workingHoursExceptionEndHourDropDownList);
-				this.BindMinutesDropDownList(this.workingHoursExceptionStartMinuteDropDownList);
-				this.BindMinutesDropDownList(this.workingHoursExceptionEndMinuteDropDownList);
-				this.BindAMPMDropDownList(this.workingHoursExceptionStartAMPMDropDownList);
-				this.BindAMPMDropDownList(this.workingHoursExceptionEndAMPMDropDownList);
-				this.workingHoursExceptionStartHourDropDownList.SelectedValue = "8";
-				if (!this.Is24HourClock)
+				BindHoursDropDownList(workingHoursExceptionStartHourDropDownList);
+				BindHoursDropDownList(workingHoursExceptionEndHourDropDownList);
+				BindMinutesDropDownList(workingHoursExceptionStartMinuteDropDownList);
+				BindMinutesDropDownList(workingHoursExceptionEndMinuteDropDownList);
+				BindAMPMDropDownList(workingHoursExceptionStartAMPMDropDownList);
+				BindAMPMDropDownList(workingHoursExceptionEndAMPMDropDownList);
+				workingHoursExceptionStartHourDropDownList.SelectedValue = "8";
+				if (!Is24HourClock)
 				{
-					this.workingHoursExceptionEndHourDropDownList.SelectedValue = "5";
-					this.workingHoursExceptionEndAMPMDropDownList.SelectedValue = "PM";
+					workingHoursExceptionEndHourDropDownList.SelectedValue = "5";
+					workingHoursExceptionEndAMPMDropDownList.SelectedValue = "PM";
 				}
 				else
 				{
-					this.workingHoursExceptionEndHourDropDownList.SelectedValue = "17";
+					workingHoursExceptionEndHourDropDownList.SelectedValue = "17";
 				}
-				this.workingHoursExceptionDateImage.Attributes.Add("onclick", DotNetNuke.Common.Utilities.Calendar.InvokePopupCal(this.workingHoursExceptionDateTextBox));
+				workingHoursExceptionDateImage.Attributes.Add("onclick", DotNetNuke.Common.Utilities.Calendar.InvokePopupCal(workingHoursExceptionDateTextBox));
 			}
-			this.BindWorkingHoursExceptionsSection(Null.NullInteger);
+			BindWorkingHoursExceptionsSection(Null.NullInteger);
 		}
 
 		protected void BindWorkingHoursExceptionsSection(int categoryID)
 		{
-			this.workingHoursExceptionsCategoryDropDownList.SelectedValue = categoryID.ToString();
+			workingHoursExceptionsCategoryDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			this.ViewState.Remove("WorkingHoursExceptions");
-			this.BindWorkingHoursExceptionsDataGrid();
-			this.workingHoursExceptionsResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.WorkingHoursExceptionsDefined);
+			ViewState.Remove("WorkingHoursExceptions");
+			BindWorkingHoursExceptionsDataGrid();
+			workingHoursExceptionsResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.WorkingHoursExceptionsDefined);
 		}
 
 		protected void BindWorkingHoursSection()
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.workingHoursUpdateResetTableRow;
-			HtmlTableRow htmlTableRow1 = this.workingHoursCategoryTableRow;
-			flag = (base.IsPostBack ? this.allowCategorySelectionCheckBox.Checked : this.ModuleSettings.AllowCategorySelection);
+			HtmlTableRow htmlTableRow = workingHoursUpdateResetTableRow;
+			HtmlTableRow htmlTableRow1 = workingHoursCategoryTableRow;
+			flag = (IsPostBack ? allowCategorySelectionCheckBox.Checked : ModuleSettings.AllowCategorySelection);
 			bool flag1 = flag;
 			htmlTableRow1.Visible = flag;
 			htmlTableRow.Visible = flag1;
-			if (this.workingHoursCategoryTableRow.Visible)
+			if (workingHoursCategoryTableRow.Visible)
 			{
-				this.BindCategoriesDropDownList(this.workingHoursCategoryDropDownList, "WorkingHours.1", null, null);
+				BindCategoriesDropDownList(workingHoursCategoryDropDownList, "WorkingHours.1", null, null);
 			}
-			if (!base.IsPostBack)
+			if (!IsPostBack)
 			{
-				this.recurrencepatterncontrol.SubmitText = Localization.GetString("addCommandButton", base.LocalResourceFile);
+				recurrencepatterncontrol.SubmitText = Localization.GetString("addCommandButton", LocalResourceFile);
 			}
-			this.BindWorkingHoursSection(Null.NullInteger);
+			BindWorkingHoursSection(Null.NullInteger);
 		}
 
 		protected void BindWorkingHoursSection(int categoryID)
 		{
-			this.workingHoursCategoryDropDownList.SelectedValue = categoryID.ToString();
+			workingHoursCategoryDropDownList.SelectedValue = categoryID.ToString();
 			CategorySettings categorySetting = null;
 			if (categoryID != Null.NullInteger)
 			{
-				categorySetting = new CategorySettings(base.PortalId, base.TabModuleId, categoryID);
+				categorySetting = new CategorySettings(PortalId, TabModuleId, categoryID);
 			}
-			this.ViewState.Remove("WorkingHours");
-			this._WorkingHours = null;
-			this.BindWorkingHoursDataGrid();
-			this.workingHoursResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("WorkingHours.1"));
+			ViewState.Remove("WorkingHours");
+			_WorkingHours = null;
+			BindWorkingHoursDataGrid();
+			workingHoursResetCommandButton.Visible = (categorySetting == null ? false : categorySetting.IsDefined("WorkingHours.1"));
 		}
 
 		protected void CancelSettingsCommandButtonClicked(object sender, EventArgs e)
 		{
-			base.Response.Redirect(_navigationManager.NavigateURL());
+			Response.Redirect(_navigationManager.NavigateURL());
 		}
 
 		protected void CashierListCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindCashierListSection(int.Parse(this.cashierListCategoryDropDownList.SelectedValue));
+			BindCashierListSection(int.Parse(cashierListCategoryDropDownList.SelectedValue));
 		}
 
 		protected void CashierListResetCommandButtonClicked(object sender, EventArgs e)
 		{
-			int num = int.Parse(this.cashierListCategoryDropDownList.SelectedValue);
+			int num = int.Parse(cashierListCategoryDropDownList.SelectedValue);
 			(new CategorySettingController()).DeleteCategorySetting(num, "CashierList");
-			this.BindCategoriesDropDownList(this.cashierListCategoryDropDownList, "CashierList", null, null);
-			this.BindCashierListSection(num);
+			BindCategoriesDropDownList(cashierListCategoryDropDownList, "CashierList", null, null);
+			BindCashierListSection(num);
 		}
 
 		protected void CashierListUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateCashierListSection(true);
+			UpdateCashierListSection(true);
 		}
 
 		protected void CategoryPermissionsDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindCategoryPermissionsSection(int.Parse(this.categoryPermissionsDropDownList.SelectedValue));
+			BindCategoryPermissionsSection(int.Parse(categoryPermissionsDropDownList.SelectedValue));
 		}
 
 		protected void CategoryPermissionsResetCommandButtonClicked(object sender, EventArgs e)
 		{
-			int num = int.Parse(this.categoryPermissionsDropDownList.SelectedValue);
+			int num = int.Parse(categoryPermissionsDropDownList.SelectedValue);
 			(new CategorySettingController()).DeleteCategorySetting(num, "CategoryPermissions");
-			this.BindCategoriesDropDownList(this.categoryPermissionsDropDownList, "CategoryPermissions", null, null);
-			this.BindCategoryPermissionsSection(num);
+			BindCategoriesDropDownList(categoryPermissionsDropDownList, "CategoryPermissions", null, null);
+			BindCategoryPermissionsSection(num);
 		}
 
 		protected void CategoryPermissionsUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateCategoryPermissionsSection(true);
+			UpdateCategoryPermissionsSection(true);
 		}
 
 		protected void DeleteCashier(object sender, DataGridCommandEventArgs e)
 		{
-			//this.CashierList.RemoveAt(this.FindUserInfoIndexByUserId(this.CashierList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
-			this.CashierList.RemoveAt(this.FindUserInfoIndexByEmail(this.CashierList, ((Label)e.Item.FindControl("email")).Text));
-			this.BindCashierListDataGrid();
-			/*if (this.cashierListUsersDropDownList.Visible)
+			//CashierList.RemoveAt(FindUserInfoIndexByUserId(CashierList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
+			CashierList.RemoveAt(FindUserInfoIndexByEmail(CashierList, ((Label)e.Item.FindControl("email")).Text));
+			BindCashierListDataGrid();
+			/*if (cashierListUsersDropDownList.Visible)
 			{
-				this.BindUsersDropDownList(this.cashierListUsersDropDownList, this.CashierList);
+				BindUsersDropDownList(cashierListUsersDropDownList, CashierList);
 			}*/
 		}
 
@@ -1962,30 +1963,30 @@ namespace Gafware.Modules.Reservations
 		{
 			int num = int.Parse(((Label)e.Item.FindControl("categoryID")).Text);
 			(new CategoryController()).DeleteCategory(num);
-			this.CategoryList.RemoveAt(this.CategoryList.FindIndex((CategoryInfo x) => x.CategoryID == num));
-			this.BindCategoryListDataGrid();
-			this.RebindCategoryDependentSections();
+			CategoryList.RemoveAt(CategoryList.FindIndex((CategoryInfo x) => x.CategoryID == num));
+			BindCategoryListDataGrid();
+			RebindCategoryDependentSections();
 		}
 
 		protected void DeleteDuplicateReservations(object sender, DataGridCommandEventArgs e)
 		{
-			//this.DuplicateReservationsList.RemoveAt(this.FindUserInfoIndexByUserId(this.DuplicateReservationsList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
-			this.DuplicateReservationsList.RemoveAt(this.FindUserInfoIndexByEmail(this.DuplicateReservationsList, ((Label)e.Item.FindControl("email")).Text));
-			this.BindDuplicateReservationsDataGrid();
-			/*if (this.duplicateReservationsUsersDropDownList.Visible)
+			//DuplicateReservationsList.RemoveAt(FindUserInfoIndexByUserId(DuplicateReservationsList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
+			DuplicateReservationsList.RemoveAt(FindUserInfoIndexByEmail(DuplicateReservationsList, ((Label)e.Item.FindControl("email")).Text));
+			BindDuplicateReservationsDataGrid();
+			/*if (duplicateReservationsUsersDropDownList.Visible)
 			{
-				this.BindUsersDropDownList(this.duplicateReservationsUsersDropDownList, this.DuplicateReservationsList);
+				BindUsersDropDownList(duplicateReservationsUsersDropDownList, DuplicateReservationsList);
 			}*/
 		}
 
 		protected void DeleteGlobalModerator(object sender, DataGridCommandEventArgs e)
 		{
-			//this.ModeratorList.RemoveAt(this.FindUserInfoIndexByUserId(this.ModeratorList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
-			this.ModeratorList.RemoveAt(this.FindUserInfoIndexByEmail(this.ModeratorList, ((Label)e.Item.FindControl("email")).Text));
-			this.BindModeratorsDataGrid();
-			/*if (this.moderatorUsersDropDownList.Visible)
+			//ModeratorList.RemoveAt(FindUserInfoIndexByUserId(ModeratorList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
+			ModeratorList.RemoveAt(FindUserInfoIndexByEmail(ModeratorList, ((Label)e.Item.FindControl("email")).Text));
+			BindModeratorsDataGrid();
+			/*if (moderatorUsersDropDownList.Visible)
 			{
-				this.BindUsersDropDownList(this.moderatorUsersDropDownList, this.ModeratorList);
+				BindUsersDropDownList(moderatorUsersDropDownList, ModeratorList);
 			}*/
 		}
 
@@ -1998,7 +1999,7 @@ namespace Gafware.Modules.Reservations
 				TimeSpan timeSpan1 = TimeSpan.Parse(((Label)e.Item.FindControl("endTimeLabel")).Text);
 				bool flag = bool.Parse(((Label)e.Item.FindControl("allDayLabel")).Text);
 				int num = 0;
-				foreach (WorkingHoursInfo moderationHour in this.ModerationHours)
+				foreach (WorkingHoursInfo moderationHour in ModerationHours)
 				{
 					if (moderationHour.DayOfWeek == dayOfWeek && (moderationHour.StartTime == timeSpan && moderationHour.EndTime == timeSpan1 || moderationHour.AllDay == flag))
 					{
@@ -2006,10 +2007,10 @@ namespace Gafware.Modules.Reservations
 					}
 					num++;
 				}
-				if (num < this.ModerationHours.Count)
+				if (num < ModerationHours.Count)
 				{
-					this.ModerationHours.RemoveAt(num);
-					this.BindModerationHoursDataGrid();
+					ModerationHours.RemoveAt(num);
+					BindModerationHoursDataGrid();
 				}
 			}
 			catch (Exception exception)
@@ -2024,7 +2025,7 @@ namespace Gafware.Modules.Reservations
 			{
 				string text = ((Label)e.Item.FindControl("timeOfDayNameLabel")).Text;
 				int num = 0;
-				IEnumerator enumerator = this.TimeOfDayList.GetEnumerator();
+				IEnumerator enumerator = TimeOfDayList.GetEnumerator();
 				try
 				{
 					while (enumerator.MoveNext() && !(((TimeOfDayInfo)enumerator.Current).Name == text))
@@ -2040,10 +2041,10 @@ namespace Gafware.Modules.Reservations
 						disposable.Dispose();
 					}
 				}
-				if (num < this.TimeOfDayList.Count)
+				if (num < TimeOfDayList.Count)
 				{
-					this.TimeOfDayList.RemoveAt(num);
-					this.BindTimeOfDayDataGrid();
+					TimeOfDayList.RemoveAt(num);
+					BindTimeOfDayDataGrid();
 				}
 			}
 			catch (Exception exception)
@@ -2054,23 +2055,23 @@ namespace Gafware.Modules.Reservations
 
 		protected void DeleteUser(object sender, DataGridCommandEventArgs e)
 		{
-			//this.BCCList.RemoveAt(this.FindUserInfoIndexByUserId(this.BCCList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
-			this.BCCList.RemoveAt(this.FindUserInfoIndexByEmail(this.BCCList, ((Label)e.Item.FindControl("email")).Text));
-			this.BindBCCListDataGrid();
-			/*if (this.usersDropDownList.Visible)
+			//BCCList.RemoveAt(FindUserInfoIndexByUserId(BCCList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
+			BCCList.RemoveAt(FindUserInfoIndexByEmail(BCCList, ((Label)e.Item.FindControl("email")).Text));
+			BindBCCListDataGrid();
+			/*if (usersDropDownList.Visible)
 			{
-				this.BindUsersDropDownList(this.usersDropDownList, this.BCCList);
+				BindUsersDropDownList(usersDropDownList, BCCList);
 			}*/
 		}
 
 		protected void DeleteViewReservations(object sender, DataGridCommandEventArgs e)
 		{
-			//this.ViewReservationsList.RemoveAt(this.FindUserInfoIndexByUserId(this.ViewReservationsList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
-			this.ViewReservationsList.RemoveAt(this.FindUserInfoIndexByEmail(this.ViewReservationsList, ((Label)e.Item.FindControl("email")).Text));
-			this.BindViewReservationsDataGrid();
-			/*if (this.viewReservationsUsersDropDownList.Visible)
+			//ViewReservationsList.RemoveAt(FindUserInfoIndexByUserId(ViewReservationsList, int.Parse(((Label)e.Item.FindControl("userId")).Text)));
+			ViewReservationsList.RemoveAt(FindUserInfoIndexByEmail(ViewReservationsList, ((Label)e.Item.FindControl("email")).Text));
+			BindViewReservationsDataGrid();
+			/*if (viewReservationsUsersDropDownList.Visible)
 			{
-				this.BindUsersDropDownList(this.viewReservationsUsersDropDownList, this.ViewReservationsList);
+				BindUsersDropDownList(viewReservationsUsersDropDownList, ViewReservationsList);
 			}*/
 		}
 
@@ -2078,8 +2079,8 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				this.WorkingHours.RemoveAt(e.Item.ItemIndex);
-				this.BindWorkingHoursDataGrid();
+				WorkingHours.RemoveAt(e.Item.ItemIndex);
+				BindWorkingHoursDataGrid();
 			}
 			catch (Exception exception)
 			{
@@ -2096,7 +2097,7 @@ namespace Gafware.Modules.Reservations
 				TimeSpan timeSpan1 = TimeSpan.Parse(((Label)e.Item.FindControl("endTimeLabel")).Text);
 				bool flag = bool.Parse(((Label)e.Item.FindControl("allDayLabel")).Text);
 				int num = 0;
-				foreach (WorkingHoursExceptionInfo workingHoursException in this.WorkingHoursExceptions)
+				foreach (WorkingHoursExceptionInfo workingHoursException in WorkingHoursExceptions)
 				{
 					if (workingHoursException.Date == dateTime && (workingHoursException.StartTime == timeSpan && workingHoursException.EndTime == timeSpan1 || workingHoursException.AllDay & flag))
 					{
@@ -2104,10 +2105,10 @@ namespace Gafware.Modules.Reservations
 					}
 					num++;
 				}
-				if (num < this.WorkingHoursExceptions.Count)
+				if (num < WorkingHoursExceptions.Count)
 				{
-					this.WorkingHoursExceptions.RemoveAt(num);
-					this.BindWorkingHoursExceptionsDataGrid();
+					WorkingHoursExceptions.RemoveAt(num);
+					BindWorkingHoursExceptionsDataGrid();
 				}
 			}
 			catch (Exception exception)
@@ -2306,7 +2307,7 @@ namespace Gafware.Modules.Reservations
 			int num = 0;
 			int num1 = 0;
 			num = int.Parse(hourDropDownList.SelectedValue);
-			if (!this.Is24HourClock && amPmDropDownList.SelectedValue == "PM")
+			if (!Is24HourClock && amPmDropDownList.SelectedValue == "PM")
 			{
 				num = num + 12;
 			}
@@ -2340,16 +2341,16 @@ namespace Gafware.Modules.Reservations
 			string dayNames = CultureInfo.CurrentCulture.DateTimeFormat.DayNames[(int)workingHoursInfo.DayOfWeek];
 			if (workingHoursInfo.AllDay)
 			{
-				str = Localization.GetString("AllDay", base.LocalResourceFile);
+				str = Localization.GetString("AllDay", LocalResourceFile);
 			}
 			else
 			{
-				string[] shortTimeString = new string[] { Localization.GetString("fromLabel", base.LocalResourceFile), " ", null, null, null, null, null };
+				string[] shortTimeString = new string[] { Localization.GetString("fromLabel", LocalResourceFile), " ", null, null, null, null, null };
 				DateTime dateTime = new DateTime();
 				dateTime = dateTime.Add(workingHoursInfo.StartTime);
 				shortTimeString[2] = dateTime.ToShortTimeString();
 				shortTimeString[3] = " ";
-				shortTimeString[4] = Localization.GetString("toLabel", base.LocalResourceFile);
+				shortTimeString[4] = Localization.GetString("toLabel", LocalResourceFile);
 				shortTimeString[5] = " ";
 				dateTime = new DateTime();
 				dateTime = dateTime.Add(workingHoursInfo.EndTime);
@@ -2366,20 +2367,20 @@ namespace Gafware.Modules.Reservations
 			string longDateString = date.ToLongDateString();
 			if (workingHoursExceptionInfo.AllDay)
 			{
-				str = Localization.GetString("AllDay", base.LocalResourceFile);
+				str = Localization.GetString("AllDay", LocalResourceFile);
 			}
 			else if (workingHoursExceptionInfo.StartTime == workingHoursExceptionInfo.EndTime)
 			{
-				str = Localization.GetString("noWorkingHoursLabel", base.LocalResourceFile);
+				str = Localization.GetString("noWorkingHoursLabel", LocalResourceFile);
 			}
 			else
 			{
-				string[] shortTimeString = new string[] { Localization.GetString("fromLabel", base.LocalResourceFile), " ", null, null, null, null, null };
+				string[] shortTimeString = new string[] { Localization.GetString("fromLabel", LocalResourceFile), " ", null, null, null, null, null };
 				date = new DateTime();
 				date = date.Add(workingHoursExceptionInfo.StartTime);
 				shortTimeString[2] = date.ToShortTimeString();
 				shortTimeString[3] = " ";
-				shortTimeString[4] = Localization.GetString("toLabel", base.LocalResourceFile);
+				shortTimeString[4] = Localization.GetString("toLabel", LocalResourceFile);
 				shortTimeString[5] = " ";
 				date = new DateTime();
 				date = date.Add(workingHoursExceptionInfo.EndTime);
@@ -2435,32 +2436,32 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				if (!this.Page.IsPostBack)
+				if (!Page.IsPostBack)
 				{
-					this.BindGeneralSettingsSection();
-					this.BindCategoriesSection();
-					this.BindCategoryPermissionsSection();
-					this.BindReservationSettingsSection();
-					if (!this.IsProfessional)
+					BindGeneralSettingsSection();
+					BindCategoriesSection();
+					BindCategoryPermissionsSection();
+					BindReservationSettingsSection();
+					if (!IsProfessional)
 					{
-						this.feesSectionTableRow.Visible = false;
-						this.cashierListSectionTableRow.Visible = false;
+						feesSectionTableRow.Visible = false;
+						cashierListSectionTableRow.Visible = false;
 					}
 					else
 					{
-						this.BindReservationFeesSection();
-						this.BindCashierListSection();
+						BindReservationFeesSection();
+						BindCashierListSection();
 					}
-					this.BindWorkingHoursSection();
-					this.BindWorkingHoursExceptionsSection();
-					this.BindTimeOfDaySection();
-					this.BindBCCListSection();
-					this.BindModerationSection();
-					this.BindViewReservationsSection();
-					this.BindDuplicateReservationsSection();
-					this.BindRemindersSection();
-					this.BindMailTemplatesSection();
-					this.BindSMSTemplatesSection();
+					BindWorkingHoursSection();
+					BindWorkingHoursExceptionsSection();
+					BindTimeOfDaySection();
+					BindBCCListSection();
+					BindModerationSection();
+					BindViewReservationsSection();
+					BindDuplicateReservationsSection();
+					BindRemindersSection();
+					BindMailTemplatesSection();
+					BindSMSTemplatesSection();
 				}
 			}
 			catch (Exception exception)
@@ -2472,147 +2473,147 @@ namespace Gafware.Modules.Reservations
 		protected void MailTemplateDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
 			bool flag;
-			if (this.mailTemplateDropDownList.SelectedValue == "Confirmation")
+			if (mailTemplateDropDownList.SelectedValue == "Confirmation")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.ConfirmationMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.ConfirmationMailBody;
-				RadioButton radioButton = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton1 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower = this.ModuleSettings.ConfirmationMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.ConfirmationMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.ConfirmationMailBody;
+				RadioButton radioButton = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton1 = mailTemplateBodyTypeTextRadioButton;
+				bool lower = ModuleSettings.ConfirmationMailBodyType.ToLower() == "text";
 				flag = lower;
 				radioButton1.Checked = lower;
 				radioButton.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "Modification")
+			if (mailTemplateDropDownList.SelectedValue == "Modification")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.ModificationMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.ModificationMailBody;
-				RadioButton radioButton2 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton3 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower1 = this.ModuleSettings.ModificationMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.ModificationMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.ModificationMailBody;
+				RadioButton radioButton2 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton3 = mailTemplateBodyTypeTextRadioButton;
+				bool lower1 = ModuleSettings.ModificationMailBodyType.ToLower() == "text";
 				flag = lower1;
 				radioButton3.Checked = lower1;
 				radioButton2.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "Rescheduled")
+			if (mailTemplateDropDownList.SelectedValue == "Rescheduled")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.RescheduledMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.RescheduledMailBody;
-				RadioButton radioButton4 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton5 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag1 = this.ModuleSettings.RescheduledMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.RescheduledMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.RescheduledMailBody;
+				RadioButton radioButton4 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton5 = mailTemplateBodyTypeTextRadioButton;
+				bool flag1 = ModuleSettings.RescheduledMailBodyType.ToLower() == "text";
 				flag = flag1;
 				radioButton5.Checked = flag1;
 				radioButton4.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "Cancellation")
+			if (mailTemplateDropDownList.SelectedValue == "Cancellation")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.CancellationMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.CancellationMailBody;
-				RadioButton radioButton6 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton7 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower2 = this.ModuleSettings.CancellationMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.CancellationMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.CancellationMailBody;
+				RadioButton radioButton6 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton7 = mailTemplateBodyTypeTextRadioButton;
+				bool lower2 = ModuleSettings.CancellationMailBodyType.ToLower() == "text";
 				flag = lower2;
 				radioButton7.Checked = lower2;
 				radioButton6.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "Moderator")
+			if (mailTemplateDropDownList.SelectedValue == "Moderator")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.ModeratorMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.ModeratorMailBody;
-				RadioButton radioButton8 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton9 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag2 = this.ModuleSettings.ModeratorMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.ModeratorMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.ModeratorMailBody;
+				RadioButton radioButton8 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton9 = mailTemplateBodyTypeTextRadioButton;
+				bool flag2 = ModuleSettings.ModeratorMailBodyType.ToLower() == "text";
 				flag = flag2;
 				radioButton9.Checked = flag2;
 				radioButton8.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "Declined")
+			if (mailTemplateDropDownList.SelectedValue == "Declined")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.DeclinedMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.DeclinedMailBody;
-				RadioButton radioButton10 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton11 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower3 = this.ModuleSettings.DeclinedMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.DeclinedMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.DeclinedMailBody;
+				RadioButton radioButton10 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton11 = mailTemplateBodyTypeTextRadioButton;
+				bool lower3 = ModuleSettings.DeclinedMailBodyType.ToLower() == "text";
 				flag = lower3;
 				radioButton11.Checked = lower3;
 				radioButton10.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "VerificationCode")
+			if (mailTemplateDropDownList.SelectedValue == "VerificationCode")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.VerificationCodeMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.VerificationCodeMailBody;
-				RadioButton radioButton12 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton13 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag3 = this.ModuleSettings.VerificationCodeMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.VerificationCodeMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.VerificationCodeMailBody;
+				RadioButton radioButton12 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton13 = mailTemplateBodyTypeTextRadioButton;
+				bool flag3 = ModuleSettings.VerificationCodeMailBodyType.ToLower() == "text";
 				flag = flag3;
 				radioButton13.Checked = flag3;
 				radioButton12.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "DuplicateReservation")
+			if (mailTemplateDropDownList.SelectedValue == "DuplicateReservation")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.DuplicateReservationMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.DuplicateReservationMailBody;
-				RadioButton radioButton14 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton15 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower4 = this.ModuleSettings.DuplicateReservationMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.DuplicateReservationMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.DuplicateReservationMailBody;
+				RadioButton radioButton14 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton15 = mailTemplateBodyTypeTextRadioButton;
+				bool lower4 = ModuleSettings.DuplicateReservationMailBodyType.ToLower() == "text";
 				flag = lower4;
 				radioButton15.Checked = lower4;
 				radioButton14.Checked = !flag;
 				return;
 			}
-			if (this.mailTemplateDropDownList.SelectedValue == "Reminder")
+			if (mailTemplateDropDownList.SelectedValue == "Reminder")
 			{
-				this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.ReminderMailSubject;
-				this.mailTemplateBodyTextBox.Text = this.ModuleSettings.ReminderMailBody;
-				RadioButton radioButton16 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton17 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag4 = this.ModuleSettings.ReminderMailBodyType.ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = ModuleSettings.ReminderMailSubject;
+				mailTemplateBodyTextBox.Text = ModuleSettings.ReminderMailBody;
+				RadioButton radioButton16 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton17 = mailTemplateBodyTypeTextRadioButton;
+				bool flag4 = ModuleSettings.ReminderMailBodyType.ToLower() == "text";
 				flag = flag4;
 				radioButton17.Checked = flag4;
 				radioButton16.Checked = !flag;
 				return;
 			}
-			if (this.IsProfessional)
+			if (IsProfessional)
 			{
-				if (this.mailTemplateDropDownList.SelectedValue == "PendingRescheduleRefund")
+				if (mailTemplateDropDownList.SelectedValue == "PendingRescheduleRefund")
 				{
-					this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.PendingRescheduleRefundMailSubject;
-					this.mailTemplateBodyTextBox.Text = this.ModuleSettings.PendingRescheduleRefundMailBody;
-					RadioButton radioButton18 = this.mailTemplateBodyTypeHtmlRadioButton;
-					RadioButton radioButton19 = this.mailTemplateBodyTypeTextRadioButton;
-					bool lower5 = this.ModuleSettings.PendingRescheduleRefundMailBodyType.ToLower() == "text";
+					mailTemplateSubjectTextBox.Text = ModuleSettings.PendingRescheduleRefundMailSubject;
+					mailTemplateBodyTextBox.Text = ModuleSettings.PendingRescheduleRefundMailBody;
+					RadioButton radioButton18 = mailTemplateBodyTypeHtmlRadioButton;
+					RadioButton radioButton19 = mailTemplateBodyTypeTextRadioButton;
+					bool lower5 = ModuleSettings.PendingRescheduleRefundMailBodyType.ToLower() == "text";
 					flag = lower5;
 					radioButton19.Checked = lower5;
 					radioButton18.Checked = !flag;
 					return;
 				}
-				if (this.mailTemplateDropDownList.SelectedValue == "PendingCancellationRefund")
+				if (mailTemplateDropDownList.SelectedValue == "PendingCancellationRefund")
 				{
-					this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.PendingCancellationRefundMailSubject;
-					this.mailTemplateBodyTextBox.Text = this.ModuleSettings.PendingCancellationRefundMailBody;
-					RadioButton radioButton20 = this.mailTemplateBodyTypeHtmlRadioButton;
-					RadioButton radioButton21 = this.mailTemplateBodyTypeTextRadioButton;
-					bool flag5 = this.ModuleSettings.PendingCancellationRefundMailBodyType.ToLower() == "text";
+					mailTemplateSubjectTextBox.Text = ModuleSettings.PendingCancellationRefundMailSubject;
+					mailTemplateBodyTextBox.Text = ModuleSettings.PendingCancellationRefundMailBody;
+					RadioButton radioButton20 = mailTemplateBodyTypeHtmlRadioButton;
+					RadioButton radioButton21 = mailTemplateBodyTypeTextRadioButton;
+					bool flag5 = ModuleSettings.PendingCancellationRefundMailBodyType.ToLower() == "text";
 					flag = flag5;
 					radioButton21.Checked = flag5;
 					radioButton20.Checked = !flag;
 					return;
 				}
-				if (this.mailTemplateDropDownList.SelectedValue == "PendingDeclinationRefund")
+				if (mailTemplateDropDownList.SelectedValue == "PendingDeclinationRefund")
 				{
-					this.mailTemplateSubjectTextBox.Text = this.ModuleSettings.PendingDeclinationRefundMailSubject;
-					this.mailTemplateBodyTextBox.Text = this.ModuleSettings.PendingDeclinationRefundMailBody;
-					RadioButton radioButton22 = this.mailTemplateBodyTypeHtmlRadioButton;
-					RadioButton radioButton23 = this.mailTemplateBodyTypeTextRadioButton;
-					bool lower6 = this.ModuleSettings.PendingDeclinationRefundMailBodyType.ToLower() == "text";
+					mailTemplateSubjectTextBox.Text = ModuleSettings.PendingDeclinationRefundMailSubject;
+					mailTemplateBodyTextBox.Text = ModuleSettings.PendingDeclinationRefundMailBody;
+					RadioButton radioButton22 = mailTemplateBodyTypeHtmlRadioButton;
+					RadioButton radioButton23 = mailTemplateBodyTypeTextRadioButton;
+					bool lower6 = ModuleSettings.PendingDeclinationRefundMailBodyType.ToLower() == "text";
 					flag = lower6;
 					radioButton23.Checked = lower6;
 					radioButton22.Checked = !flag;
@@ -2622,11 +2623,11 @@ namespace Gafware.Modules.Reservations
 
 		protected void ModerateCheckBoxCheckChanged(object sender, EventArgs e)
 		{
-			HtmlTableRow htmlTableRow = this.moderationHoursTableRow;
-			HtmlTableRow htmlTableRow1 = this.globalModeratorsDropDownListTableRow;
-			HtmlTableRow htmlTableRow2 = this.globalModeratorsDataGridTableRow;
-			CheckBox checkBox = this.moderateCheckBox;
-			bool @checked = this.moderateCheckBox.Checked;
+			HtmlTableRow htmlTableRow = moderationHoursTableRow;
+			HtmlTableRow htmlTableRow1 = globalModeratorsDropDownListTableRow;
+			HtmlTableRow htmlTableRow2 = globalModeratorsDataGridTableRow;
+			CheckBox checkBox = moderateCheckBox;
+			bool @checked = moderateCheckBox.Checked;
 			bool flag = @checked;
 			checkBox.Checked = @checked;
 			bool flag1 = flag;
@@ -2640,12 +2641,12 @@ namespace Gafware.Modules.Reservations
 
 		protected void ModerationCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindModerationSection(int.Parse(this.moderationCategoryDropDownList.SelectedValue));
+			BindModerationSection(int.Parse(moderationCategoryDropDownList.SelectedValue));
 		}
 
 		protected void ModerationResetCommandButtonClicked(object sender, EventArgs e)
 		{
-			int num = int.Parse(this.moderationCategoryDropDownList.SelectedValue);
+			int num = int.Parse(moderationCategoryDropDownList.SelectedValue);
 			CategorySettingController categorySettingController = new CategorySettingController();
 			categorySettingController.DeleteCategorySetting(num, "Moderate");
 			categorySettingController.DeleteCategorySetting(num, "GlobalModeratorList");
@@ -2663,46 +2664,46 @@ namespace Gafware.Modules.Reservations
 			categorySettingController.DeleteCategorySetting(num, string.Concat("Moderation.", dayOfWeek.ToString()));
 			dayOfWeek = DayOfWeek.Sunday;
 			categorySettingController.DeleteCategorySetting(num, string.Concat("Moderation.", dayOfWeek.ToString()));
-			this.BindCategoriesDropDownList(this.moderationCategoryDropDownList, "Moderate", null, null);
-			this.BindModerationSection(num);
+			BindCategoriesDropDownList(moderationCategoryDropDownList, "Moderate", null, null);
+			BindModerationSection(num);
 		}
 
 		protected void ModerationUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateModerationSection(true);
+			UpdateModerationSection(true);
 		}
 
 		protected void Page_Init(object sender, EventArgs e)
 		{
 			try
 			{
-				this.SetTheme();
-				this.categoryPermissionsUpdateCommandButton.Click += new EventHandler(this.CategoryPermissionsUpdateCommandButtonClicked);
-				this.categoryPermissionsResetCommandButton.Click += new EventHandler(this.CategoryPermissionsResetCommandButtonClicked);
-				this.reservationSettingsUpdateCommandButton.Click += new EventHandler(this.ReservationSettingsUpdateCommandButtonClicked);
-				this.reservationSettingsResetCommandButton.Click += new EventHandler(this.ReservationSettingsResetCommandButtonClicked);
-				if (this.IsProfessional)
+				SetTheme();
+				categoryPermissionsUpdateCommandButton.Click += new EventHandler(CategoryPermissionsUpdateCommandButtonClicked);
+				categoryPermissionsResetCommandButton.Click += new EventHandler(CategoryPermissionsResetCommandButtonClicked);
+				reservationSettingsUpdateCommandButton.Click += new EventHandler(ReservationSettingsUpdateCommandButtonClicked);
+				reservationSettingsResetCommandButton.Click += new EventHandler(ReservationSettingsResetCommandButtonClicked);
+				if (IsProfessional)
 				{
-					this.reservationFeesUpdateCommandButton.Click += new EventHandler(this.ReservationFeesUpdateCommandButtonClicked);
-					this.reservationFeesResetCommandButton.Click += new EventHandler(this.ReservationFeesResetCommandButtonClicked);
-					this.cashierListUpdateCommandButton.Click += new EventHandler(this.CashierListUpdateCommandButtonClicked);
-					this.cashierListResetCommandButton.Click += new EventHandler(this.CashierListResetCommandButtonClicked);
+					reservationFeesUpdateCommandButton.Click += new EventHandler(ReservationFeesUpdateCommandButtonClicked);
+					reservationFeesResetCommandButton.Click += new EventHandler(ReservationFeesResetCommandButtonClicked);
+					cashierListUpdateCommandButton.Click += new EventHandler(CashierListUpdateCommandButtonClicked);
+					cashierListResetCommandButton.Click += new EventHandler(CashierListResetCommandButtonClicked);
 				}
-				this.recurrencepatterncontrol.RecurrencePatternSubmitted += new RecurrencePatternSubmitted(this.RecurrencePatternSubmitted);
-				this.workingHoursUpdateCommandButton.Click += new EventHandler(this.WorkingHoursUpdateCommandButtonClicked);
-				this.workingHoursResetCommandButton.Click += new EventHandler(this.WorkingHoursResetCommandButtonClicked);
-				this.workingHoursExceptionsUpdateCommandButton.Click += new EventHandler(this.WorkingHoursExceptionsUpdateCommandButtonClicked);
-				this.workingHoursExceptionsResetCommandButton.Click += new EventHandler(this.WorkingHoursExceptionsResetCommandButtonClicked);
-				this.bccListUpdateCommandButton.Click += new EventHandler(this.BCCListUpdateCommandButtonClicked);
-				this.bccListResetCommandButton.Click += new EventHandler(this.BCCListResetCommandButtonClicked);
-				this.moderationUpdateCommandButton.Click += new EventHandler(this.ModerationUpdateCommandButtonClicked);
-				this.moderationResetCommandButton.Click += new EventHandler(this.ModerationResetCommandButtonClicked);
-				this.updateMailTemplateCommandButton.Click += new EventHandler(this.UpdateMailTemplateCommandButtonClicked);
-				this.resetMailTemplateCommandButton.Click += new EventHandler(this.ResetMailTemplateCommandButtonClicked);
-				this.updateSMSTemplateCommandButton.Click += new EventHandler(this.UpdateSMSTemplateCommandButtonClicked);
-				this.resetSMSTemplateCommandButton.Click += new EventHandler(this.ResetSMSTemplateCommandButtonClicked);
-				this.updateSettingsCommandButton.Click += new EventHandler(this.UpdateSettingsCommandButtonClicked);
-				this.cancelSettingsCommandButton.Click += new EventHandler(this.CancelSettingsCommandButtonClicked);
+				recurrencepatterncontrol.RecurrencePatternSubmitted += new RecurrencePatternSubmitted(RecurrencePatternSubmitted);
+				workingHoursUpdateCommandButton.Click += new EventHandler(WorkingHoursUpdateCommandButtonClicked);
+				workingHoursResetCommandButton.Click += new EventHandler(WorkingHoursResetCommandButtonClicked);
+				workingHoursExceptionsUpdateCommandButton.Click += new EventHandler(WorkingHoursExceptionsUpdateCommandButtonClicked);
+				workingHoursExceptionsResetCommandButton.Click += new EventHandler(WorkingHoursExceptionsResetCommandButtonClicked);
+				bccListUpdateCommandButton.Click += new EventHandler(BCCListUpdateCommandButtonClicked);
+				bccListResetCommandButton.Click += new EventHandler(BCCListResetCommandButtonClicked);
+				moderationUpdateCommandButton.Click += new EventHandler(ModerationUpdateCommandButtonClicked);
+				moderationResetCommandButton.Click += new EventHandler(ModerationResetCommandButtonClicked);
+				updateMailTemplateCommandButton.Click += new EventHandler(UpdateMailTemplateCommandButtonClicked);
+				resetMailTemplateCommandButton.Click += new EventHandler(ResetMailTemplateCommandButtonClicked);
+				updateSMSTemplateCommandButton.Click += new EventHandler(UpdateSMSTemplateCommandButtonClicked);
+				resetSMSTemplateCommandButton.Click += new EventHandler(ResetSMSTemplateCommandButtonClicked);
+				updateSettingsCommandButton.Click += new EventHandler(UpdateSettingsCommandButtonClicked);
+				cancelSettingsCommandButton.Click += new EventHandler(CancelSettingsCommandButtonClicked);
 			}
 			catch (Exception exception)
 			{
@@ -2714,10 +2715,10 @@ namespace Gafware.Modules.Reservations
 		{
 			try
 			{
-				if (!this.Page.IsPostBack && base.Request.QueryString["ctl"].ToLower() == "editsettings")
+				if (!Page.IsPostBack && Request.QueryString["ctl"].ToLower() == "editsettings")
 				{
-					this.LoadSettings();
-					this.updateCancelTableRow.Visible = true;
+					LoadSettings();
+					updateCancelTableRow.Visible = true;
 				}
 			}
 			catch (Exception exception)
@@ -2728,19 +2729,19 @@ namespace Gafware.Modules.Reservations
 
 		protected void PaymentMethodChanged(object sender, EventArgs e)
 		{
-			HtmlTableRow htmlTableRow = this.payPalAccountTableRow;
-			HtmlTableRow htmlTableRow1 = this.payPalUrlTableRow;
+			HtmlTableRow htmlTableRow = payPalAccountTableRow;
+			HtmlTableRow htmlTableRow1 = payPalUrlTableRow;
 			PaymentMethod paymentMethod = PaymentMethod.PayPalPaymentsStandard;
-			bool selectedValue = this.paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
+			bool selectedValue = paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
 			bool flag = selectedValue;
 			htmlTableRow1.Visible = selectedValue;
 			htmlTableRow.Visible = flag;
-			HtmlTableRow htmlTableRow2 = this.authorizeNetApiLoginTableRow;
-			HtmlTableRow htmlTableRow3 = this.authorizeNetMerchantHashTableRow;
-			HtmlTableRow htmlTableRow4 = this.authorizeNetTestModeTableRow;
-			HtmlTableRow htmlTableRow5 = this.authorizeNetTransactionKeyTableRow;
+			HtmlTableRow htmlTableRow2 = authorizeNetApiLoginTableRow;
+			HtmlTableRow htmlTableRow3 = authorizeNetMerchantHashTableRow;
+			HtmlTableRow htmlTableRow4 = authorizeNetTestModeTableRow;
+			HtmlTableRow htmlTableRow5 = authorizeNetTransactionKeyTableRow;
 			paymentMethod = PaymentMethod.AuthorizeNetSIM;
-			bool selectedValue1 = this.paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
+			bool selectedValue1 = paymentMethodDropDownList.SelectedValue == paymentMethod.ToString();
 			bool flag1 = selectedValue1;
 			htmlTableRow5.Visible = selectedValue1;
 			bool flag2 = flag1;
@@ -2754,46 +2755,46 @@ namespace Gafware.Modules.Reservations
 
 		protected void PreventCrossCategoryConflictsChanged(object sender, EventArgs e)
 		{
-			this.bindUponSelectionTableRow.Visible = (this.preventCrossCategoryConflictsCheckBox.Checked ? false : !this.selectCategoryLastCheckBox.Checked);
+			bindUponSelectionTableRow.Visible = (preventCrossCategoryConflictsCheckBox.Checked ? false : !selectCategoryLastCheckBox.Checked);
 		}
 
 		private void RebindCategoryDependentSections()
 		{
-			this.BindCategoryPermissionsSection();
-			this.BindReservationSettingsSection();
-			if (this.IsProfessional)
+			BindCategoryPermissionsSection();
+			BindReservationSettingsSection();
+			if (IsProfessional)
 			{
-				this.BindReservationFeesSection();
-				this.BindCashierListSection();
+				BindReservationFeesSection();
+				BindCashierListSection();
 			}
-			this.BindWorkingHoursSection();
-			this.BindWorkingHoursExceptionsSection();
-			this.BindBCCListSection();
-			this.BindModerationSection();
+			BindWorkingHoursSection();
+			BindWorkingHoursExceptionsSection();
+			BindBCCListSection();
+			BindModerationSection();
 		}
 
 		protected void RecurrencePatternSubmitted(IRecurrencePattern recurrencePattern)
 		{
-			this.WorkingHours.Add((RecurrencePattern)recurrencePattern);
-			this.BindWorkingHoursDataGrid();
-			this.recurrencepatterncontrol.Visible = false;
-			this.addWorkingHoursCommandButton.Visible = true;
+			WorkingHours.Add((RecurrencePattern)recurrencePattern);
+			BindWorkingHoursDataGrid();
+			recurrencepatterncontrol.Visible = false;
+			addWorkingHoursCommandButton.Visible = true;
 		}
 
 		protected void RequireEmailCheckBoxCheckChanged(object sender, EventArgs e)
 		{
-			this.requireVerificationCodeTableRow.Visible = this.requireEmailCheckBox.Checked;
-			this.requireVerificationCodeCheckBox.Checked = false;
+			requireVerificationCodeTableRow.Visible = requireEmailCheckBox.Checked;
+			requireVerificationCodeCheckBox.Checked = false;
 		}
 
 		protected void ReservationFeesCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindReservationFeesSection(int.Parse(this.reservationFeesCategoryDropDownList.SelectedValue));
+			BindReservationFeesSection(int.Parse(reservationFeesCategoryDropDownList.SelectedValue));
 		}
 
 		protected void ReservationFeesResetCommandButtonClicked(object sender, EventArgs e)
 		{
-			int num = int.Parse(this.reservationFeesCategoryDropDownList.SelectedValue);
+			int num = int.Parse(reservationFeesCategoryDropDownList.SelectedValue);
 			CategorySettingController categorySettingController = new CategorySettingController();
 			categorySettingController.DeleteCategorySetting(num, "FeeScheduleType");
 			categorySettingController.DeleteCategorySetting(num, "DepositFee");
@@ -2802,29 +2803,29 @@ namespace Gafware.Modules.Reservations
 			categorySettingController.DeleteCategorySetting(num, "CancellationFee");
 			categorySettingController.DeleteCategorySetting(num, "SchedulingFeeInterval");
 			int num1 = 1;
-			Hashtable settings = (new CategorySettings(base.PortalId, base.TabModuleId, num)).Settings;
+			Hashtable settings = (new CategorySettings(PortalId, TabModuleId, num)).Settings;
 			while (settings.ContainsKey(string.Concat("SeasonalFeeScheduleList.", num1)))
 			{
 				categorySettingController.DeleteCategorySetting(num, string.Concat("SeasonalFeeScheduleList.", num1));
 				num1++;
 			}
-			this.BindCategoriesDropDownList(this.reservationFeesCategoryDropDownList, "SchedulingFee", "FeeScheduleType", null);
-			this.BindReservationFeesSection(num);
+			BindCategoriesDropDownList(reservationFeesCategoryDropDownList, "SchedulingFee", "FeeScheduleType", null);
+			BindReservationFeesSection(num);
 		}
 
 		protected void ReservationFeesUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateReservationFeesSection();
+			UpdateReservationFeesSection();
 		}
 
 		protected void ReservationSettingsCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindReservationSettingsSection(int.Parse(this.reservationSettingsCategoryDropDownList.SelectedValue));
+			BindReservationSettingsSection(int.Parse(reservationSettingsCategoryDropDownList.SelectedValue));
 		}
 
 		protected void ReservationSettingsResetCommandButtonClicked(object sender, EventArgs e)
 		{
-			int num = int.Parse(this.reservationSettingsCategoryDropDownList.SelectedValue);
+			int num = int.Parse(reservationSettingsCategoryDropDownList.SelectedValue);
 			CategorySettingController categorySettingController = new CategorySettingController();
 			categorySettingController.DeleteCategorySetting(num, "AllowCancellations");
 			categorySettingController.DeleteCategorySetting(num, "AllowRescheduling");
@@ -2836,182 +2837,182 @@ namespace Gafware.Modules.Reservations
 			categorySettingController.DeleteCategorySetting(num, "ReservationDurationInterval");
 			categorySettingController.DeleteCategorySetting(num, "MaxReservationsPerTimeSlot");
 			categorySettingController.DeleteCategorySetting(num, "MaxReservationsPerUser");
-			this.BindCategoriesDropDownList(this.reservationSettingsCategoryDropDownList, "AllowCancellations", null, null);
-			this.BindReservationSettingsSection(num);
+			BindCategoriesDropDownList(reservationSettingsCategoryDropDownList, "AllowCancellations", null, null);
+			BindReservationSettingsSection(num);
 		}
 
 		protected void ReservationSettingsUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateReservationSettingsSection(true);
+			UpdateReservationSettingsSection(true);
 		}
 
 		protected void ResetMailTemplateCommandButtonClicked(object sender, EventArgs e)
 		{
 			bool flag;
-			if (this.mailTemplateDropDownList.SelectedValue == "Confirmation")
+			if (mailTemplateDropDownList.SelectedValue == "Confirmation")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("ConfirmationMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("ConfirmationMailBody", base.LocalResourceFile);
-				RadioButton radioButton = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton1 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower = Localization.GetString("ConfirmationMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("ConfirmationMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("ConfirmationMailBody", LocalResourceFile);
+				RadioButton radioButton = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton1 = mailTemplateBodyTypeTextRadioButton;
+				bool lower = Localization.GetString("ConfirmationMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = lower;
 				radioButton1.Checked = lower;
 				radioButton.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "Modification")
+			else if (mailTemplateDropDownList.SelectedValue == "Modification")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("ModificationMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("ModificationMailBody", base.LocalResourceFile);
-				RadioButton radioButton2 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton3 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower1 = Localization.GetString("ModificationMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("ModificationMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("ModificationMailBody", LocalResourceFile);
+				RadioButton radioButton2 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton3 = mailTemplateBodyTypeTextRadioButton;
+				bool lower1 = Localization.GetString("ModificationMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = lower1;
 				radioButton3.Checked = lower1;
 				radioButton2.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "Rescheduled")
+			else if (mailTemplateDropDownList.SelectedValue == "Rescheduled")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("RescheduledMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("RescheduledMailBody", base.LocalResourceFile);
-				RadioButton radioButton4 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton5 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag1 = Localization.GetString("RescheduledMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("RescheduledMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("RescheduledMailBody", LocalResourceFile);
+				RadioButton radioButton4 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton5 = mailTemplateBodyTypeTextRadioButton;
+				bool flag1 = Localization.GetString("RescheduledMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = flag1;
 				radioButton5.Checked = flag1;
 				radioButton4.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "Cancellation")
+			else if (mailTemplateDropDownList.SelectedValue == "Cancellation")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("CancellationMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("CancellationMailBody", base.LocalResourceFile);
-				RadioButton radioButton6 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton7 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower2 = Localization.GetString("CancellationMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("CancellationMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("CancellationMailBody", LocalResourceFile);
+				RadioButton radioButton6 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton7 = mailTemplateBodyTypeTextRadioButton;
+				bool lower2 = Localization.GetString("CancellationMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = lower2;
 				radioButton7.Checked = lower2;
 				radioButton6.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "Moderator")
+			else if (mailTemplateDropDownList.SelectedValue == "Moderator")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("ModeratorMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("ModeratorMailBody", base.LocalResourceFile);
-				RadioButton radioButton8 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton9 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag2 = Localization.GetString("ModeratorMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("ModeratorMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("ModeratorMailBody", LocalResourceFile);
+				RadioButton radioButton8 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton9 = mailTemplateBodyTypeTextRadioButton;
+				bool flag2 = Localization.GetString("ModeratorMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = flag2;
 				radioButton9.Checked = flag2;
 				radioButton8.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "Declined")
+			else if (mailTemplateDropDownList.SelectedValue == "Declined")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("DeclinedMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("DeclinedMailBody", base.LocalResourceFile);
-				RadioButton radioButton10 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton11 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower3 = Localization.GetString("DeclinedMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("DeclinedMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("DeclinedMailBody", LocalResourceFile);
+				RadioButton radioButton10 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton11 = mailTemplateBodyTypeTextRadioButton;
+				bool lower3 = Localization.GetString("DeclinedMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = lower3;
 				radioButton11.Checked = lower3;
 				radioButton10.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "VerificationCode")
+			else if (mailTemplateDropDownList.SelectedValue == "VerificationCode")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("VerificationCodeMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("VerificationCodeMailBody", base.LocalResourceFile);
-				RadioButton radioButton12 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton13 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag3 = Localization.GetString("VerificationCodeMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("VerificationCodeMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("VerificationCodeMailBody", LocalResourceFile);
+				RadioButton radioButton12 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton13 = mailTemplateBodyTypeTextRadioButton;
+				bool flag3 = Localization.GetString("VerificationCodeMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = flag3;
 				radioButton13.Checked = flag3;
 				radioButton12.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "DuplicateReservation")
+			else if (mailTemplateDropDownList.SelectedValue == "DuplicateReservation")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("DuplicateReservationMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("DuplicateReservationMailBody", base.LocalResourceFile);
-				RadioButton radioButton14 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton15 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower4 = Localization.GetString("DuplicateReservationMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("DuplicateReservationMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("DuplicateReservationMailBody", LocalResourceFile);
+				RadioButton radioButton14 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton15 = mailTemplateBodyTypeTextRadioButton;
+				bool lower4 = Localization.GetString("DuplicateReservationMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = lower4;
 				radioButton15.Checked = lower4;
 				radioButton14.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "Reminder")
+			else if (mailTemplateDropDownList.SelectedValue == "Reminder")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("ReminderMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("ReminderMailBody", base.LocalResourceFile);
-				RadioButton radioButton16 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton17 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag4 = Localization.GetString("ReminderMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("ReminderMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("ReminderMailBody", LocalResourceFile);
+				RadioButton radioButton16 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton17 = mailTemplateBodyTypeTextRadioButton;
+				bool flag4 = Localization.GetString("ReminderMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = flag4;
 				radioButton17.Checked = flag4;
 				radioButton16.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "PendingRescheduleRefund")
+			else if (mailTemplateDropDownList.SelectedValue == "PendingRescheduleRefund")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("PendingRescheduleRefundMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("PendingRescheduleRefundMailBody", base.LocalResourceFile);
-				RadioButton radioButton18 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton19 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower5 = Localization.GetString("PendingRescheduleRefundMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("PendingRescheduleRefundMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("PendingRescheduleRefundMailBody", LocalResourceFile);
+				RadioButton radioButton18 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton19 = mailTemplateBodyTypeTextRadioButton;
+				bool lower5 = Localization.GetString("PendingRescheduleRefundMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = lower5;
 				radioButton19.Checked = lower5;
 				radioButton18.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "PendingCancellationRefund")
+			else if (mailTemplateDropDownList.SelectedValue == "PendingCancellationRefund")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("PendingCancellationRefundMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("PendingCancellationRefundMailBody", base.LocalResourceFile);
-				RadioButton radioButton20 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton21 = this.mailTemplateBodyTypeTextRadioButton;
-				bool flag5 = Localization.GetString("PendingCancellationRefundMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("PendingCancellationRefundMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("PendingCancellationRefundMailBody", LocalResourceFile);
+				RadioButton radioButton20 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton21 = mailTemplateBodyTypeTextRadioButton;
+				bool flag5 = Localization.GetString("PendingCancellationRefundMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = flag5;
 				radioButton21.Checked = flag5;
 				radioButton20.Checked = !flag;
 			}
-			else if (this.mailTemplateDropDownList.SelectedValue == "PendingDeclinationRefund")
+			else if (mailTemplateDropDownList.SelectedValue == "PendingDeclinationRefund")
 			{
-				this.mailTemplateSubjectTextBox.Text = Localization.GetString("PendingDeclinationRefundMailSubject", base.LocalResourceFile);
-				this.mailTemplateBodyTextBox.Text = Localization.GetString("PendingDeclinationRefundMailBody", base.LocalResourceFile);
-				RadioButton radioButton22 = this.mailTemplateBodyTypeHtmlRadioButton;
-				RadioButton radioButton23 = this.mailTemplateBodyTypeTextRadioButton;
-				bool lower6 = Localization.GetString("PendingDeclinationRefundMailBodyType", base.LocalResourceFile).ToLower() == "text";
+				mailTemplateSubjectTextBox.Text = Localization.GetString("PendingDeclinationRefundMailSubject", LocalResourceFile);
+				mailTemplateBodyTextBox.Text = Localization.GetString("PendingDeclinationRefundMailBody", LocalResourceFile);
+				RadioButton radioButton22 = mailTemplateBodyTypeHtmlRadioButton;
+				RadioButton radioButton23 = mailTemplateBodyTypeTextRadioButton;
+				bool lower6 = Localization.GetString("PendingDeclinationRefundMailBodyType", LocalResourceFile).ToLower() == "text";
 				flag = lower6;
 				radioButton23.Checked = lower6;
 				radioButton22.Checked = !flag;
 			}
-			this.iCalendarAttachmentFileNameTextBox.Text = Localization.GetString("ICalendarAttachmentFileName", base.LocalResourceFile);
-			this.UpdateMailTemplateCommandButtonClicked(sender, e);
+			iCalendarAttachmentFileNameTextBox.Text = Localization.GetString("ICalendarAttachmentFileName", LocalResourceFile);
+			UpdateMailTemplateCommandButtonClicked(sender, e);
 		}
 
 		protected void ResetSMSTemplateCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.smsTemplateDropDownList.SelectedValue == "Reminder")
+			if (smsTemplateDropDownList.SelectedValue == "Reminder")
 			{
-				this.smsTemplateBodyTextBox.Text = Localization.GetString("ReminderSMS", base.LocalResourceFile);
+				smsTemplateBodyTextBox.Text = Localization.GetString("ReminderSMS", LocalResourceFile);
 			}
-			this.UpdateSMSTemplateCommandButtonClicked(sender, e);
+			UpdateSMSTemplateCommandButtonClicked(sender, e);
 		}
 
 		protected override object SaveViewState()
 		{
 			try
 			{
-				this.ViewState["CategoryList"] = this.SerializeCategoryList(this.CategoryList);
-				//this.ViewState["CashierList"] = this.ModuleSettings.SerializeUserIDList(this.CashierList);
-				this.ViewState["CashierList"] = this.ModuleSettings.SerializeEmailList(this.CashierList);
-				//this.ViewState["BCCList"] = this.ModuleSettings.SerializeUserIDList(this.BCCList);
-				this.ViewState["BCCList"] = this.ModuleSettings.SerializeEmailList(this.BCCList);
-				this.ViewState["TimeOfDayList"] = this.ModuleSettings.SerializeTimeOfDayList(this.TimeOfDayList);
-				//this.ViewState["ModeratorList"] = this.ModuleSettings.SerializeUserIDList(this.ModeratorList);
-				this.ViewState["ModeratorList"] = this.ModuleSettings.SerializeEmailList(this.ModeratorList);
-				//this.ViewState["ViewReservationsList"] = this.ModuleSettings.SerializeUserIDList(this.ViewReservationsList);
-				this.ViewState["ViewReservationsList"] = this.ModuleSettings.SerializeEmailList(this.ViewReservationsList);
-				//this.ViewState["DuplicateReservationsList"] = this.ModuleSettings.SerializeUserIDList(this.DuplicateReservationsList);
-				this.ViewState["DuplicateReservationsList"] = this.ModuleSettings.SerializeEmailList(this.DuplicateReservationsList);
-				this.ViewState["WorkingHours"] = this.SerializeRecurrencePatternList(this.WorkingHours);
-				this.ViewState["WorkingHoursExceptions"] = this.SerializeWorkingHoursExceptions(this.WorkingHoursExceptions);
-				this.ViewState["ModerationHours"] = this.SerializeWorkingHours(this.ModerationHours);
+				ViewState["CategoryList"] = SerializeCategoryList(CategoryList);
+				//ViewState["CashierList"] = ModuleSettings.SerializeUserIDList(CashierList);
+				ViewState["CashierList"] = ModuleSettings.SerializeEmailList(CashierList);
+				//ViewState["BCCList"] = ModuleSettings.SerializeUserIDList(BCCList);
+				ViewState["BCCList"] = ModuleSettings.SerializeEmailList(BCCList);
+				ViewState["TimeOfDayList"] = ModuleSettings.SerializeTimeOfDayList(TimeOfDayList);
+				//ViewState["ModeratorList"] = ModuleSettings.SerializeUserIDList(ModeratorList);
+				ViewState["ModeratorList"] = ModuleSettings.SerializeEmailList(ModeratorList);
+				//ViewState["ViewReservationsList"] = ModuleSettings.SerializeUserIDList(ViewReservationsList);
+				ViewState["ViewReservationsList"] = ModuleSettings.SerializeEmailList(ViewReservationsList);
+				//ViewState["DuplicateReservationsList"] = ModuleSettings.SerializeUserIDList(DuplicateReservationsList);
+				ViewState["DuplicateReservationsList"] = ModuleSettings.SerializeEmailList(DuplicateReservationsList);
+				ViewState["WorkingHours"] = SerializeRecurrencePatternList(WorkingHours);
+				ViewState["WorkingHoursExceptions"] = SerializeWorkingHoursExceptions(WorkingHoursExceptions);
+				ViewState["ModerationHours"] = SerializeWorkingHours(ModerationHours);
 			}
 			catch (Exception exception)
 			{
@@ -3022,7 +3023,7 @@ namespace Gafware.Modules.Reservations
 
 		protected void SelectCategoryLastChanged(object sender, EventArgs e)
 		{
-			this.bindUponSelectionTableRow.Visible = (this.preventCrossCategoryConflictsCheckBox.Checked ? false : !this.selectCategoryLastCheckBox.Checked);
+			bindUponSelectionTableRow.Visible = (preventCrossCategoryConflictsCheckBox.Checked ? false : !selectCategoryLastCheckBox.Checked);
 		}
 
 		public string SerializeCategoryList(List<CategoryInfo> categoryList)
@@ -3110,24 +3111,24 @@ namespace Gafware.Modules.Reservations
 
 		public void SetTheme()
 		{
-			string str = string.Concat(new string[] { this.TemplateSourceDirectory, "/Themes/", this.ModuleSettings.Theme, "/", this.ModuleSettings.Theme, ".css" });
+			string str = string.Concat(new string[] { TemplateSourceDirectory, "/Themes/", ModuleSettings.Theme, "/", ModuleSettings.Theme, ".css" });
 			HtmlLink htmlLink = new HtmlLink()
 			{
 				Href = str
 			};
 			htmlLink.Attributes.Add("rel", "stylesheet");
 			htmlLink.Attributes.Add("type", "text/css");
-			this.Page.Header.Controls.Add(htmlLink);
-			str = string.Concat(new string[] { this.TemplateSourceDirectory, "/Themes/", this.ModuleSettings.Theme, "/", this.ModuleSettings.Theme, "-LTIE8.css" });
+			Page.Header.Controls.Add(htmlLink);
+			str = string.Concat(new string[] { TemplateSourceDirectory, "/Themes/", ModuleSettings.Theme, "/", ModuleSettings.Theme, "-LTIE8.css" });
 			htmlLink = new HtmlLink()
 			{
 				Href = str
 			};
 			htmlLink.Attributes.Add("rel", "stylesheet");
 			htmlLink.Attributes.Add("type", "text/css");
-			this.Page.Header.Controls.Add(new LiteralControl("<!--[if LT IE 8]>"));
-			this.Page.Header.Controls.Add(htmlLink);
-			this.Page.Header.Controls.Add(new LiteralControl("<![endif]-->"));
+			Page.Header.Controls.Add(new LiteralControl("<!--[if LT IE 8]>"));
+			Page.Header.Controls.Add(htmlLink);
+			Page.Header.Controls.Add(new LiteralControl("<![endif]-->"));
 		}
 
 		protected void SetTimeSpan(TimeSpan timeSpan, TextBox textBox, DropDownList dropDownList)
@@ -3161,9 +3162,9 @@ namespace Gafware.Modules.Reservations
 
 		protected void ShowHideRequireConfirmationWhenTableRow(object sender, EventArgs e)
 		{
-			HtmlTableRow htmlTableRow = this.requireConfirmationTableRow2;
-			HtmlTableRow htmlTableRow1 = this.requireConfirmationWhenTableRow;
-			bool @checked = this.requireConfirmationCheckBox.Checked;
+			HtmlTableRow htmlTableRow = requireConfirmationTableRow2;
+			HtmlTableRow htmlTableRow1 = requireConfirmationWhenTableRow;
+			bool @checked = requireConfirmationCheckBox.Checked;
 			bool flag = @checked;
 			htmlTableRow1.Visible = @checked;
 			htmlTableRow.Visible = flag;
@@ -3172,11 +3173,11 @@ namespace Gafware.Modules.Reservations
 		protected void ShowHideSendRemindersWhenTableRow(object sender, EventArgs e)
 		{
 			bool flag;
-			HtmlTableRow htmlTableRow = this.requireConfirmationTableRow;
-			HtmlTableRow htmlTableRow1 = this.requireConfirmationWhenTableRow;
-			HtmlTableRow htmlTableRow2 = this.sendRemindersWhenTableRow;
-			HtmlTableRow htmlTableRow3 = this.sendRemindersViaTableRow;
-			bool @checked = this.sendRemindersCheckBox.Checked;
+			HtmlTableRow htmlTableRow = requireConfirmationTableRow;
+			HtmlTableRow htmlTableRow1 = requireConfirmationWhenTableRow;
+			HtmlTableRow htmlTableRow2 = sendRemindersWhenTableRow;
+			HtmlTableRow htmlTableRow3 = sendRemindersViaTableRow;
+			bool @checked = sendRemindersCheckBox.Checked;
 			bool flag1 = @checked;
 			htmlTableRow3.Visible = @checked;
 			bool flag2 = flag1;
@@ -3186,21 +3187,21 @@ namespace Gafware.Modules.Reservations
 			bool flag5 = flag4;
 			htmlTableRow1.Visible = flag4;
 			htmlTableRow.Visible = flag5;
-			HtmlTableRow htmlTableRow4 = this.requireConfirmationTableRow2;
-			HtmlTableRow htmlTableRow5 = this.requireConfirmationWhenTableRow;
-			flag = (!this.requireConfirmationTableRow.Visible ? false : this.requireConfirmationCheckBox.Checked);
+			HtmlTableRow htmlTableRow4 = requireConfirmationTableRow2;
+			HtmlTableRow htmlTableRow5 = requireConfirmationWhenTableRow;
+			flag = (!requireConfirmationTableRow.Visible ? false : requireConfirmationCheckBox.Checked);
 			flag5 = flag;
 			htmlTableRow5.Visible = flag;
 			htmlTableRow4.Visible = flag5;
-			this.sendRemindersViaTableRow.Visible = (!this.sendRemindersViaTableRow.Visible ? false : this.IsProfessional);
+			sendRemindersViaTableRow.Visible = (!sendRemindersViaTableRow.Visible ? false : IsProfessional);
 		}
 
 		protected void ShowHideTimeOfDayTableRow(object sender, EventArgs e)
 		{
-			HtmlTableRow htmlTableRow = this.timeOfDaySelectionModeTableRow;
-			HtmlTableRow htmlTableRow1 = this.displayUnavailableTimeOfDayTableRow;
-			HtmlTableRow htmlTableRow2 = this.timeOfDayTableRow;
-			bool @checked = this.displayTimeOfDayCheckBox.Checked;
+			HtmlTableRow htmlTableRow = timeOfDaySelectionModeTableRow;
+			HtmlTableRow htmlTableRow1 = displayUnavailableTimeOfDayTableRow;
+			HtmlTableRow htmlTableRow2 = timeOfDayTableRow;
+			bool @checked = displayTimeOfDayCheckBox.Checked;
 			bool flag = @checked;
 			htmlTableRow2.Visible = @checked;
 			bool flag1 = flag;
@@ -3211,9 +3212,9 @@ namespace Gafware.Modules.Reservations
 
 		protected void SMSTemplateDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			if (this.smsTemplateDropDownList.SelectedValue == "Reminder")
+			if (smsTemplateDropDownList.SelectedValue == "Reminder")
 			{
-				this.smsTemplateBodyTextBox.Text = this.ModuleSettings.ReminderSMS;
+				smsTemplateBodyTextBox.Text = ModuleSettings.ReminderSMS;
 			}
 		}
 
@@ -3223,20 +3224,20 @@ namespace Gafware.Modules.Reservations
 			if (timeSpan.TotalMinutes == 0)
 			{
 				totalMinutes = timeSpan.TotalMinutes;
-				return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Minutes", base.LocalResourceFile));
+				return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Minutes", LocalResourceFile));
 			}
 			if (Convert.ToInt32(timeSpan.TotalMinutes) % 1440 == 0)
 			{
 				totalMinutes = timeSpan.TotalDays;
-				return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Days", base.LocalResourceFile));
+				return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Days", LocalResourceFile));
 			}
 			if (Convert.ToInt32(timeSpan.TotalMinutes) % 60 == 0)
 			{
 				totalMinutes = timeSpan.TotalHours;
-				return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Hours", base.LocalResourceFile));
+				return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Hours", LocalResourceFile));
 			}
 			totalMinutes = timeSpan.TotalMinutes;
-			return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Minutes", base.LocalResourceFile));
+			return string.Concat(totalMinutes.ToString(), " ", Localization.GetString("Minutes", LocalResourceFile));
 		}
 
 		private void UnhighlightInvalidControl(WebControl control)
@@ -3246,199 +3247,199 @@ namespace Gafware.Modules.Reservations
 
 		protected void UpdateBCCListSection(bool updateSelectedCategorySettings)
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				int num = (this.bccListCategoryDropDownList.SelectedValue == null || !(this.bccListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.bccListCategoryDropDownList.SelectedValue));
+				int num = (bccListCategoryDropDownList.SelectedValue == null || !(bccListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(bccListCategoryDropDownList.SelectedValue));
 				if (num != Null.NullInteger)
 				{
 					if (!updateSelectedCategorySettings)
 					{
 						return;
 					}
-					//(new CategorySettingController()).UpdateCategorySetting(num, "BCCList", this.ModuleSettings.SerializeUserIDList(this.BCCList));
-					(new CategorySettingController()).UpdateCategorySetting(num, "BCCList", this.ModuleSettings.SerializeEmailList(this.BCCList));
+					//(new CategorySettingController()).UpdateCategorySetting(num, "BCCList", ModuleSettings.SerializeUserIDList(BCCList));
+					(new CategorySettingController()).UpdateCategorySetting(num, "BCCList", ModuleSettings.SerializeEmailList(BCCList));
 				}
 				else
 				{
-					//(new ModuleController()).UpdateTabModuleSetting(base.TabModuleId, "BCCList", this.ModuleSettings.SerializeUserIDList(this.BCCList));
-					(new ModuleController()).UpdateTabModuleSetting(base.TabModuleId, "BCCList", this.ModuleSettings.SerializeEmailList(this.BCCList));
-					ModuleController.SynchronizeModule(base.ModuleId);
-					this._ModuleSettings = null;
+					//(new ModuleController()).UpdateTabModuleSetting(TabModuleId, "BCCList", ModuleSettings.SerializeUserIDList(BCCList));
+					(new ModuleController()).UpdateTabModuleSetting(TabModuleId, "BCCList", ModuleSettings.SerializeEmailList(BCCList));
+					ModuleController.SynchronizeModule(ModuleId);
+					_ModuleSettings = null;
 				}
-				this.BindCategoriesDropDownList(this.bccListCategoryDropDownList, "BCCList", null, null);
-				this.BindBCCListSection(num);
+				BindCategoriesDropDownList(bccListCategoryDropDownList, "BCCList", null, null);
+				BindBCCListSection(num);
 			}
 		}
 
 		protected void UpdateCashierListSection(bool updateSelectedCategorySettings)
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				int num = (this.cashierListCategoryDropDownList.SelectedValue == null || !(this.cashierListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.cashierListCategoryDropDownList.SelectedValue));
+				int num = (cashierListCategoryDropDownList.SelectedValue == null || !(cashierListCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(cashierListCategoryDropDownList.SelectedValue));
 				if (num != Null.NullInteger)
 				{
 					if (!updateSelectedCategorySettings)
 					{
 						return;
 					}
-					(new CategorySettingController()).UpdateCategorySetting(num, "CashierList", this.ModuleSettings.SerializeUserIDList(this.CashierList));
+					(new CategorySettingController()).UpdateCategorySetting(num, "CashierList", ModuleSettings.SerializeUserIDList(CashierList));
 				}
 				else
 				{
-					(new ModuleController()).UpdateTabModuleSetting(base.TabModuleId, "CashierList", this.ModuleSettings.SerializeUserIDList(this.CashierList));
-					ModuleController.SynchronizeModule(base.ModuleId);
-					this._ModuleSettings = null;
+					(new ModuleController()).UpdateTabModuleSetting(TabModuleId, "CashierList", ModuleSettings.SerializeUserIDList(CashierList));
+					ModuleController.SynchronizeModule(ModuleId);
+					_ModuleSettings = null;
 				}
-				this.BindCategoriesDropDownList(this.cashierListCategoryDropDownList, "CashierList", null, null);
-				this.BindCashierListSection(num);
+				BindCategoriesDropDownList(cashierListCategoryDropDownList, "CashierList", null, null);
+				BindCashierListSection(num);
 			}
 		}
 
 		protected void UpdateCategoryPermissionsSection(bool updateSelectedCategorySettings)
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				foreach (ListItem item in this.categoryPermissionsCheckboxList.Items)
+				foreach (ListItem item in categoryPermissionsCheckboxList.Items)
 				{
-					if (!item.Selected || this.CategoryPermissionsList.IndexOf(int.Parse(item.Value)) != -1)
+					if (!item.Selected || CategoryPermissionsList.IndexOf(int.Parse(item.Value)) != -1)
 					{
-						if (item.Selected || this.CategoryPermissionsList.IndexOf(int.Parse(item.Value)) == -1)
+						if (item.Selected || CategoryPermissionsList.IndexOf(int.Parse(item.Value)) == -1)
 						{
 							continue;
 						}
-						this.CategoryPermissionsList.Remove(int.Parse(item.Value));
+						CategoryPermissionsList.Remove(int.Parse(item.Value));
 					}
 					else
 					{
-						this.CategoryPermissionsList.Add(int.Parse(item.Value));
+						CategoryPermissionsList.Add(int.Parse(item.Value));
 					}
 				}
-				int num = (this.categoryPermissionsDropDownList.SelectedValue == null || !(this.categoryPermissionsDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.categoryPermissionsDropDownList.SelectedValue));
+				int num = (categoryPermissionsDropDownList.SelectedValue == null || !(categoryPermissionsDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(categoryPermissionsDropDownList.SelectedValue));
 				if (num != Null.NullInteger)
 				{
 					if (!updateSelectedCategorySettings)
 					{
 						return;
 					}
-					(new CategorySettingController()).UpdateCategorySetting(num, "CategoryPermissions", this.ModuleSettings.SerializeRoleIDList(this.CategoryPermissionsList));
+					(new CategorySettingController()).UpdateCategorySetting(num, "CategoryPermissions", ModuleSettings.SerializeRoleIDList(CategoryPermissionsList));
 				}
 				else
 				{
-					(new ModuleController()).UpdateTabModuleSetting(base.TabModuleId, "CategoryPermissions", this.ModuleSettings.SerializeRoleIDList(this.CategoryPermissionsList));
-					ModuleController.SynchronizeModule(base.ModuleId);
-					this._ModuleSettings = null;
+					(new ModuleController()).UpdateTabModuleSetting(TabModuleId, "CategoryPermissions", ModuleSettings.SerializeRoleIDList(CategoryPermissionsList));
+					ModuleController.SynchronizeModule(ModuleId);
+					_ModuleSettings = null;
 				}
-				this.BindCategoriesDropDownList(this.categoryPermissionsDropDownList, "CategoryPermissions", null, null);
-				this.BindCategoryPermissionsSection(num);
+				BindCategoriesDropDownList(categoryPermissionsDropDownList, "CategoryPermissions", null, null);
+				BindCategoryPermissionsSection(num);
 			}
 		}
 
 		protected void UpdateDuplicateReservationsSection()
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				(new ModuleController()).UpdateTabModuleSetting(base.TabModuleId, "DuplicateReservationsList", this.ModuleSettings.SerializeUserIDList(this.DuplicateReservationsList));
-				ModuleController.SynchronizeModule(base.ModuleId);
-				this._ModuleSettings = null;
+				(new ModuleController()).UpdateTabModuleSetting(TabModuleId, "DuplicateReservationsList", ModuleSettings.SerializeUserIDList(DuplicateReservationsList));
+				ModuleController.SynchronizeModule(ModuleId);
+				_ModuleSettings = null;
 			}
 		}
 
 		protected void UpdateMailTemplateCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
 				ModuleController moduleController = new ModuleController();
-				if (this.mailTemplateDropDownList.SelectedValue == "Confirmation")
+				if (mailTemplateDropDownList.SelectedValue == "Confirmation")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ConfirmationMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ConfirmationMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ConfirmationMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ConfirmationMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ConfirmationMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ConfirmationMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "Modification")
+				else if (mailTemplateDropDownList.SelectedValue == "Modification")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ModificationMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ModificationMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ModificationMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ModificationMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ModificationMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ModificationMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "Rescheduled")
+				else if (mailTemplateDropDownList.SelectedValue == "Rescheduled")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "RescheduledMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "RescheduledMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "RescheduledMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RescheduledMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RescheduledMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RescheduledMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "Cancellation")
+				else if (mailTemplateDropDownList.SelectedValue == "Cancellation")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "CancellationMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "CancellationMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "CancellationMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "CancellationMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "CancellationMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "CancellationMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "Moderator")
+				else if (mailTemplateDropDownList.SelectedValue == "Moderator")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ModeratorMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ModeratorMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ModeratorMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ModeratorMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ModeratorMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ModeratorMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "Declined")
+				else if (mailTemplateDropDownList.SelectedValue == "Declined")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DeclinedMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DeclinedMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DeclinedMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DeclinedMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DeclinedMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DeclinedMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "VerificationCode")
+				else if (mailTemplateDropDownList.SelectedValue == "VerificationCode")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "VerificationCodeMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "VerificationCodeMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "VerificationCodeMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "VerificationCodeMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "VerificationCodeMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "VerificationCodeMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "DuplicateReservation")
+				else if (mailTemplateDropDownList.SelectedValue == "DuplicateReservation")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DuplicateReservationMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DuplicateReservationMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DuplicateReservationMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DuplicateReservationMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DuplicateReservationMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DuplicateReservationMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.mailTemplateDropDownList.SelectedValue == "Reminder")
+				else if (mailTemplateDropDownList.SelectedValue == "Reminder")
 				{
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReminderMailSubject", this.mailTemplateSubjectTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReminderMailBody", this.mailTemplateBodyTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReminderMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ReminderMailSubject", mailTemplateSubjectTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ReminderMailBody", mailTemplateBodyTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ReminderMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 				}
-				else if (this.IsProfessional)
+				else if (IsProfessional)
 				{
-					if (this.mailTemplateDropDownList.SelectedValue == "PendingRescheduleRefund")
+					if (mailTemplateDropDownList.SelectedValue == "PendingRescheduleRefund")
 					{
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingRescheduleRefundMailSubject", this.mailTemplateSubjectTextBox.Text);
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingRescheduleRefundMailBody", this.mailTemplateBodyTextBox.Text);
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingRescheduleRefundMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingRescheduleRefundMailSubject", mailTemplateSubjectTextBox.Text);
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingRescheduleRefundMailBody", mailTemplateBodyTextBox.Text);
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingRescheduleRefundMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 					}
-					else if (this.mailTemplateDropDownList.SelectedValue == "PendingCancellationRefund")
+					else if (mailTemplateDropDownList.SelectedValue == "PendingCancellationRefund")
 					{
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingCancellationRefundMailSubject", this.mailTemplateSubjectTextBox.Text);
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingCancellationRefundMailBody", this.mailTemplateBodyTextBox.Text);
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingCancellationRefundMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingCancellationRefundMailSubject", mailTemplateSubjectTextBox.Text);
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingCancellationRefundMailBody", mailTemplateBodyTextBox.Text);
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingCancellationRefundMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 					}
-					else if (this.mailTemplateDropDownList.SelectedValue == "PendingDeclinationRefund")
+					else if (mailTemplateDropDownList.SelectedValue == "PendingDeclinationRefund")
 					{
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingDeclinationRefundMailSubject", this.mailTemplateSubjectTextBox.Text);
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingDeclinationRefundMailBody", this.mailTemplateBodyTextBox.Text);
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingDeclinationRefundMailBodyType", (this.mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingDeclinationRefundMailSubject", mailTemplateSubjectTextBox.Text);
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingDeclinationRefundMailBody", mailTemplateBodyTextBox.Text);
+						moduleController.UpdateTabModuleSetting(TabModuleId, "PendingDeclinationRefundMailBodyType", (mailTemplateBodyTypeHtmlRadioButton.Checked ? "HTML" : "Text"));
 					}
 				}
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "MailFrom", this.mailFromTextBox.Text);
-				int tabModuleId = base.TabModuleId;
-				bool @checked = this.attachICalendarCheckBox.Checked;
+				moduleController.UpdateTabModuleSetting(TabModuleId, "MailFrom", mailFromTextBox.Text);
+				int tabModuleId = TabModuleId;
+				bool @checked = attachICalendarCheckBox.Checked;
 				moduleController.UpdateTabModuleSetting(tabModuleId, "AttachiCalendar", @checked.ToString());
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "ICalendarAttachmentFileName", this.iCalendarAttachmentFileNameTextBox.Text);
-				ModuleController.SynchronizeModule(base.ModuleId);
-				this._ModuleSettings = null;
+				moduleController.UpdateTabModuleSetting(TabModuleId, "ICalendarAttachmentFileName", iCalendarAttachmentFileNameTextBox.Text);
+				ModuleController.SynchronizeModule(ModuleId);
+				_ModuleSettings = null;
 			}
 		}
 
 		protected void UpdateModerationSection(bool updateSelectedCategorySettings)
 		{
 			bool @checked;
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				int num = (this.moderationCategoryDropDownList.SelectedValue == null || !(this.moderationCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.moderationCategoryDropDownList.SelectedValue));
+				int num = (moderationCategoryDropDownList.SelectedValue == null || !(moderationCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(moderationCategoryDropDownList.SelectedValue));
 				ModuleController moduleController = null;
 				CategorySettingController categorySettingController = null;
 				if (num != Null.NullInteger)
@@ -3448,23 +3449,23 @@ namespace Gafware.Modules.Reservations
 						return;
 					}
 					categorySettingController = new CategorySettingController();
-					@checked = this.moderateCheckBox.Checked;
+					@checked = moderateCheckBox.Checked;
 					categorySettingController.UpdateCategorySetting(num, "Moderate", @checked.ToString());
-					categorySettingController.UpdateCategorySetting(num, "GlobalModeratorList", this.ModuleSettings.SerializeUserIDList(this.ModeratorList));
+					categorySettingController.UpdateCategorySetting(num, "GlobalModeratorList", ModuleSettings.SerializeUserIDList(ModeratorList));
 				}
 				else
 				{
 					moduleController = new ModuleController();
-					int tabModuleId = base.TabModuleId;
-					@checked = this.moderateCheckBox.Checked;
+					int tabModuleId = TabModuleId;
+					@checked = moderateCheckBox.Checked;
 					moduleController.UpdateTabModuleSetting(tabModuleId, "Moderate", @checked.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "GlobalModeratorList", this.ModuleSettings.SerializeUserIDList(this.ModeratorList));
+					moduleController.UpdateTabModuleSetting(TabModuleId, "GlobalModeratorList", ModuleSettings.SerializeUserIDList(ModeratorList));
 				}
-				this.ModerationHours.Sort(new WorkingHourInfoComparer());
+				ModerationHours.Sort(new WorkingHourInfoComparer());
 				foreach (DayOfWeek value in Enum.GetValues(typeof(DayOfWeek)))
 				{
 					string empty = string.Empty;
-					foreach (WorkingHoursInfo moderationHour in this.ModerationHours)
+					foreach (WorkingHoursInfo moderationHour in ModerationHours)
 					{
 						if (moderationHour.DayOfWeek != value)
 						{
@@ -3492,16 +3493,16 @@ namespace Gafware.Modules.Reservations
 					}
 					else
 					{
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, string.Concat("Moderation.", value.ToString()), empty);
+						moduleController.UpdateTabModuleSetting(TabModuleId, string.Concat("Moderation.", value.ToString()), empty);
 					}
 				}
 				if (moduleController != null)
 				{
-					ModuleController.SynchronizeModule(base.ModuleId);
-					this._ModuleSettings = null;
+					ModuleController.SynchronizeModule(ModuleId);
+					_ModuleSettings = null;
 				}
-				this.BindCategoriesDropDownList(this.moderationCategoryDropDownList, "Moderate", null, null);
-				this.BindModerationSection(num);
+				BindCategoriesDropDownList(moderationCategoryDropDownList, "Moderate", null, null);
+				BindModerationSection(num);
 			}
 		}
 
@@ -3512,33 +3513,33 @@ namespace Gafware.Modules.Reservations
 			int interval;
 			int j;
 			int i;
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
 				ModuleController moduleController = new ModuleController();
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "PaymentMethod", this.paymentMethodDropDownList.SelectedValue);
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "AuthorizeNetApiLogin", this.authorizeNetApiLoginTextBox.Text);
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "AuthorizeNetTransactionKey", this.authorizeNetTransactionKeyTextBox.Text);
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "AuthorizeNetMerchantHash", this.authorizeNetMerchantHashTextBox.Text);
-				int tabModuleId = base.TabModuleId;
-				bool @checked = this.authorizeNetTestModeCheckBox.Checked;
+				moduleController.UpdateTabModuleSetting(TabModuleId, "PaymentMethod", paymentMethodDropDownList.SelectedValue);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "AuthorizeNetApiLogin", authorizeNetApiLoginTextBox.Text);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "AuthorizeNetTransactionKey", authorizeNetTransactionKeyTextBox.Text);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "AuthorizeNetMerchantHash", authorizeNetMerchantHashTextBox.Text);
+				int tabModuleId = TabModuleId;
+				bool @checked = authorizeNetTestModeCheckBox.Checked;
 				moduleController.UpdateTabModuleSetting(tabModuleId, "AuthorizeNetTestMode", @checked.ToString());
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "PayPalAccount", this.payPalAccountTextBox.Text);
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "PayPalSite", this.payPalUrlTextBox.Text);
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "PayPalItemDescription", this.payPalItemDescriptionTextBox.Text);
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "PendingPaymentExpiration", this.pendingPaymentExpirationTextBox.Text);
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "Currency", this.currencyDropDownList.SelectedValue);
-				int num = base.TabModuleId;
-				@checked = this.allowPayLaterCheckBox.Checked;
+				moduleController.UpdateTabModuleSetting(TabModuleId, "PayPalAccount", payPalAccountTextBox.Text);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "PayPalSite", payPalUrlTextBox.Text);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "PayPalItemDescription", payPalItemDescriptionTextBox.Text);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "PendingPaymentExpiration", pendingPaymentExpirationTextBox.Text);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "Currency", currencyDropDownList.SelectedValue);
+				int num = TabModuleId;
+				@checked = allowPayLaterCheckBox.Checked;
 				moduleController.UpdateTabModuleSetting(num, "AllowPayLater", @checked.ToString());
-				int num1 = (this.reservationFeesCategoryDropDownList.SelectedValue == null || !(this.reservationFeesCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.reservationFeesCategoryDropDownList.SelectedValue));
+				int num1 = (reservationFeesCategoryDropDownList.SelectedValue == null || !(reservationFeesCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(reservationFeesCategoryDropDownList.SelectedValue));
 				if (num1 != Null.NullInteger)
 				{
 					CategorySettingController categorySettingController = new CategorySettingController();
-					feeScheduleType = this.feeschedulecontrol.GetFeeScheduleType();
+					feeScheduleType = feeschedulecontrol.GetFeeScheduleType();
 					categorySettingController.UpdateCategorySetting(num1, "FeeScheduleType", feeScheduleType.ToString());
-					if (this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Flat)
+					if (feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Flat)
 					{
-						FlatFeeScheduleInfo flatFeeScheduleInfo = this.feeschedulecontrol.GetFlatFeeScheduleInfo();
+						FlatFeeScheduleInfo flatFeeScheduleInfo = feeschedulecontrol.GetFlatFeeScheduleInfo();
 						depositFee = flatFeeScheduleInfo.DepositFee;
 						categorySettingController.UpdateCategorySetting(num1, "DepositFee", depositFee.ToString(CultureInfo.InvariantCulture));
 						depositFee = flatFeeScheduleInfo.ReservationFee;
@@ -3550,15 +3551,15 @@ namespace Gafware.Modules.Reservations
 						interval = flatFeeScheduleInfo.Interval;
 						categorySettingController.UpdateCategorySetting(num1, "SchedulingFeeInterval", interval.ToString());
 					}
-					else if (this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Seasonal)
+					else if (feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Seasonal)
 					{
-						Hashtable settings = (new CategorySettings(base.PortalId, base.TabModuleId, num1)).Settings;
+						Hashtable settings = (new CategorySettings(PortalId, TabModuleId, num1)).Settings;
 						for (i = 1; settings.ContainsKey(string.Concat("SeasonalFeeScheduleList.", i)); i++)
 						{
 							categorySettingController.DeleteCategorySetting(num1, string.Concat("SeasonalFeeScheduleList.", i));
 						}
 						i = 1;
-						foreach (string str in Helper.ChunksUpto(Helper.SerializeSeasonalFeeScheduleList(this.feeschedulecontrol.SeasonalFeeScheduleList), 2000))
+						foreach (string str in Helper.ChunksUpto(Helper.SerializeSeasonalFeeScheduleList(feeschedulecontrol.SeasonalFeeScheduleList), 2000))
 						{
 							categorySettingController.UpdateCategorySetting(num1, string.Concat("SeasonalFeeScheduleList.", i), str);
 							i++;
@@ -3567,61 +3568,61 @@ namespace Gafware.Modules.Reservations
 				}
 				else
 				{
-					int tabModuleId1 = base.TabModuleId;
-					feeScheduleType = this.feeschedulecontrol.GetFeeScheduleType();
+					int tabModuleId1 = TabModuleId;
+					feeScheduleType = feeschedulecontrol.GetFeeScheduleType();
 					moduleController.UpdateTabModuleSetting(tabModuleId1, "FeeScheduleType", feeScheduleType.ToString());
-					if (this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Flat)
+					if (feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Flat)
 					{
-						FlatFeeScheduleInfo flatFeeScheduleInfo1 = this.feeschedulecontrol.GetFlatFeeScheduleInfo();
-						int tabModuleId2 = base.TabModuleId;
+						FlatFeeScheduleInfo flatFeeScheduleInfo1 = feeschedulecontrol.GetFlatFeeScheduleInfo();
+						int tabModuleId2 = TabModuleId;
 						depositFee = flatFeeScheduleInfo1.DepositFee;
 						moduleController.UpdateTabModuleSetting(tabModuleId2, "DepositFee", depositFee.ToString(CultureInfo.InvariantCulture));
-						int num2 = base.TabModuleId;
+						int num2 = TabModuleId;
 						depositFee = flatFeeScheduleInfo1.ReservationFee;
 						moduleController.UpdateTabModuleSetting(num2, "SchedulingFee", depositFee.ToString(CultureInfo.InvariantCulture));
-						int tabModuleId3 = base.TabModuleId;
+						int tabModuleId3 = TabModuleId;
 						depositFee = flatFeeScheduleInfo1.ReschedulingFee;
 						moduleController.UpdateTabModuleSetting(tabModuleId3, "ReschedulingFee", depositFee.ToString(CultureInfo.InvariantCulture));
-						int num3 = base.TabModuleId;
+						int num3 = TabModuleId;
 						depositFee = flatFeeScheduleInfo1.CancellationFee;
 						moduleController.UpdateTabModuleSetting(num3, "CancellationFee", depositFee.ToString(CultureInfo.InvariantCulture));
-						int tabModuleId4 = base.TabModuleId;
+						int tabModuleId4 = TabModuleId;
 						interval = flatFeeScheduleInfo1.Interval;
 						moduleController.UpdateTabModuleSetting(tabModuleId4, "SchedulingFeeInterval", interval.ToString());
 					}
-					else if (this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Seasonal)
+					else if (feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Seasonal)
 					{
-						for (j = 1; base.Settings.ContainsKey(string.Concat("SeasonalFeeScheduleList.", j)); j++)
+						for (j = 1; Settings.ContainsKey(string.Concat("SeasonalFeeScheduleList.", j)); j++)
 						{
-							moduleController.DeleteTabModuleSetting(base.TabModuleId, string.Concat("SeasonalFeeScheduleList.", j));
+							moduleController.DeleteTabModuleSetting(TabModuleId, string.Concat("SeasonalFeeScheduleList.", j));
 						}
 						j = 1;
-						foreach (string str1 in Helper.ChunksUpto(Helper.SerializeSeasonalFeeScheduleList(this.feeschedulecontrol.SeasonalFeeScheduleList), 2000))
+						foreach (string str1 in Helper.ChunksUpto(Helper.SerializeSeasonalFeeScheduleList(feeschedulecontrol.SeasonalFeeScheduleList), 2000))
 						{
-							moduleController.UpdateTabModuleSetting(base.TabModuleId, string.Concat("SeasonalFeeScheduleList.", j), str1);
+							moduleController.UpdateTabModuleSetting(TabModuleId, string.Concat("SeasonalFeeScheduleList.", j), str1);
 							j++;
 						}
 					}
 				}
-				ModuleController.SynchronizeModule(base.ModuleId);
-				this._ModuleSettings = null;
-				this.BindCategoriesDropDownList(this.reservationFeesCategoryDropDownList, "SchedulingFee", "FeeScheduleType", null);
-				this.BindReservationFeesSection(num1);
+				ModuleController.SynchronizeModule(ModuleId);
+				_ModuleSettings = null;
+				BindCategoriesDropDownList(reservationFeesCategoryDropDownList, "SchedulingFee", "FeeScheduleType", null);
+				BindReservationFeesSection(num1);
 			}
 		}
 
 		protected void UpdateReservationSettingsSection(bool updateSelectedCategorySettings)
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				int category = (this.reservationSettingsCategoryDropDownList.SelectedValue == null || !(this.reservationSettingsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.reservationSettingsCategoryDropDownList.SelectedValue));
-				TimeSpan minTimeAhead = this.GetTimeSpan(this.minTimeAheadTextBox, this.minTimeAheadDropDownList);
-				double reservationInterval = this.GetTimeSpan(this.reservationIntervalTextBox, this.reservationIntervalDropDownList).TotalMinutes;
-				double reservationDuration = this.GetTimeSpan(this.reservationDurationTextBox, this.reservationDurationDropDownList).TotalMinutes;
-				double reservationDurationMax = this.GetTimeSpan(this.reservationDurationMaxTextBox, this.reservationDurationMaxDropDownList).TotalMinutes;
-				double reservationDurationInterval = this.GetTimeSpan(this.reservationDurationIntervalTextBox, this.reservationDurationIntervalDropDownList).TotalMinutes;
-				bool allowCancellations = this.allowCancellationsCheckBox.Checked;
-				bool allowRescheduling = this.allowReschedulingCheckBox.Checked;
+				int category = (reservationSettingsCategoryDropDownList.SelectedValue == null || !(reservationSettingsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(reservationSettingsCategoryDropDownList.SelectedValue));
+				TimeSpan minTimeAhead = GetTimeSpan(minTimeAheadTextBox, minTimeAheadDropDownList);
+				double reservationInterval = GetTimeSpan(reservationIntervalTextBox, reservationIntervalDropDownList).TotalMinutes;
+				double reservationDuration = GetTimeSpan(reservationDurationTextBox, reservationDurationDropDownList).TotalMinutes;
+				double reservationDurationMax = GetTimeSpan(reservationDurationMaxTextBox, reservationDurationMaxDropDownList).TotalMinutes;
+				double reservationDurationInterval = GetTimeSpan(reservationDurationIntervalTextBox, reservationDurationIntervalDropDownList).TotalMinutes;
+				bool allowCancellations = allowCancellationsCheckBox.Checked;
+				bool allowRescheduling = allowReschedulingCheckBox.Checked;
 				if (category != Null.NullInteger)
 				{
 					if (!updateSelectedCategorySettings)
@@ -3636,174 +3637,99 @@ namespace Gafware.Modules.Reservations
 					categorySettingController.UpdateCategorySetting(category, "ReservationDurationMax", reservationDurationMax.ToString());
 					categorySettingController.UpdateCategorySetting(category, "ReservationDurationInterval", reservationDurationInterval.ToString());
 					categorySettingController.UpdateCategorySetting(category, "MinTimeAhead", minTimeAhead.ToString());
-					categorySettingController.UpdateCategorySetting(category, "DaysAhead", this.daysAheadTextBox.Text);
-					categorySettingController.UpdateCategorySetting(category, "MaxReservationsPerTimeSlot", this.maxConflictingReservationsTextBox.Text);
-					categorySettingController.UpdateCategorySetting(category, "MaxReservationsPerUser", (string.IsNullOrEmpty(this.maxReservationsPerUserTextBox.Text.Trim()) ? Null.NullInteger.ToString() : this.maxReservationsPerUserTextBox.Text.Trim()));
+					categorySettingController.UpdateCategorySetting(category, "DaysAhead", daysAheadTextBox.Text);
+					categorySettingController.UpdateCategorySetting(category, "MaxReservationsPerTimeSlot", maxConflictingReservationsTextBox.Text);
+					categorySettingController.UpdateCategorySetting(category, "MaxReservationsPerUser", (string.IsNullOrEmpty(maxReservationsPerUserTextBox.Text.Trim()) ? Null.NullInteger.ToString() : maxReservationsPerUserTextBox.Text.Trim()));
 				}
 				else
 				{
 					ModuleController moduleController = new ModuleController();
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "AllowCancellations", allowCancellations.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "AllowRescheduling", allowRescheduling.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationInterval", reservationInterval.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDuration", reservationDuration.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDurationMax", reservationDurationMax.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReservationDurationInterval", reservationDurationInterval.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "MinTimeAhead", minTimeAhead.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DaysAhead", this.daysAheadTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "MaxReservationsPerTimeSlot", this.maxConflictingReservationsTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "MaxReservationsPerUser", (string.IsNullOrEmpty(this.maxReservationsPerUserTextBox.Text.Trim()) ? Null.NullInteger.ToString() : this.maxReservationsPerUserTextBox.Text.Trim()));
-					ModuleController.SynchronizeModule(base.ModuleId);
-					this._ModuleSettings = null;
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AllowCancellations", allowCancellations.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AllowRescheduling", allowRescheduling.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ReservationInterval", reservationInterval.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ReservationDuration", reservationDuration.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ReservationDurationMax", reservationDurationMax.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ReservationDurationInterval", reservationDurationInterval.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "MinTimeAhead", minTimeAhead.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DaysAhead", daysAheadTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "MaxReservationsPerTimeSlot", maxConflictingReservationsTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "MaxReservationsPerUser", (string.IsNullOrEmpty(maxReservationsPerUserTextBox.Text.Trim()) ? Null.NullInteger.ToString() : maxReservationsPerUserTextBox.Text.Trim()));
+					ModuleController.SynchronizeModule(ModuleId);
+					_ModuleSettings = null;
 				}
-				this.BindCategoriesDropDownList(this.reservationSettingsCategoryDropDownList, "AllowCancellations", null, null);
-				this.BindReservationSettingsSection(category);
+				BindCategoriesDropDownList(reservationSettingsCategoryDropDownList, "AllowCancellations", null, null);
+				BindReservationSettingsSection(category);
 			}
 		}
 
 		public override void UpdateSettings()
 		{
-			int num;
-			int num1;
-			int num2;
-			int num3;
 			try
 			{
-				if (this.Page.IsValid)
+				if (Page.IsValid)
 				{
 					ModuleController moduleController = new ModuleController();
-					this.UpdateCategoryPermissionsSection(false);
-					this.UpdateReservationSettingsSection(false);
-					if (this.IsProfessional)
+					UpdateCategoryPermissionsSection(false);
+					UpdateReservationSettingsSection(false);
+					if (IsProfessional)
 					{
-						this.UpdateReservationFeesSection();
-						this.UpdateCashierListSection(false);
+						UpdateReservationFeesSection();
+						UpdateCashierListSection(false);
 					}
-					this.UpdateWorkingHoursSection();
-					this.UpdateWorkingHoursExceptionsSection(false);
-					this.UpdateTimeOfDaySection();
-					this.UpdateBCCListSection(false);
-					this.UpdateModerationSection(false);
-					this.UpdateViewReservationsSection();
-					this.UpdateDuplicateReservationsSection();
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "TimeZone", this.timeZoneDropDownList.SelectedValue);
-					int tabModuleId = base.TabModuleId;
-					bool @checked = this.allowCategorySelectionCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId, "AllowCategorySelection", @checked.ToString());
-					ModuleController moduleController1 = moduleController;
-					int tabModuleId1 = base.TabModuleId;
-					if (this.categorySelectionModeList.Checked)
+					UpdateWorkingHoursSection();
+					UpdateWorkingHoursExceptionsSection(false);
+					UpdateTimeOfDaySection();
+					UpdateBCCListSection(false);
+					UpdateModerationSection(false);
+					UpdateViewReservationsSection();
+					UpdateDuplicateReservationsSection();
+					moduleController.UpdateTabModuleSetting(TabModuleId, "TimeZone", timeZoneDropDownList.SelectedValue);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AllowCategorySelection", allowCategorySelectionCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "CategorySelectionMode", (categorySelectionModeList.Checked ? 1 : (categorySelectionModeDropDownList.Checked ? 2 : 3)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DisplayCalendar", displayCalendarRadioButton.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "TimeOfDaySelectionMode", (timeOfDaySelectionModeList.Checked ? 1 : (timeOfDaySelectionModeDropDownList.Checked ? 2 : 3)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "TimeSelectionMode", (timeSelectionModeList.Checked ? 1 : (timeSelectionModeDropDownList.Checked ? 2 : 3)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DurationSelectionMode", (durationSelectionModeList.Checked ? 1 : (durationSelectionModeDropDownList.Checked ? 2 : 3)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "SelectCategoryLast", ((!allowCategorySelectionCheckBox.Checked ? false : selectCategoryLastCheckBox.Checked)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AllowCrossCategoryConflicts", ((!allowCategorySelectionCheckBox.Checked ? false : preventCrossCategoryConflictsCheckBox.Checked)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "BindUponCategorySelection", ((!allowCategorySelectionCheckBox.Checked || selectCategoryLastCheckBox.Checked || preventCrossCategoryConflictsCheckBox.Checked ? false : bindUponSelectionCheckBox.Checked)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DisplayUnavailableCategories", ((!allowCategorySelectionCheckBox.Checked ? false : displayUnavailableCategoriesCheckBox.Checked)).ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AllowDescription", allowDescriptionCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AllowSchedulingAnotherReservation", allowSchedulingAnotherReservationCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DisplayRemainingReservations", displayRemainingReservationsCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ContactInfoFirst", contactInfoFirstCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "DisplayEndTime", displayEndTimeCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "ICalendarAttachmentFileName", iCalendarAttachmentFileNameTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "Theme", themeDropDownList.SelectedValue);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RequireEmail", requireEmailCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RequirePhone", requirePhoneCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AllowLookupByPhone", allowLookupByPhoneCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RedirectUrl", redirectUrlTextBox.Text);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RequireVerificationCode", requireVerificationCodeCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "SkipContactInfoForAuthenticatedUsers", skipContactInfoCheckBox.Checked.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "AttachiCalendar", attachICalendarCheckBox.Checked.ToString());
+					if (ModuleSettings.SendReminders && !sendRemindersCheckBox.Checked)
 					{
-						num = 1;
+						Controller.DisableSendReminder(TabModuleId);
 					}
-					else
+					moduleController.UpdateTabModuleSetting(TabModuleId, "SendReminders", sendRemindersCheckBox.Checked.ToString());
+					TimeSpan timeSpan = GetTimeSpan(sendRemindersWhenTextBox, sendRemindersWhenDropDownList);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "SendRemindersWhen", timeSpan.ToString());
+					moduleController.UpdateTabModuleSetting(TabModuleId, "SendRemindersVia", sendRemindersViaDropDownList.SelectedValue);
+					bool flag = (!sendRemindersCheckBox.Checked ? false : requireConfirmationCheckBox.Checked);
+					if (ModuleSettings.RequireConfirmation && !flag)
 					{
-						num = (this.categorySelectionModeDropDownList.Checked ? 2 : 3);
+						Controller.DisableRequireConfirmation(TabModuleId);
 					}
-					moduleController1.UpdateTabModuleSetting(tabModuleId1, "CategorySelectionMode", num.ToString());
-					int tabModuleId2 = base.TabModuleId;
-					@checked = this.displayCalendarRadioButton.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId2, "DisplayCalendar", @checked.ToString());
-					ModuleController moduleController2 = moduleController;
-					int tabModuleId3 = base.TabModuleId;
-					if (this.timeOfDaySelectionModeList.Checked)
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RequireConfirmation", flag.ToString());
+					timeSpan = GetTimeSpan(requireConfirmationWhenTextBox, requireConfirmationWhenDropDownList);
+					moduleController.UpdateTabModuleSetting(TabModuleId, "RequireConfirmationWhen", timeSpan.ToString());
+					if (!TabModuleSettings.ContainsKey("VerificationCodeSalt"))
 					{
-						num1 = 1;
-					}
-					else
-					{
-						num1 = (this.timeOfDaySelectionModeDropDownList.Checked ? 2 : 3);
-					}
-					moduleController2.UpdateTabModuleSetting(tabModuleId3, "TimeOfDaySelectionMode", num1.ToString());
-					ModuleController moduleController3 = moduleController;
-					int tabModuleId4 = base.TabModuleId;
-					if (this.timeSelectionModeList.Checked)
-					{
-						num2 = 1;
-					}
-					else
-					{
-						num2 = (this.timeSelectionModeDropDownList.Checked ? 2 : 3);
-					}
-					moduleController3.UpdateTabModuleSetting(tabModuleId4, "TimeSelectionMode", num2.ToString());
-					ModuleController moduleController4 = moduleController;
-					int num4 = base.TabModuleId;
-					if (this.durationSelectionModeList.Checked)
-					{
-						num3 = 1;
-					}
-					else
-					{
-						num3 = (this.durationSelectionModeDropDownList.Checked ? 2 : 3);
-					}
-					moduleController4.UpdateTabModuleSetting(num4, "DurationSelectionMode", num3.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "SelectCategoryLast", ((!this.allowCategorySelectionCheckBox.Checked ? false : this.selectCategoryLastCheckBox.Checked)).ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "AllowCrossCategoryConflicts", ((!this.allowCategorySelectionCheckBox.Checked ? false : this.preventCrossCategoryConflictsCheckBox.Checked)).ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "BindUponCategorySelection", ((!this.allowCategorySelectionCheckBox.Checked || this.selectCategoryLastCheckBox.Checked || this.preventCrossCategoryConflictsCheckBox.Checked ? false : this.bindUponSelectionCheckBox.Checked)).ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "DisplayUnavailableCategories", ((!this.allowCategorySelectionCheckBox.Checked ? false : this.displayUnavailableCategoriesCheckBox.Checked)).ToString());
-					int tabModuleId5 = base.TabModuleId;
-					@checked = this.allowDescriptionCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId5, "AllowDescription", @checked.ToString());
-					int num5 = base.TabModuleId;
-					@checked = this.allowSchedulingAnotherReservationCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(num5, "AllowSchedulingAnotherReservation", @checked.ToString());
-					int tabModuleId6 = base.TabModuleId;
-					@checked = this.displayRemainingReservationsCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId6, "DisplayRemainingReservations", @checked.ToString());
-					int num6 = base.TabModuleId;
-					@checked = this.contactInfoFirstCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(num6, "ContactInfoFirst", @checked.ToString());
-					int tabModuleId7 = base.TabModuleId;
-					@checked = this.displayEndTimeCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId7, "DisplayEndTime", @checked.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "ICalendarAttachmentFileName", this.iCalendarAttachmentFileNameTextBox.Text);
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "Theme", this.themeDropDownList.SelectedValue);
-					int num7 = base.TabModuleId;
-					@checked = this.requireEmailCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(num7, "RequireEmail", @checked.ToString());
-					int tabModuleId8 = base.TabModuleId;
-					@checked = this.requirePhoneCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId8, "RequirePhone", @checked.ToString());
-					int num8 = base.TabModuleId;
-					@checked = this.allowLookupByPhoneCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(num8, "AllowLookupByPhone", @checked.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "RedirectUrl", this.redirectUrlTextBox.Text);
-					int tabModuleId9 = base.TabModuleId;
-					@checked = this.requireVerificationCodeCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId9, "RequireVerificationCode", @checked.ToString());
-					int num9 = base.TabModuleId;
-					@checked = this.skipContactInfoCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(num9, "SkipContactInfoForAuthenticatedUsers", @checked.ToString());
-					int tabModuleId10 = base.TabModuleId;
-					@checked = this.attachICalendarCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(tabModuleId10, "AttachiCalendar", @checked.ToString());
-					if (this.ModuleSettings.SendReminders && !this.sendRemindersCheckBox.Checked)
-					{
-						Controller.DisableSendReminder(base.TabModuleId);
-					}
-					int num10 = base.TabModuleId;
-					@checked = this.sendRemindersCheckBox.Checked;
-					moduleController.UpdateTabModuleSetting(num10, "SendReminders", @checked.ToString());
-					int tabModuleId11 = base.TabModuleId;
-					TimeSpan timeSpan = this.GetTimeSpan(this.sendRemindersWhenTextBox, this.sendRemindersWhenDropDownList);
-					moduleController.UpdateTabModuleSetting(tabModuleId11, "SendRemindersWhen", timeSpan.ToString());
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "SendRemindersVia", this.sendRemindersViaDropDownList.SelectedValue);
-					bool flag = (!this.sendRemindersCheckBox.Checked ? false : this.requireConfirmationCheckBox.Checked);
-					if (this.ModuleSettings.RequireConfirmation && !flag)
-					{
-						Controller.DisableRequireConfirmation(base.TabModuleId);
-					}
-					moduleController.UpdateTabModuleSetting(base.TabModuleId, "RequireConfirmation", flag.ToString());
-					int num11 = base.TabModuleId;
-					timeSpan = this.GetTimeSpan(this.requireConfirmationWhenTextBox, this.requireConfirmationWhenDropDownList);
-					moduleController.UpdateTabModuleSetting(num11, "RequireConfirmationWhen", timeSpan.ToString());
-					if (!base.TabModuleSettings.ContainsKey("VerificationCodeSalt"))
-					{
-						int tabModuleId12 = base.TabModuleId;
 						Guid guid = Guid.NewGuid();
-						moduleController.UpdateTabModuleSetting(tabModuleId12, "VerificationCodeSalt", guid.ToString());
+						moduleController.UpdateTabModuleSetting(TabModuleId, "VerificationCodeSalt", guid.ToString());
 					}
-					ModuleController.SynchronizeModule(base.ModuleId);
+					ModuleController.SynchronizeModule(ModuleId);
 				}
 			}
 			catch (Exception exception)
@@ -3814,51 +3740,51 @@ namespace Gafware.Modules.Reservations
 
 		protected void UpdateSettingsCommandButtonClicked(object sender, EventArgs e)
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				this.UpdateSettings();
-				this.CancelSettingsCommandButtonClicked(sender, e);
+				UpdateSettings();
+				CancelSettingsCommandButtonClicked(sender, e);
 			}
 		}
 
 		protected void UpdateSMSTemplateCommandButtonClicked(object sender, EventArgs e)
 		{
 			ModuleController moduleController = new ModuleController();
-			if (this.smsTemplateDropDownList.SelectedValue == "Reminder")
+			if (smsTemplateDropDownList.SelectedValue == "Reminder")
 			{
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "ReminderSMS", this.smsTemplateBodyTextBox.Text);
+				moduleController.UpdateTabModuleSetting(TabModuleId, "ReminderSMS", smsTemplateBodyTextBox.Text);
 			}
-			moduleController.UpdateTabModuleSetting(base.TabModuleId, "TwilioAccountSID", this.twilioAccountSIDTextBox.Text);
-			moduleController.UpdateTabModuleSetting(base.TabModuleId, "TwilioAuthToken", this.twilioAuthTokenTextBox.Text);
-			moduleController.UpdateTabModuleSetting(base.TabModuleId, "TwilioFrom", this.twilioFromTextBox.Text);
-			ModuleController.SynchronizeModule(base.ModuleId);
-			this._ModuleSettings = null;
+			moduleController.UpdateTabModuleSetting(TabModuleId, "TwilioAccountSID", twilioAccountSIDTextBox.Text);
+			moduleController.UpdateTabModuleSetting(TabModuleId, "TwilioAuthToken", twilioAuthTokenTextBox.Text);
+			moduleController.UpdateTabModuleSetting(TabModuleId, "TwilioFrom", twilioFromTextBox.Text);
+			ModuleController.SynchronizeModule(ModuleId);
+			_ModuleSettings = null;
 		}
 
 		protected void UpdateTimeOfDaySection()
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
 				ModuleController moduleController = new ModuleController();
-				int tabModuleId = base.TabModuleId;
-				bool @checked = this.displayTimeOfDayCheckBox.Checked;
+				int tabModuleId = TabModuleId;
+				bool @checked = displayTimeOfDayCheckBox.Checked;
 				moduleController.UpdateTabModuleSetting(tabModuleId, "DisplayTimeOfDay", @checked.ToString());
-				int num = base.TabModuleId;
-				@checked = this.displayUnavailableTimeOfDayCheckBox.Checked;
+				int num = TabModuleId;
+				@checked = displayUnavailableTimeOfDayCheckBox.Checked;
 				moduleController.UpdateTabModuleSetting(num, "DisplayUnavailableTimeOfDay", @checked.ToString());
-				moduleController.UpdateTabModuleSetting(base.TabModuleId, "TimesOfDay", this.ModuleSettings.SerializeTimeOfDayList(this.TimeOfDayList));
-				ModuleController.SynchronizeModule(base.ModuleId);
-				this._ModuleSettings = null;
+				moduleController.UpdateTabModuleSetting(TabModuleId, "TimesOfDay", ModuleSettings.SerializeTimeOfDayList(TimeOfDayList));
+				ModuleController.SynchronizeModule(ModuleId);
+				_ModuleSettings = null;
 			}
 		}
 
 		protected void UpdateViewReservationsSection()
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				(new ModuleController()).UpdateTabModuleSetting(base.TabModuleId, "ViewReservationsList", this.ModuleSettings.SerializeUserIDList(this.ViewReservationsList));
-				ModuleController.SynchronizeModule(base.ModuleId);
-				this._ModuleSettings = null;
+				(new ModuleController()).UpdateTabModuleSetting(TabModuleId, "ViewReservationsList", ModuleSettings.SerializeUserIDList(ViewReservationsList));
+				ModuleController.SynchronizeModule(ModuleId);
+				_ModuleSettings = null;
 			}
 		}
 
@@ -3867,9 +3793,9 @@ namespace Gafware.Modules.Reservations
 			DateTime dateTime;
 			TimeSpan endTime;
 			string str;
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				int num = (this.workingHoursExceptionsCategoryDropDownList.SelectedValue == null || !(this.workingHoursExceptionsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.workingHoursExceptionsCategoryDropDownList.SelectedValue));
+				int num = (workingHoursExceptionsCategoryDropDownList.SelectedValue == null || !(workingHoursExceptionsCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(workingHoursExceptionsCategoryDropDownList.SelectedValue));
 				ModuleController moduleController = null;
 				CategorySettingController categorySettingController = null;
 				Hashtable settings = null;
@@ -3880,12 +3806,12 @@ namespace Gafware.Modules.Reservations
 						return;
 					}
 					categorySettingController = new CategorySettingController();
-					settings = (new CategorySettings(base.PortalId, base.TabModuleId, num)).Settings;
+					settings = (new CategorySettings(PortalId, TabModuleId, num)).Settings;
 				}
 				else
 				{
 					moduleController = new ModuleController();
-					settings = this.ModuleSettings.Settings;
+					settings = ModuleSettings.Settings;
 				}
 				foreach (string key in settings.Keys)
 				{
@@ -3899,13 +3825,13 @@ namespace Gafware.Modules.Reservations
 					}
 					else
 					{
-						moduleController.DeleteTabModuleSetting(base.TabModuleId, key);
+						moduleController.DeleteTabModuleSetting(TabModuleId, key);
 					}
 				}
-				if (this.WorkingHoursExceptions.Count > 0)
+				if (WorkingHoursExceptions.Count > 0)
 				{
 					Hashtable hashtables = new Hashtable();
-					foreach (WorkingHoursExceptionInfo workingHoursException in this.WorkingHoursExceptions)
+					foreach (WorkingHoursExceptionInfo workingHoursException in WorkingHoursExceptions)
 					{
 						if (!hashtables.Contains(workingHoursException.Date))
 						{
@@ -3946,29 +3872,29 @@ namespace Gafware.Modules.Reservations
 						}
 						else
 						{
-							moduleController.UpdateTabModuleSetting(base.TabModuleId, key1.ToString("d", CultureInfo.InvariantCulture), (string)hashtables[key1]);
+							moduleController.UpdateTabModuleSetting(TabModuleId, key1.ToString("d", CultureInfo.InvariantCulture), (string)hashtables[key1]);
 						}
 					}
 				}
 				if (categorySettingController == null)
 				{
-					ModuleController.SynchronizeModule(base.ModuleId);
-					this._ModuleSettings = null;
+					ModuleController.SynchronizeModule(ModuleId);
+					_ModuleSettings = null;
 				}
 				else
 				{
 					categorySettingController.UpdateCategorySetting(num, "WorkingHoursExceptionsDefined", bool.TrueString);
 				}
-				this.BindCategoriesDropDownList(this.workingHoursExceptionsCategoryDropDownList, "WorkingHoursExceptionsDefined", null, null);
-				this.BindWorkingHoursExceptionsSection(num);
+				BindCategoriesDropDownList(workingHoursExceptionsCategoryDropDownList, "WorkingHoursExceptionsDefined", null, null);
+				BindWorkingHoursExceptionsSection(num);
 			}
 		}
 
 		protected void UpdateWorkingHoursSection()
 		{
-			if (this.Page.IsValid)
+			if (Page.IsValid)
 			{
-				int num = (this.workingHoursCategoryDropDownList.SelectedValue == null || !(this.workingHoursCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(this.workingHoursCategoryDropDownList.SelectedValue));
+				int num = (workingHoursCategoryDropDownList.SelectedValue == null || !(workingHoursCategoryDropDownList.SelectedValue != string.Empty) ? Null.NullInteger : int.Parse(workingHoursCategoryDropDownList.SelectedValue));
 				ModuleController moduleController = null;
 				CategorySettingController categorySettingController = null;
 				if (num != Null.NullInteger)
@@ -3980,7 +3906,7 @@ namespace Gafware.Modules.Reservations
 					moduleController = new ModuleController();
 				}
 				int num1 = 1;
-				foreach (RecurrencePattern workingHour in this.WorkingHours)
+				foreach (RecurrencePattern workingHour in WorkingHours)
 				{
 					if (moduleController == null)
 					{
@@ -3988,11 +3914,11 @@ namespace Gafware.Modules.Reservations
 					}
 					else
 					{
-						moduleController.UpdateTabModuleSetting(base.TabModuleId, string.Concat("WorkingHours.", num1), Helper.SerializeRecurrencePattern(workingHour));
+						moduleController.UpdateTabModuleSetting(TabModuleId, string.Concat("WorkingHours.", num1), Helper.SerializeRecurrencePattern(workingHour));
 					}
 					num1++;
 				}
-				if (num != Null.NullInteger && this.WorkingHours.Count == 0)
+				if (num != Null.NullInteger && WorkingHours.Count == 0)
 				{
 					categorySettingController.UpdateCategorySetting(num, "WorkingHours.1", string.Empty);
 					num1++;
@@ -4000,15 +3926,15 @@ namespace Gafware.Modules.Reservations
 				Hashtable settings = null;
 				if (moduleController == null)
 				{
-					settings = (new CategorySettings(base.PortalId, base.TabModuleId, num)).Settings;
+					settings = (new CategorySettings(PortalId, TabModuleId, num)).Settings;
 					if (!settings.ContainsKey("WorkingHours.1"))
 					{
-						settings = this.ModuleSettings.Settings;
+						settings = ModuleSettings.Settings;
 					}
 				}
 				else
 				{
-					settings = this.ModuleSettings.Settings;
+					settings = ModuleSettings.Settings;
 				}
 				while (settings.ContainsKey(string.Concat("WorkingHours.", num1)))
 				{
@@ -4018,41 +3944,41 @@ namespace Gafware.Modules.Reservations
 					}
 					else
 					{
-						moduleController.DeleteTabModuleSetting(base.TabModuleId, string.Concat("WorkingHours.", num1));
+						moduleController.DeleteTabModuleSetting(TabModuleId, string.Concat("WorkingHours.", num1));
 					}
 					num1++;
 				}
 				if (moduleController != null)
 				{
-					ModuleController.SynchronizeModule(base.ModuleId);
-					this._ModuleSettings = null;
+					ModuleController.SynchronizeModule(ModuleId);
+					_ModuleSettings = null;
 				}
-				this.BindCategoriesDropDownList(this.workingHoursCategoryDropDownList, "WorkingHours.1", null, null);
-				this.BindWorkingHoursSection(num);
+				BindCategoriesDropDownList(workingHoursCategoryDropDownList, "WorkingHours.1", null, null);
+				BindWorkingHoursSection(num);
 			}
 		}
 
 		protected void ValidateAuthorizeNetApiLogin(object sender, ServerValidateEventArgs e)
 		{
-			e.IsValid = (this.authorizeNetApiLoginTextBox.Text != string.Empty ? true : this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
+			e.IsValid = (authorizeNetApiLoginTextBox.Text != string.Empty ? true : feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
 		}
 
 		protected void ValidateAuthorizeNetMerchantHash(object sender, ServerValidateEventArgs e)
 		{
-			e.IsValid = (this.authorizeNetMerchantHashTextBox.Text != string.Empty ? true : this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
+			e.IsValid = (authorizeNetMerchantHashTextBox.Text != string.Empty ? true : feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
 		}
 
 		protected void ValidateAuthorizeNetTransactionKey(object sender, ServerValidateEventArgs e)
 		{
-			e.IsValid = (this.authorizeNetTransactionKeyTextBox.Text != string.Empty ? true : this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
+			e.IsValid = (authorizeNetTransactionKeyTextBox.Text != string.Empty ? true : feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
 		}
 
 		protected void ValidateModerationHours(object sender, ServerValidateEventArgs e)
 		{
 			e.IsValid = true;
-			DayOfWeek dayOfWeek = (DayOfWeek)int.Parse(this.moderationWeekDaysDropDownList.SelectedValue);
-			TimeSpan time = this.GetTime(this.moderationStartHourDropDownList, this.moderationStartMinuteDropDownList, this.moderationStartAMPMDropDownList);
-			TimeSpan timeSpan = this.GetTime(this.moderationEndHourDropDownList, this.moderationEndMinuteDropDownList, this.moderationEndAMPMDropDownList);
+			DayOfWeek dayOfWeek = (DayOfWeek)int.Parse(moderationWeekDaysDropDownList.SelectedValue);
+			TimeSpan time = GetTime(moderationStartHourDropDownList, moderationStartMinuteDropDownList, moderationStartAMPMDropDownList);
+			TimeSpan timeSpan = GetTime(moderationEndHourDropDownList, moderationEndMinuteDropDownList, moderationEndAMPMDropDownList);
 			if (timeSpan == new TimeSpan())
 			{
 				timeSpan = new TimeSpan(1, 0, 0, 0);
@@ -4063,7 +3989,7 @@ namespace Gafware.Modules.Reservations
 			}
 			else
 			{
-				foreach (WorkingHoursInfo moderationHour in this.ModerationHours)
+				foreach (WorkingHoursInfo moderationHour in ModerationHours)
 				{
 					if (moderationHour.DayOfWeek != dayOfWeek || (!(time <= moderationHour.StartTime) || !(timeSpan > moderationHour.StartTime)) && (!(moderationHour.StartTime <= time) || !(moderationHour.EndTime > time)))
 					{
@@ -4077,12 +4003,12 @@ namespace Gafware.Modules.Reservations
 
 		protected void ValidatePayPalAccount(object sender, ServerValidateEventArgs e)
 		{
-			e.IsValid = (this.payPalAccountTextBox.Text != string.Empty ? true : this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
+			e.IsValid = (payPalAccountTextBox.Text != string.Empty ? true : feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
 		}
 
 		protected void ValidatePayPalUrl(object sender, ServerValidateEventArgs e)
 		{
-			e.IsValid = (this.payPalUrlTextBox.Text != string.Empty ? true : this.feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
+			e.IsValid = (payPalUrlTextBox.Text != string.Empty ? true : feeschedulecontrol.GetFeeScheduleType() == FeeScheduleType.Free);
 		}
 
 		protected void ValidateReservationDuration(object sender, ServerValidateEventArgs e)
@@ -4103,20 +4029,20 @@ namespace Gafware.Modules.Reservations
 		protected void ValidateReservationInterval(object sender, ServerValidateEventArgs e)
 		{
 			int num;
-			if (!int.TryParse(this.reservationIntervalTextBox.Text, out num))
+			if (!int.TryParse(reservationIntervalTextBox.Text, out num))
 			{
 				e.IsValid = false;
 				return;
 			}
-			TimeSpan timeSpan = this.GetTimeSpan(this.reservationIntervalTextBox, this.reservationIntervalDropDownList);
+			TimeSpan timeSpan = GetTimeSpan(reservationIntervalTextBox, reservationIntervalDropDownList);
 			e.IsValid = timeSpan.TotalDays <= 1;
 		}
 
 		protected void ValidateTimeOfDay(object sender, ServerValidateEventArgs e)
 		{
-			string text = this.timeOfDayNameTextBox.Text;
-			TimeSpan time = this.GetTime(this.timeOfDayStartHourDropDownList, this.timeOfDayStartMinuteDropDownList, this.timeOfDayStartAMPMDropDownList);
-			TimeSpan timeSpan = this.GetTime(this.timeOfDayEndHourDropDownList, this.timeOfDayEndMinuteDropDownList, this.timeOfDayEndAMPMDropDownList);
+			string text = timeOfDayNameTextBox.Text;
+			TimeSpan time = GetTime(timeOfDayStartHourDropDownList, timeOfDayStartMinuteDropDownList, timeOfDayStartAMPMDropDownList);
+			TimeSpan timeSpan = GetTime(timeOfDayEndHourDropDownList, timeOfDayEndMinuteDropDownList, timeOfDayEndAMPMDropDownList);
 			TimeSpan timeSpan1 = new TimeSpan();
 			if (timeSpan == timeSpan1)
 			{
@@ -4131,7 +4057,7 @@ namespace Gafware.Modules.Reservations
 					return;
 				}
 			}
-			foreach (TimeOfDayInfo timeOfDayList in this.TimeOfDayList)
+			foreach (TimeOfDayInfo timeOfDayList in TimeOfDayList)
 			{
 				if ((!(timeOfDayList.StartTime <= time) || !(timeOfDayList.EndTime > time)) && (!(time <= timeOfDayList.StartTime) || !(timeSpan > timeOfDayList.StartTime)))
 				{
@@ -4153,7 +4079,7 @@ namespace Gafware.Modules.Reservations
 		protected bool ValidateTimeOfDayList()
 		{
 			TimeSpan timeSpan = new TimeSpan();
-			foreach (TimeOfDayInfo timeOfDayList in this.TimeOfDayList)
+			foreach (TimeOfDayInfo timeOfDayList in TimeOfDayList)
 			{
 				TimeSpan endTime = timeOfDayList.EndTime;
 				timeSpan = timeSpan.Add(endTime.Subtract(timeOfDayList.StartTime));
@@ -4163,8 +4089,8 @@ namespace Gafware.Modules.Reservations
 
 		protected void ValidateTimeOfDayList(object sender, ServerValidateEventArgs e)
 		{
-			e.IsValid = this.ValidateTimeOfDayList();
-			this.timeOfDaySectionHead.IsExpanded = (this.timeOfDaySectionHead.IsExpanded ? true : !e.IsValid);
+			e.IsValid = ValidateTimeOfDayList();
+			timeOfDaySectionHead.IsExpanded = (timeOfDaySectionHead.IsExpanded ? true : !e.IsValid);
 		}
 
 		protected void ValidateWorkingHoursException(object sender, ServerValidateEventArgs e)
@@ -4172,15 +4098,15 @@ namespace Gafware.Modules.Reservations
 			DateTime dateTime;
 			TimeSpan timeSpan;
 			e.IsValid = true;
-			if (!DateTime.TryParse(this.workingHoursExceptionDateTextBox.Text, out dateTime))
+			if (!DateTime.TryParse(workingHoursExceptionDateTextBox.Text, out dateTime))
 			{
-				this.HighlightInvalidControl(this.workingHoursExceptionDateTextBox);
+				HighlightInvalidControl(workingHoursExceptionDateTextBox);
 				e.IsValid = false;
 			}
-			else if (!this.workingHoursExceptionNoWorkingHoursRadioButton.Checked)
+			else if (!workingHoursExceptionNoWorkingHoursRadioButton.Checked)
 			{
-				TimeSpan time = this.GetTime(this.workingHoursExceptionStartHourDropDownList, this.workingHoursExceptionStartMinuteDropDownList, this.workingHoursExceptionStartAMPMDropDownList);
-				TimeSpan time1 = this.GetTime(this.workingHoursExceptionEndHourDropDownList, this.workingHoursExceptionEndMinuteDropDownList, this.workingHoursExceptionEndAMPMDropDownList);
+				TimeSpan time = GetTime(workingHoursExceptionStartHourDropDownList, workingHoursExceptionStartMinuteDropDownList, workingHoursExceptionStartAMPMDropDownList);
+				TimeSpan time1 = GetTime(workingHoursExceptionEndHourDropDownList, workingHoursExceptionEndMinuteDropDownList, workingHoursExceptionEndAMPMDropDownList);
 				timeSpan = new TimeSpan();
 				if (time1 == timeSpan)
 				{
@@ -4188,28 +4114,28 @@ namespace Gafware.Modules.Reservations
 				}
 				if (time1 <= time)
 				{
-					this.HighlightInvalidControl(this.workingHoursExceptionStartHourDropDownList);
-					this.HighlightInvalidControl(this.workingHoursExceptionStartMinuteDropDownList);
-					this.HighlightInvalidControl(this.workingHoursExceptionStartAMPMDropDownList);
-					this.HighlightInvalidControl(this.workingHoursExceptionEndHourDropDownList);
-					this.HighlightInvalidControl(this.workingHoursExceptionEndMinuteDropDownList);
-					this.HighlightInvalidControl(this.workingHoursExceptionEndAMPMDropDownList);
+					HighlightInvalidControl(workingHoursExceptionStartHourDropDownList);
+					HighlightInvalidControl(workingHoursExceptionStartMinuteDropDownList);
+					HighlightInvalidControl(workingHoursExceptionStartAMPMDropDownList);
+					HighlightInvalidControl(workingHoursExceptionEndHourDropDownList);
+					HighlightInvalidControl(workingHoursExceptionEndMinuteDropDownList);
+					HighlightInvalidControl(workingHoursExceptionEndAMPMDropDownList);
 					e.IsValid = false;
 				}
 				else
 				{
-					foreach (WorkingHoursExceptionInfo workingHoursException in this.WorkingHoursExceptions)
+					foreach (WorkingHoursExceptionInfo workingHoursException in WorkingHoursExceptions)
 					{
 						if (!(workingHoursException.Date == dateTime) || (!(time <= workingHoursException.StartTime) || !(time1 > workingHoursException.StartTime)) && (!(workingHoursException.StartTime <= time) || !(workingHoursException.EndTime > time)))
 						{
 							continue;
 						}
-						this.HighlightInvalidControl(this.workingHoursExceptionStartHourDropDownList);
-						this.HighlightInvalidControl(this.workingHoursExceptionStartMinuteDropDownList);
-						this.HighlightInvalidControl(this.workingHoursExceptionStartAMPMDropDownList);
-						this.HighlightInvalidControl(this.workingHoursExceptionEndHourDropDownList);
-						this.HighlightInvalidControl(this.workingHoursExceptionEndMinuteDropDownList);
-						this.HighlightInvalidControl(this.workingHoursExceptionEndAMPMDropDownList);
+						HighlightInvalidControl(workingHoursExceptionStartHourDropDownList);
+						HighlightInvalidControl(workingHoursExceptionStartMinuteDropDownList);
+						HighlightInvalidControl(workingHoursExceptionStartAMPMDropDownList);
+						HighlightInvalidControl(workingHoursExceptionEndHourDropDownList);
+						HighlightInvalidControl(workingHoursExceptionEndMinuteDropDownList);
+						HighlightInvalidControl(workingHoursExceptionEndAMPMDropDownList);
 						e.IsValid = false;
 						return;
 					}
@@ -4217,7 +4143,7 @@ namespace Gafware.Modules.Reservations
 			}
 			else
 			{
-				foreach (WorkingHoursExceptionInfo workingHoursExceptionInfo in this.WorkingHoursExceptions)
+				foreach (WorkingHoursExceptionInfo workingHoursExceptionInfo in WorkingHoursExceptions)
 				{
 					if (workingHoursExceptionInfo.Date != dateTime)
 					{
@@ -4235,20 +4161,20 @@ namespace Gafware.Modules.Reservations
 					{
 						continue;
 					}
-					this.HighlightInvalidControl(this.workingHoursExceptionDateTextBox);
+					HighlightInvalidControl(workingHoursExceptionDateTextBox);
 					e.IsValid = false;
 					return;
 				}
 			}
 			if (e.IsValid)
 			{
-				this.UnhighlightInvalidControl(this.workingHoursExceptionDateTextBox);
-				this.UnhighlightInvalidControl(this.workingHoursExceptionStartHourDropDownList);
-				this.UnhighlightInvalidControl(this.workingHoursExceptionStartMinuteDropDownList);
-				this.UnhighlightInvalidControl(this.workingHoursExceptionStartAMPMDropDownList);
-				this.UnhighlightInvalidControl(this.workingHoursExceptionEndHourDropDownList);
-				this.UnhighlightInvalidControl(this.workingHoursExceptionEndMinuteDropDownList);
-				this.UnhighlightInvalidControl(this.workingHoursExceptionEndAMPMDropDownList);
+				UnhighlightInvalidControl(workingHoursExceptionDateTextBox);
+				UnhighlightInvalidControl(workingHoursExceptionStartHourDropDownList);
+				UnhighlightInvalidControl(workingHoursExceptionStartMinuteDropDownList);
+				UnhighlightInvalidControl(workingHoursExceptionStartAMPMDropDownList);
+				UnhighlightInvalidControl(workingHoursExceptionEndHourDropDownList);
+				UnhighlightInvalidControl(workingHoursExceptionEndMinuteDropDownList);
+				UnhighlightInvalidControl(workingHoursExceptionEndAMPMDropDownList);
 			}
 		}
 
@@ -4258,28 +4184,28 @@ namespace Gafware.Modules.Reservations
 			e.IsValid = DateTime.TryParse(e.Value, out dateTime);
 			if (!e.IsValid)
 			{
-				this.HighlightInvalidControl(this.workingHoursExceptionDateTextBox);
+				HighlightInvalidControl(workingHoursExceptionDateTextBox);
 				return;
 			}
-			this.UnhighlightInvalidControl(this.workingHoursExceptionDateTextBox);
+			UnhighlightInvalidControl(workingHoursExceptionDateTextBox);
 		}
 
 		protected void WorkingHoursCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindWorkingHoursSection(int.Parse(this.workingHoursCategoryDropDownList.SelectedValue));
+			BindWorkingHoursSection(int.Parse(workingHoursCategoryDropDownList.SelectedValue));
 		}
 
 		protected void WorkingHoursExceptionsCategoryDropDownListSelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.BindWorkingHoursExceptionsSection(int.Parse(this.workingHoursExceptionsCategoryDropDownList.SelectedValue));
+			BindWorkingHoursExceptionsSection(int.Parse(workingHoursExceptionsCategoryDropDownList.SelectedValue));
 		}
 
 		protected void WorkingHoursExceptionsResetCommandButtonClicked(object sender, EventArgs e)
 		{
 			DateTime dateTime;
-			int num = int.Parse(this.workingHoursExceptionsCategoryDropDownList.SelectedValue);
+			int num = int.Parse(workingHoursExceptionsCategoryDropDownList.SelectedValue);
 			CategorySettingController categorySettingController = new CategorySettingController();
-			foreach (string key in (new CategorySettings(base.PortalId, base.TabModuleId, num)).Settings.Keys)
+			foreach (string key in (new CategorySettings(PortalId, TabModuleId, num)).Settings.Keys)
 			{
 				if (!DateTime.TryParse(key, CultureInfo.InvariantCulture.DateTimeFormat, DateTimeStyles.None, out dateTime))
 				{
@@ -4288,31 +4214,31 @@ namespace Gafware.Modules.Reservations
 				categorySettingController.DeleteCategorySetting(num, key);
 			}
 			categorySettingController.DeleteCategorySetting(num, "WorkingHoursExceptionsDefined");
-			this.BindCategoriesDropDownList(this.workingHoursExceptionsCategoryDropDownList, "WorkingHoursExceptionsDefined", null, null);
-			this.BindWorkingHoursExceptionsSection(num);
+			BindCategoriesDropDownList(workingHoursExceptionsCategoryDropDownList, "WorkingHoursExceptionsDefined", null, null);
+			BindWorkingHoursExceptionsSection(num);
 		}
 
 		protected void WorkingHoursExceptionsUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateWorkingHoursExceptionsSection(true);
+			UpdateWorkingHoursExceptionsSection(true);
 		}
 
 		protected void WorkingHoursResetCommandButtonClicked(object sender, EventArgs e)
 		{
-			int num = int.Parse(this.workingHoursCategoryDropDownList.SelectedValue);
+			int num = int.Parse(workingHoursCategoryDropDownList.SelectedValue);
 			CategorySettingController categorySettingController = new CategorySettingController();
-			Hashtable settings = (new CategorySettings(base.PortalId, base.TabModuleId, num)).Settings;
+			Hashtable settings = (new CategorySettings(PortalId, TabModuleId, num)).Settings;
 			for (int i = 1; settings.ContainsKey(string.Concat("WorkingHours.", i)); i++)
 			{
 				categorySettingController.DeleteCategorySetting(num, string.Concat("WorkingHours.", i));
 			}
-			this.BindCategoriesDropDownList(this.workingHoursCategoryDropDownList, "WorkingHours.1", null, null);
-			this.BindWorkingHoursSection(num);
+			BindCategoriesDropDownList(workingHoursCategoryDropDownList, "WorkingHours.1", null, null);
+			BindWorkingHoursSection(num);
 		}
 
 		protected void WorkingHoursUpdateCommandButtonClicked(object sender, EventArgs e)
 		{
-			this.UpdateWorkingHoursSection();
+			UpdateWorkingHoursSection();
 		}
 
 		protected void Page_PreRender(object sender, EventArgs e)
@@ -4327,7 +4253,7 @@ namespace Gafware.Modules.Reservations
 				css.Attributes.Add("type", "text/css");
 				css.Attributes.Add("rel", "stylesheet");
 				css.Attributes.Add("href", ControlPath + "jquery.auto-complete.css");
-				this.Page.Header.Controls.Add(css);
+				Page.Header.Controls.Add(css);
 			}
 			System.Web.UI.HtmlControls.HtmlGenericControl script = (System.Web.UI.HtmlControls.HtmlGenericControl)Page.Header.FindControl("ComponentScriptAutoComplete");
 			if (script == null)
@@ -4339,7 +4265,7 @@ namespace Gafware.Modules.Reservations
 				script.Attributes.Add("language", "javascript");
 				script.Attributes.Add("type", "text/javascript");
 				script.Attributes.Add("src", ControlPath + "jquery.auto-complete.js");
-				this.Page.Header.Controls.Add(script);
+				Page.Header.Controls.Add(script);
 			}
 			System.Web.UI.HtmlControls.HtmlGenericControl literal = (System.Web.UI.HtmlControls.HtmlGenericControl)Page.Header.FindControl("ComponentScriptReservations");
 			if (literal == null)
@@ -4412,7 +4338,7 @@ namespace Gafware.Modules.Reservations
 
 				sb.AppendLine("}");
 				literal.InnerHtml = sb.ToString();
-				this.Page.Header.Controls.Add(literal);
+				Page.Header.Controls.Add(literal);
 			}
 		}
 	}
