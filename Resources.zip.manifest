@@ -25,6 +25,22 @@
       <name>Responsive.css</name>
     </file>
     <file>
+      <path>Images/</path>
+      <name>back.png</name>
+    </file>
+    <file>
+      <path>Images/</path>
+      <name>calendar.png</name>
+    </file>
+    <file>
+      <path>Images/</path>
+      <name>csv.png</name>
+    </file>
+    <file>
+      <path>Images/</path>
+      <name>next.png</name>
+    </file>
+    <file>
       <path>Documentation/</path>
       <name>Documentation.css</name>
     </file>
@@ -91,22 +107,6 @@
     <file>
       <path>App_LocalResources/</path>
       <name>ViewReservations.ascx.resx</name>
-    </file>
-    <file>
-      <path>Images/</path>
-      <name>back.png</name>
-    </file>
-    <file>
-      <path>Images/</path>
-      <name>calendar.png</name>
-    </file>
-    <file>
-      <path>Images/</path>
-      <name>csv.png</name>
-    </file>
-    <file>
-      <path>Images/</path>
-      <name>next.png</name>
     </file>
     <file>
       <path />

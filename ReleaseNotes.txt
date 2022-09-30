@@ -8,6 +8,13 @@
 <div class="License">
 	<h3>About the Reservations</h3>
 	<p class="Owner">
+		<b>Version 1.0.1</b><br /><br />
+	</p>
+	<p>Description about version.</p>
+	
+	<h4>Removed Telerik dependency</h4>
+
+	<p class="Owner">
 		<b>Version 1.0.0</b><br /><br />
 	</p>
 	<p>Description about version.</p>

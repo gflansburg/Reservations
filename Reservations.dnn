@@ -1,6 +1,6 @@
 <dotnetnuke type="Package" version="5.0">
   <packages>
-    <package name="Gafware.Modules.Reservations" type="Module" version="1.0.0">
+    <package name="Gafware.Modules.Reservations" type="Module" version="1.0.1">
       <friendlyName>Gafware Reservations</friendlyName>
       <description>This module allows users to make online reservations.</description>
       <iconFile>Images/calendar.png</iconFile>
