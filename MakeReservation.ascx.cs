@@ -1786,7 +1786,7 @@ namespace Gafware.Modules.Reservations
 				{
 					DateTime? selectedDate = null;
 					DateTime dateTime;
-					if (DateTime.TryParse(((HtmlInputGenericControl)repeater.Items[num1].FindControl("datePicker")).Value, out dateTime))
+					if (DateTime.TryParse(((TextBox)repeater.Items[num1].FindControl("datePicker")).Text, out dateTime))
 					{
 						selectedDate = dateTime;
 					}
@@ -2122,11 +2122,11 @@ namespace Gafware.Modules.Reservations
 				}
 				if (dataItem.CustomFieldDefinitionType == CustomFieldDefinitionType.Date)
 				{
-					HtmlInputGenericControl datePicker = (HtmlInputGenericControl)e.Item.FindControl("datePicker");
+					TextBox datePicker = (TextBox)e.Item.FindControl("datePicker");
 					datePicker.Visible = true;
 					if (DateTime.TryParse(customFieldValue, out dateTime))
 					{
-						datePicker.Value = dateTime.ToString("yyyy-MM-dd");
+						datePicker.Text = dateTime.ToShortDateString();
 					}
 					if (dataItem.IsRequired)
 					{

@@ -76,7 +76,7 @@
                                             visible="false" repeatlayout="Table" />
                                         <asp:radiobuttonlist runat="server" id="radioButtonList" cssclass="Gafware_Modules_Reservations_Normal"
                                             visible="false" validationgroup="contactInfoValidationGroup" repeatlayout="Table" />
-                                        <input type="date" id="datePicker" runat="server" cssclass="Gafware_Modules_Reservations_Input" width="100%" visible="false" />
+                                        <asp:TextBox textmode="Date" id="datePicker" runat="server" cssclass="Gafware_Modules_Reservations_Input" width="100%" visible="false" />
                                     </div>
                                 </itemtemplate>
                                 <footertemplate>
