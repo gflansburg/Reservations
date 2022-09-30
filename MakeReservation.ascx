@@ -2,7 +2,6 @@
 <%@ register tagprefix="dnn" assembly="DotNetNuke" namespace="DotNetNuke.UI.WebControls" %>
 <%@ register tagprefix="dnn" tagname="Label" src="~/controls/LabelControl.ascx" %>
 <%@ register tagprefix="dnn" tagname="TextEditor" src="~/controls/TextEditor.ascx" %>
-<%@ register assembly="Telerik.Web.UI" namespace="Telerik.Web.UI" tagprefix="telerik" %>
 <script type="text/javascript" language="javascript" src='<%=TemplateSourceDirectory + "/jquery.responsive.js" %>'></script>
 <script type="text/javascript" language="javascript" src='<%=TemplateSourceDirectory + "/jquery.placeholder.js" %>'></script>
 <script type="text/javascript" language="javascript" src='<%=TemplateSourceDirectory + "/sly.min.js" %>'></script>
@@ -77,7 +76,7 @@
                                             visible="false" repeatlayout="Table" />
                                         <asp:radiobuttonlist runat="server" id="radioButtonList" cssclass="Gafware_Modules_Reservations_Normal"
                                             visible="false" validationgroup="contactInfoValidationGroup" repeatlayout="Table" />
-                                        <telerik:raddatepicker id="datePicker" runat="server" cssclass="Gafware_Modules_Reservations_Input" width="100%" visible="false" />
+                                        <input type="date" id="datePicker" runat="server" cssclass="Gafware_Modules_Reservations_Input" width="100%" visible="false" />
                                     </div>
                                 </itemtemplate>
                                 <footertemplate>

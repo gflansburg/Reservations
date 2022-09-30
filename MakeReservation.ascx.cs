@@ -30,7 +30,6 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
-using Telerik.Web.UI;
 
 namespace Gafware.Modules.Reservations
 {
@@ -1785,7 +1784,12 @@ namespace Gafware.Modules.Reservations
 				}
 				if (customFieldDefinitionInfoList.CustomFieldDefinitionType == CustomFieldDefinitionType.Date)
 				{
-					DateTime? selectedDate = ((RadDatePicker)repeater.Items[num1].FindControl("datePicker")).SelectedDate;
+					DateTime? selectedDate = null;
+					DateTime dateTime;
+					if (DateTime.TryParse(((HtmlInputGenericControl)repeater.Items[num1].FindControl("datePicker")).Value, out dateTime))
+					{
+						selectedDate = dateTime;
+					}
 					CustomFieldValueInfo customFieldValueInfo3 = customFieldValueInfo;
 					if (selectedDate.HasValue)
 					{
@@ -2100,8 +2104,7 @@ namespace Gafware.Modules.Reservations
 					textBox.Attributes.Add("placeholder", dataItem.Title);
 					if (dataItem.IsRequired)
 					{
-						TextBox textBox1 = textBox;
-						textBox1.CssClass = string.Concat(textBox1.CssClass, " Gafware_Modules_Reservations_Required");
+						textBox.CssClass = string.Concat(textBox.CssClass, " Gafware_Modules_Reservations_Required");
 					}
 					isRequired.ControlToValidate = textBox.ID;
 					return;
@@ -2119,18 +2122,17 @@ namespace Gafware.Modules.Reservations
 				}
 				if (dataItem.CustomFieldDefinitionType == CustomFieldDefinitionType.Date)
 				{
-					RadDatePicker radDatePicker = (RadDatePicker)e.Item.FindControl("datePicker");
-					radDatePicker.Visible = true;
+					HtmlInputGenericControl datePicker = (HtmlInputGenericControl)e.Item.FindControl("datePicker");
+					datePicker.Visible = true;
 					if (DateTime.TryParse(customFieldValue, out dateTime))
 					{
-						radDatePicker.SelectedDate = new DateTime?(dateTime);
+						datePicker.Value = dateTime.ToString("yyyy-MM-dd");
 					}
 					if (dataItem.IsRequired)
 					{
-						RadDatePicker radDatePicker1 = radDatePicker;
-						radDatePicker1.CssClass = string.Concat(radDatePicker1.CssClass, " Gafware_Modules_Reservations_Required");
+						datePicker.Attributes["class"] = string.Concat(datePicker.Attributes["class"], " Gafware_Modules_Reservations_Required");
 					}
-					isRequired.ControlToValidate = radDatePicker.ID;
+					isRequired.ControlToValidate = datePicker.ID;
 					return;
 				}
 				List<CustomFieldDefinitionListItemInfo> customFieldDefinitionListItemList = (new CustomFieldDefinitionListItemController()).GetCustomFieldDefinitionListItemList(dataItem.CustomFieldDefinitionID);
@@ -2158,8 +2160,7 @@ namespace Gafware.Modules.Reservations
 					}
 					if (dataItem.IsRequired)
 					{
-						DropDownList dropDownList1 = dropDownList;
-						dropDownList1.CssClass = string.Concat(dropDownList1.CssClass, " Gafware_Modules_Reservations_Required");
+						dropDownList.CssClass = string.Concat(dropDownList.CssClass, " Gafware_Modules_Reservations_Required");
 						return;
 					}
 				}

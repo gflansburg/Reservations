@@ -5,6 +5,7 @@ using DotNetNuke.Services.Localization;
 using DotNetNuke.Services.Scheduling;
 using System;
 using System.Collections.Generic;
+using DotNetNuke.Abstractions;
 
 namespace Gafware.Modules.Reservations
 {
